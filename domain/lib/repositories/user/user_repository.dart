@@ -17,5 +17,5 @@ abstract class UserRepository {
 
   Future<void> sendVerification();
 
-  Future<void> initialize();
+  Future<UserModel> checkUserAuthStatus();
 }

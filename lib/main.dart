@@ -1,10 +1,16 @@
 import 'package:auth/auth.dart';
+import 'package:core/core.dart';
+import 'package:domain/usecases/auth_usecases/check_user_auth_usecase.dart';
+import 'package:domain/usecases/auth_usecases/login_usecase.dart';
+import 'package:domain/usecases/auth_usecases/register_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
-  setupNavigationDependencies();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  AppDI.initDependencies();
+  await dataDI.initDependencies();
   runApp(MyApp());
 }
 
@@ -15,7 +21,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AuthBloc>(
-      create: (BuildContext context) => AuthBloc(),
+      create: (BuildContext context) => AuthBloc(
+          appLocator.get<RegisterUsecase>(),
+          appLocator.get<LoginUsecase>(),
+          appLocator.get<CheckUserAuthenticationUseCase>(),
+          appRouter),
       child: MaterialApp.router(
         routerConfig: appRouter.config(),
         title: 'Chat App',

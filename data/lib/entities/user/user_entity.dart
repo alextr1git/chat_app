@@ -1,22 +1,36 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 class UserEntity {
   final String id;
   final String email;
   final bool isEmailVerified;
-  final String userName;
 
   UserEntity({
     required this.id,
     required this.email,
     required this.isEmailVerified,
-    required this.userName,
   });
   factory UserEntity.fromJson(Map<String, dynamic> json) => UserEntity(
         id: json['uid'] ?? "",
         email: json['email'] ?? "",
         isEmailVerified: json['emailVerified'] ?? false,
-        userName: json['displayName'] ?? "",
       );
+
+  factory UserEntity.fromFirebase(User user) => UserEntity(
+        id: user.uid,
+        email: user.email!,
+        isEmailVerified: user.emailVerified,
+      );
+
+  static UserEntity get empty {
+    return UserEntity(
+      email: '',
+      id: '',
+      isEmailVerified: false,
+    );
+  }
 }
+
 /*
 
 Map<String, dynamic> toJson() => {

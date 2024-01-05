@@ -1,25 +1,18 @@
 import 'package:data/entities/user/user_entity.dart';
-import 'package:domain/domain.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:wise_bean/firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart'
-    show FirebaseAuth, FirebaseAuthException;
-
 import 'auth_exceptions.dart';
-import 'auth_provider.dart';
+import 'authentication_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseAuthProvider implements AuthProvider {
+class FirebaseAuthProvider implements AuthenticationProvider {
   @override
   Future<UserEntity> createUser({
     required String email,
     required String password,
-    required String userName,
   }) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
-        userName: userName,
       );
       final user = currentUser;
       if (user != null) {
@@ -46,8 +39,10 @@ class FirebaseAuthProvider implements AuthProvider {
 
   @override
   UserEntity? get currentUser {
-    final firebaseUser = FirebaseAuth.instance.currentUser;
-    return (firebaseUser != null) ? UserEntity.fromJson(firebaseUser) : null;
+    final User? firebaseUser = FirebaseAuth.instance.currentUser;
+    return (firebaseUser != null)
+        ? UserEntity.fromFirebase(firebaseUser)
+        : null;
   }
 
   @override
@@ -100,9 +95,12 @@ class FirebaseAuthProvider implements AuthProvider {
   }
 
   @override
-  Future<void> initialize() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+  Future<UserEntity> checkUserAuthStatus() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return currentUser!;
+    } else {
+      return UserEntity.empty;
+    }
   }
 }

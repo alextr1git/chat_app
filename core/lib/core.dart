@@ -10,3 +10,6 @@ export 'di/app_di.dart';
 export 'utils/enums.dart';
 export 'utils/extensions.dart';
 export 'enum/enums.dart';
+export 'config/firebase_options.dart';
+export 'di/data_di.dart';
+export 'package:firebase_core/firebase_core.dart';

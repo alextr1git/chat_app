@@ -6,12 +6,14 @@ class AuthState {
   final UserModel userModel;
   final bool isLoading;
   final AuthView authView;
+  final ViewState viewState;
 
-  AuthState({
+  const AuthState({
     required this.isLoaded,
     required this.userModel,
     required this.isLoading,
     required this.authView,
+    required this.viewState,
   });
 
   AuthState copyWith({
@@ -19,11 +21,21 @@ class AuthState {
     UserModel? userModel,
     bool? isLoading,
     AuthView? authView,
+    ViewState? viewState,
   }) =>
       AuthState(
         isLoaded: isLoaded ?? this.isLoaded,
         userModel: userModel ?? this.userModel,
         isLoading: isLoading ?? this.isLoading,
         authView: authView ?? this.authView,
+        viewState: viewState ?? this.viewState,
+      );
+
+  static AuthState get init => AuthState(
+        isLoaded: false,
+        userModel: UserModel.empty,
+        isLoading: false,
+        authView: AuthView.home,
+        viewState: InitViewState(),
       );
 }
