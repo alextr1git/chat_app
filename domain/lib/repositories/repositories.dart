@@ -1,1 +1,1 @@
-export 'package:domain/repositories/auth_repository.dart';
+export 'package:domain/repositories/user/user_repository.dart';

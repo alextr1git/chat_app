@@ -1,4 +1,6 @@
+import 'package:auth/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:navigation/navigation.dart';
 
 @RoutePage()
@@ -30,6 +32,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
     return Scaffold(
       appBar: AppBar(title: const Text('Sign up')),
       body: Padding(
@@ -151,8 +154,7 @@ class _LoginViewState extends State<LoginView> {
                 const Text("Already have an account?"),
                 TextButton(
                   onPressed: () {
-                    //   Navigator.of(context)
-                    //       .pushNamedAndRemoveUntil(loginRoute, (route) => false);
+                    authBloc.add(NavigateToRegisterEvent());
                   },
                   child: const Text("Login into existing one"),
                 ),

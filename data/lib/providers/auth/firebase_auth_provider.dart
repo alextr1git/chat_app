@@ -1,3 +1,4 @@
+import 'package:data/entities/user/user_entity.dart';
 import 'package:domain/domain.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:wise_bean/firebase_options.dart';
@@ -9,14 +10,16 @@ import 'auth_provider.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
   @override
-  Future<AuthUser> createUser({
-    required String id,
+  Future<UserEntity> createUser({
+    required String email,
     required String password,
+    required String userName,
   }) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: id,
+        email: email,
         password: password,
+        userName: userName,
       );
       final user = currentUser;
       if (user != null) {
@@ -42,19 +45,19 @@ class FirebaseAuthProvider implements AuthProvider {
   }
 
   @override
-  AuthUser? get currentUser {
-    final user = FirebaseAuth.instance.currentUser;
-    return (user != null) ? AuthUser.fromFirebase(user) : null;
+  UserEntity? get currentUser {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    return (firebaseUser != null) ? UserEntity.fromJson(firebaseUser) : null;
   }
 
   @override
-  Future<AuthUser> logInUser({
-    required String id,
+  Future<UserEntity> logInUser({
+    required String email,
     required String password,
   }) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: id,
+        email: email,
         password: password,
       );
       final user = currentUser;

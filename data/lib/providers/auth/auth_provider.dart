@@ -1,17 +1,20 @@
+import 'package:data/entities/user/user_entity.dart';
 import 'package:domain/domain.dart';
 
 abstract class AuthProvider {
   Future<void> initialize();
-  AuthUser? get currentUser;
+  UserEntity? get currentUser;
 
-  Future<AuthUser> logInUser({
-    required String id,
+  Future<UserEntity> logInUser({
+    required String email,
     required String password,
+    required String userName,
   });
 
-  Future<AuthUser> createUser({
-    required String id,
+  Future<UserEntity> createUser({
+    required String email,
     required String password,
+    required String userName,
   });
 
   Future<void> logOutUser();
