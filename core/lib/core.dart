@@ -13,3 +13,4 @@ export 'enum/enums.dart';
 export 'config/firebase_options.dart';
 export 'di/data_di.dart';
 export 'package:firebase_core/firebase_core.dart';
+export 'package:core/utils/custom_route_builder.dart';

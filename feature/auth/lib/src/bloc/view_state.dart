@@ -4,13 +4,13 @@ abstract class ViewState {}
 
 class InitViewState extends ViewState {}
 
-class SuccessViewState extends ViewState {}
+class NeedVerificationState extends ViewState {}
 
 class FailureViewState extends ViewState {
-  final String? error;
+  final String? exceptionMessage;
 
-  FailureViewState({required this.error});
+  FailureViewState({required this.exceptionMessage});
 
   @override
-  String toString() => error ?? '';
+  String toString() => exceptionMessage ?? '';
 }

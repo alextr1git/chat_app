@@ -2,6 +2,7 @@ import 'package:auth/src/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:navigation/navigation.dart';
+import 'package:core_ui/core_ui.dart';
 
 @RoutePage()
 class RegisterView extends StatefulWidget {
@@ -33,136 +34,118 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
-    return Scaffold(
-      appBar: AppBar(title: const Text('Sign up')),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-            Text(
-              "We've never met before!",
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "Create your account!",
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 30),
-            TextField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: InputDecoration(
-                  hintText: 'Enter your email',
-                  labelText: "Email",
-                  prefixIcon: const Icon(Icons.person_outline),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: _passwordController,
-              keyboardType: TextInputType.emailAddress,
-              enableSuggestions: false,
-              autocorrect: false,
-              obscureText: _obscurePassword,
-              decoration: InputDecoration(
-                labelText: "Password",
-                prefixIcon: const Icon(Icons.password_outlined),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _obscurePassword = !_obscurePassword;
-                    });
-                  },
-                  icon: _obscurePassword
-                      ? const Icon(Icons.visibility_outlined)
-                      : const Icon(Icons.visibility_off_outlined),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            const SizedBox(height: 40),
-            Column(
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (_, state) {
+        if (state.viewState is FailureViewState) {
+          showErrorDialog(context, state.viewState.toString());
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(title: const Text('Sign up')),
+          body: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(50),
-                      shape: RoundedRectangleBorder(
+                const SizedBox(height: 30),
+                Text(
+                  "We've never met before!",
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Create your account!",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 30),
+                TextField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                      hintText: 'Enter your email',
+                      labelText: "Email",
+                      prefixIcon: const Icon(Icons.person_outline),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       )),
-                  onPressed: () async {
-                    final email = _emailController.text;
-                    final password = _passwordController.text;
-                    // try {
-                    //   await AuthService.firebase().createUser(
-                    //     id: email,
-                    //     password: password,
-                    //   );
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _passwordController,
+                  keyboardType: TextInputType.emailAddress,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  obscureText: _obscurePassword,
+                  decoration: InputDecoration(
+                    labelText: "Password",
+                    prefixIcon: const Icon(Icons.password_outlined),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                      icon: _obscurePassword
+                          ? const Icon(Icons.visibility_outlined)
+                          : const Icon(Icons.visibility_off_outlined),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 40),
+                Column(
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )),
+                      onPressed: () async {
+                        final email = _emailController.text;
+                        final password = _passwordController.text;
 
-                    //   AuthService.firebase().sendVerification();
-                    //   Navigator.of(context).pushNamed(verifyEmailRoute);
-                    // } on WeakPasswordAuthException {
-                    //   await showErrorDialog(
-                    //     context,
-                    //     "Your password is too weak!",
-                    //   );
-                    // } on EmailAlreadyInUseAuthException {
-                    //   await showErrorDialog(
-                    //     context,
-                    //     "This email is already taken!",
-                    //   );
-                    // } on NetworkRequestFailedAuthException {
-                    //   await showErrorDialog(
-                    //     context,
-                    //     "No internet connection!",
-                    //   );
-                    // } on InvalidEmailAuthException {
-                    //   await showErrorDialog(
-                    //     context,
-                    //     "Invalid email!",
-                    //   );
-                    // } on GenericAuthException {
-                    //   await showErrorDialog(
-                    //     context,
-                    //     "Something went wrong.",
-                    //   );
-                    // }
-                  },
-                  child: const Text('Sign up'),
+                        authBloc.add(
+                          RegistrationEvent(
+                            email: email,
+                            password: password,
+                          ),
+                        );
+                      },
+                      child: const Text('Sign up'),
+                    ),
+                  ],
                 ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Already have an account?"),
+                    TextButton(
+                      onPressed: () {
+                        authBloc.add(NavigateToLoginInEvent());
+                      },
+                      child: const Text("Login into existing one"),
+                    ),
+                  ],
+                )
               ],
             ),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Already have an account?"),
-                TextButton(
-                  onPressed: () {
-                    authBloc.add(NavigateToLoginInEvent());
-                  },
-                  child: const Text("Login into existing one"),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

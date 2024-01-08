@@ -15,7 +15,6 @@ class UserAuthRepositoryImpl implements UserRepository {
   Future<UserModel> createUser({
     required String email,
     required String password,
-    required String userName,
   }) async {
     UserEntity userEntity = await provider.createUser(
       email: email,
@@ -33,7 +32,6 @@ class UserAuthRepositoryImpl implements UserRepository {
   Future<UserModel> logInUser({
     required String email,
     required String password,
-    required String userName,
   }) async {
     UserEntity userEntity = await provider.logInUser(
       email: email,

@@ -6,3 +6,4 @@ export 'repositories/repositories.dart';
 export 'entities/entities.dart';
 export 'mapper/mappers.dart';
 export 'providers/auth/firebase_auth_provider.dart';
+export 'providers/auth/auth_exceptions.dart';

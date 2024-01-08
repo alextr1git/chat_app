@@ -13,7 +13,6 @@ class LoginUsecase implements FutureUseCase<Map<String, String>, UserModel> {
     return _userRepository.logInUser(
       email: input['email']!,
       password: input['password']!,
-      userName: input['userName']!,
     );
   }
 }

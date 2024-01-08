@@ -8,9 +8,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:navigation/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:data/data.dart';
 
 part 'auth_event.dart';
+
 part 'auth_state.dart';
+
 part 'view_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -18,6 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final RegisterUsecase _registerUseCase;
   final LoginUsecase _loginUseCase;
   final AppRouter _router;
+
   AuthBloc(
     this._registerUseCase,
     this._loginUseCase,
@@ -28,7 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<RegistrationEvent>(_register);
     on<LoginInEvent>(_login);
     on<NavigateToRegisterEvent>(_navigateToRegisterView);
-    on<LoginInEvent>(_navigateToLoginView);
+    on<NavigateToLoginInEvent>(_navigateToLoginView);
   }
 
   Future<void> _initAuth(
@@ -55,11 +59,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
         );
       }
-    } on FirebaseAuthException catch (error) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           viewState: FailureViewState(
-            error: error.message,
+            exceptionMessage: e.toString(),
           ),
         ),
       );
@@ -70,6 +74,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     RegistrationEvent event,
     Emitter<AuthState> emit,
   ) async {
+    String exceptionMessage = '';
     try {
       emit(
         state.copyWith(
@@ -86,20 +91,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         state.copyWith(
           isLoaded: true,
           userModel: userModel,
-          viewState: SuccessViewState(),
+          viewState: NeedVerificationState(),
           isLoading: false,
-          authView: AuthView.home,
+          authView: AuthView.verify, //TODO add real verify route
         ),
       );
 
-      _router.replace(const LoginRoute()); //TODO add real route
-    } on FirebaseAuthException catch (error) {
+      // _router.replace(const VerifyEmailRoute()); //TODO add real route
+    } on Exception catch (e) {
+      if (e is WeakPasswordAuthException) {
+        exceptionMessage = "Your password is weak";
+      } else if (e is EmailAlreadyInUseAuthException) {
+        exceptionMessage = "Your email is already in use";
+      } else if (e is InvalidEmailAuthException) {
+        exceptionMessage = "Email is invalid";
+      } else if (e is GenericAuthException) {
+        exceptionMessage = "Generic error occurred";
+      }
+
       emit(
         state.copyWith(
-          viewState: FailureViewState(error: error.message),
           isLoading: false,
         ),
       );
+      _router.push(FailurePopupRoute(exceptionMessage: exceptionMessage));
     }
   }
 
@@ -107,12 +122,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LoginInEvent event,
     Emitter<AuthState> emit,
   ) async {
+    String exceptionMessage = '';
     try {
-      emit(
-        state.copyWith(
-          isLoading: true,
-        ),
-      );
+      emit(state.copyWith(isLoading: true));
       final UserModel userModel = await _loginUseCase.execute(
         {
           'email': event.email,
@@ -123,20 +135,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         state.copyWith(
           isLoaded: true,
           userModel: userModel,
-          viewState: SuccessViewState(),
+          viewState: NeedVerificationState(),
           isLoading: false,
           authView: AuthView.home,
         ),
       );
 
       _router.replace(const RegisterRoute()); //TODO add real route
-    } on FirebaseAuthException catch (error) {
+    } on Exception catch (e) {
+      if (e is InvalidCredentialsAuthException) {
+        exceptionMessage = "Credentials are invalid";
+      } else if (e is GenericAuthException) {
+        exceptionMessage = "Generic error occurred";
+      }
       emit(
         state.copyWith(
-          viewState: FailureViewState(error: error.message),
           isLoading: false,
         ),
       );
+      _router.push(FailurePopupRoute(exceptionMessage: exceptionMessage));
     }
   }
 
@@ -162,3 +179,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 }
+
+// //generic exceptions
+//     class NetworkRequestFailedAuthException implements Exception {}
+//
+//     class GenericAuthException implements Exception {}
+//
+//     class UserNotLoggedInAuthException implements Exception {}

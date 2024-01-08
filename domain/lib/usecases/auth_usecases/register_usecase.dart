@@ -13,7 +13,6 @@ class RegisterUsecase implements FutureUseCase<Map<String, String>, UserModel> {
     return _userRepository.createUser(
       email: input['email']!,
       password: input['password']!,
-      userName: input['userName']!,
     );
   }
 }

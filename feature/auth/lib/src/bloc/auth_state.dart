@@ -35,7 +35,7 @@ class AuthState {
         isLoaded: false,
         userModel: UserModel.empty,
         isLoading: false,
-        authView: AuthView.home,
+        authView: AuthView.login,
         viewState: InitViewState(),
       );
 }

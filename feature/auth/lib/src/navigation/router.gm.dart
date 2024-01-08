@@ -12,6 +12,16 @@ part of 'router.dart';
 abstract class _$AuthModuleRouter extends AutoRouterModule {
   @override
   final Map<String, PageFactory> pagesMap = {
+    FailurePopupRoute.name: (routeData) {
+      final args = routeData.argsAs<FailurePopupRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: FailurePopupView(
+          key: args.key,
+          exceptionMessage: args.exceptionMessage,
+        ),
+      );
+    },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -24,7 +34,51 @@ abstract class _$AuthModuleRouter extends AutoRouterModule {
         child: const RegisterView(),
       );
     },
+    StartAuthRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const StartAuthView(),
+      );
+    },
   };
+}
+
+/// generated route for
+/// [FailurePopupView]
+class FailurePopupRoute extends PageRouteInfo<FailurePopupRouteArgs> {
+  FailurePopupRoute({
+    Key? key,
+    required String exceptionMessage,
+    List<PageRouteInfo>? children,
+  }) : super(
+          FailurePopupRoute.name,
+          args: FailurePopupRouteArgs(
+            key: key,
+            exceptionMessage: exceptionMessage,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'FailurePopupRoute';
+
+  static const PageInfo<FailurePopupRouteArgs> page =
+      PageInfo<FailurePopupRouteArgs>(name);
+}
+
+class FailurePopupRouteArgs {
+  const FailurePopupRouteArgs({
+    this.key,
+    required this.exceptionMessage,
+  });
+
+  final Key? key;
+
+  final String exceptionMessage;
+
+  @override
+  String toString() {
+    return 'FailurePopupRouteArgs{key: $key, exceptionMessage: $exceptionMessage}';
+  }
 }
 
 /// generated route for
@@ -51,6 +105,20 @@ class RegisterRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'RegisterRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [StartAuthView]
+class StartAuthRoute extends PageRouteInfo<void> {
+  const StartAuthRoute({List<PageRouteInfo>? children})
+      : super(
+          StartAuthRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'StartAuthRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

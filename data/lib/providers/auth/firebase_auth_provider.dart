@@ -15,6 +15,7 @@ class FirebaseAuthProvider implements AuthenticationProvider {
         password: password,
       );
       final user = currentUser;
+      print(user);
       if (user != null) {
         return user;
       } else {
