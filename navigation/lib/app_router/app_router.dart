@@ -1,11 +1,15 @@
 import 'package:navigation/navigation.dart';
 import 'package:auth/src/navigation/router.dart';
+import 'package:home/src/navigation/router.dart';
 import 'package:core/core.dart';
 
 part 'app_router.gr.dart';
 
 @AutoRouterConfig(
-  modules: [AuthModuleRouter],
+  modules: [
+    AuthModuleRouter,
+    HomeModuleRouter,
+  ],
 )
 class AppRouter extends _$AppRouter {
   @override
@@ -13,6 +17,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(initial: true, page: StartAuthRoute.page),
         AutoRoute(page: RegisterRoute.page),
         AutoRoute(page: LoginRoute.page),
+        AutoRoute(page: ChatHomeRoute.page),
         CustomRoute(
           page: FailurePopupRoute.page,
           path: '/failure_popup',

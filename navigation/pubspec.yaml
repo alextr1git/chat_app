@@ -19,6 +19,8 @@ dependencies:
     path: ../domain
   auth:
     path: ../feature/auth
+  home:
+    path: ../feature/home
   analyzer: ^6.0.0
 
 dev_dependencies:

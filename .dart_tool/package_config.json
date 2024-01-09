@@ -224,6 +224,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "home",
+      "rootUri": "../feature/home",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
       "name": "http_parser",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/http_parser-4.0.2",
       "packageUri": "lib/",
@@ -422,7 +428,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-01-05T14:49:29.808449Z",
+  "generated": "2024-01-09T08:44:57.682779Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

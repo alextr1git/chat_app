@@ -20,19 +20,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AuthBloc>(
-      create: (BuildContext context) => AuthBloc(
-          appLocator.get<RegisterUsecase>(),
-          appLocator.get<LoginUsecase>(),
-          appLocator.get<CheckUserAuthenticationUseCase>(),
-          appRouter),
-      child: MaterialApp.router(
-        routerConfig: appRouter.config(),
-        title: 'Chat App',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+    return MaterialApp.router(
+      routerConfig: appRouter.config(),
+      title: 'Chat App',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
     );
   }

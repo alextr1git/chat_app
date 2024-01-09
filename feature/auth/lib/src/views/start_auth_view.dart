@@ -1,7 +1,9 @@
 import 'package:auth/auth.dart';
+import 'package:auth/src/views/email_verification_view.dart';
 import 'package:auth/src/views/login_view.dart';
 import 'package:auth/src/views/register_view.dart';
 import 'package:core/core.dart';
+import 'package:domain/usecases/export_usecases.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,24 +15,18 @@ class StartAuthView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
-    return Scaffold(
-      body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (_, AuthState state) {
-          if (state.isLoaded) {
-            //authBloc.add(NavigateToHomePageEvent) TODO add actual homepage nav
-          }
-        },
-        builder: (_, AuthState state) {
-          if (state.authView == AuthView.register) {
-            return const RegisterView();
-          } else if (state.authView == AuthView.login) {
-            return const LoginView();
-          } else {
-            return const CircularProgressIndicator();
-          }
-        },
-      ),
+    final appRouter = navigationGetIt<AppRouter>();
+    return BlocProvider<AuthBloc>(
+      create: (BuildContext context) => AuthBloc(
+        appLocator.get<RegisterUsecase>(),
+        appLocator.get<LoginUsecase>(),
+        appLocator.get<CheckUserAuthenticationUseCase>(),
+        appRouter,
+      )..add(InitAuthEvent()),
+      child: const Scaffold(
+          body: Center(
+        child: CircularProgressIndicator(),
+      )),
     );
   }
 }

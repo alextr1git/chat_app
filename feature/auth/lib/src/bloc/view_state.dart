@@ -4,6 +4,8 @@ abstract class ViewState {}
 
 class InitViewState extends ViewState {}
 
+class AuthorizedState extends ViewState {}
+
 class NeedVerificationState extends ViewState {}
 
 class FailureViewState extends ViewState {

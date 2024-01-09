@@ -24,6 +24,9 @@
       <excludeFolder url="file://$MODULE_DIR$/navigation/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/navigation/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/navigation/build" />
+      <excludeFolder url="file://$MODULE_DIR$/feature/home/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/feature/home/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/feature/home/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

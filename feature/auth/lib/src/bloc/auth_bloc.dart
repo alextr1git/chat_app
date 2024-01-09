@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:auth/src/navigation/router.dart';
+import 'package:home/src/navigation/router.dart';
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:domain/usecases/export_usecases.dart';
@@ -44,29 +45,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         const NoParams(),
       );
       if (userModel != UserModel.empty) {
-        emit(
-          state.copyWith(
-            isLoaded: true,
-            userModel: userModel,
-            authView: AuthView.home,
-          ),
-        );
-        _router.replace(const LoginRoute()); //TODO add real home-route
+        _router.push(const ChatHomeRoute());
       } else {
-        emit(
-          state.copyWith(
-            authView: AuthView.register,
-          ),
-        );
+        _router.push(const LoginRoute());
       }
     } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          viewState: FailureViewState(
-            exceptionMessage: e.toString(),
-          ),
-        ),
-      );
+      _router.push(FailurePopupRoute(exceptionMessage: e.toString()));
     }
   }
 
@@ -76,11 +60,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     String exceptionMessage = '';
     try {
-      emit(
-        state.copyWith(
-          isLoading: true,
-        ),
-      );
+      emit(state.copyWith(
+        loadingState: LoadingState.loading,
+      ));
       final UserModel userModel = await _registerUseCase.execute(
         {
           'email': event.email,
@@ -89,15 +71,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       emit(
         state.copyWith(
-          isLoaded: true,
+          loadingState: LoadingState.loaded,
           userModel: userModel,
-          viewState: NeedVerificationState(),
-          isLoading: false,
-          authView: AuthView.verify, //TODO add real verify route
         ),
       );
-
-      // _router.replace(const VerifyEmailRoute()); //TODO add real route
+      _router.push(const EmailVerificationRoute());
     } on Exception catch (e) {
       if (e is WeakPasswordAuthException) {
         exceptionMessage = "Your password is weak";
@@ -108,10 +86,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else if (e is GenericAuthException) {
         exceptionMessage = "Generic error occurred";
       }
-
       emit(
         state.copyWith(
-          isLoading: false,
+          loadingState: LoadingState.failure,
         ),
       );
       _router.push(FailurePopupRoute(exceptionMessage: exceptionMessage));
@@ -124,24 +101,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     String exceptionMessage = '';
     try {
-      emit(state.copyWith(isLoading: true));
+      emit(state.copyWith(
+        loadingState: LoadingState.loading,
+      ));
       final UserModel userModel = await _loginUseCase.execute(
         {
           'email': event.email,
           'password': event.password,
         },
       );
-      emit(
-        state.copyWith(
-          isLoaded: true,
+      if (userModel.isEmailVerified == false) {
+        emit(state.copyWith(
+          loadingState: LoadingState.loaded,
           userModel: userModel,
-          viewState: NeedVerificationState(),
-          isLoading: false,
-          authView: AuthView.home,
-        ),
-      );
-
-      _router.replace(const RegisterRoute()); //TODO add real route
+        ));
+        _router.push(const EmailVerificationRoute());
+      } else {
+        emit(state.copyWith(
+          loadingState: LoadingState.loaded,
+          userModel: userModel,
+        ));
+        _router.push(const ChatHomeRoute());
+      }
     } on Exception catch (e) {
       if (e is InvalidCredentialsAuthException) {
         exceptionMessage = "Credentials are invalid";
@@ -150,7 +131,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
       emit(
         state.copyWith(
-          isLoading: false,
+          loadingState: LoadingState.failure,
         ),
       );
       _router.push(FailurePopupRoute(exceptionMessage: exceptionMessage));
@@ -161,22 +142,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _,
     Emitter<AuthState> emit,
   ) async {
-    emit(
-      state.copyWith(
-        authView: AuthView.register,
-      ),
-    );
+    _router.push(const RegisterRoute());
   }
 
   Future<void> _navigateToLoginView(
     _,
     Emitter<AuthState> emit,
   ) async {
-    emit(
-      state.copyWith(
-        authView: AuthView.login,
-      ),
-    );
+    _router.push(const LoginRoute());
   }
 }
 

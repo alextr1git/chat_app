@@ -129,7 +129,7 @@
     },
     {
       "name": "code_builder",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/code_builder-4.9.0",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/code_builder-4.10.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -291,7 +291,7 @@
     },
     {
       "name": "get_it",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/get_it-7.6.4",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/get_it-7.6.6",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -306,6 +306,12 @@
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/graphs-2.3.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "home",
+      "rootUri": "../../feature/home",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
     },
     {
       "name": "http_multi_server",
@@ -519,19 +525,19 @@
     },
     {
       "name": "vector_graphics",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/vector_graphics-1.1.9+1",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/vector_graphics-1.1.9+2",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "vector_graphics_codec",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/vector_graphics_codec-1.1.9+1",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/vector_graphics_codec-1.1.9+2",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "vector_graphics_compiler",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/vector_graphics_compiler-1.1.9+1",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/vector_graphics_compiler-1.1.9+2",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -578,7 +584,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2024-01-08T08:46:07.403737Z",
+  "generated": "2024-01-09T08:45:47.757820Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

@@ -33,11 +33,12 @@ class UserAuthRepositoryImpl implements UserRepository {
     required String email,
     required String password,
   }) async {
-    UserEntity userEntity = await provider.logInUser(
+    await provider.logInUser(
       email: email,
       password: password,
     );
-    return UserMapper.toModel(userEntity);
+    UserModel userModel = currentUser!;
+    return userModel;
   }
 
   @override

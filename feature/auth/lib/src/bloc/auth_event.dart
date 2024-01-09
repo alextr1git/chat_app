@@ -25,6 +25,10 @@ class LoginInEvent extends AuthEvent {
   });
 }
 
+class NavigateToHomeEvent extends AuthEvent {}
+
 class NavigateToRegisterEvent extends AuthEvent {}
 
 class NavigateToLoginInEvent extends AuthEvent {}
+
+class CheckStartViewEvent extends AuthEvent {}

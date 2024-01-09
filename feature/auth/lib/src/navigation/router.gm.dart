@@ -12,6 +12,12 @@ part of 'router.dart';
 abstract class _$AuthModuleRouter extends AutoRouterModule {
   @override
   final Map<String, PageFactory> pagesMap = {
+    EmailVerificationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const EmailVerificationView(),
+      );
+    },
     FailurePopupRoute.name: (routeData) {
       final args = routeData.argsAs<FailurePopupRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -41,6 +47,20 @@ abstract class _$AuthModuleRouter extends AutoRouterModule {
       );
     },
   };
+}
+
+/// generated route for
+/// [EmailVerificationView]
+class EmailVerificationRoute extends PageRouteInfo<void> {
+  const EmailVerificationRoute({List<PageRouteInfo>? children})
+      : super(
+          EmailVerificationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EmailVerificationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
