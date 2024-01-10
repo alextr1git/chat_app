@@ -14,7 +14,7 @@ class EmailVerificationView extends StatelessWidget {
     final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Verify your email"),
+        title: Text(LocaleKeys.verify_email.tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -24,33 +24,33 @@ class EmailVerificationView extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const Text(
-              "An email with verification link has been sent to your email address.",
+            Text(
+              LocaleKeys.verify_email_verify_email_title.tr(),
               textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.normal),
+              style: const TextStyle(fontWeight: FontWeight.normal),
             ),
             const SizedBox(
               height: 20,
             ),
-            const Text(
-              "After verification you will be able to log in to your account",
+            Text(
+              LocaleKeys.verify_email_link_has_been_sent.tr(),
               textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.normal),
+              style: const TextStyle(fontWeight: FontWeight.normal),
             ),
             const SizedBox(
               height: 30,
             ),
-            const Text(
-              "If you haven't received, please press on button below",
+            Text(
+              LocaleKeys.verify_email_resend_email_label.tr(),
               textAlign: TextAlign.left,
-              style: TextStyle(fontWeight: FontWeight.normal),
+              style: const TextStyle(fontWeight: FontWeight.normal),
             ),
             const SizedBox(
               height: 20,
             ),
             ElevatedButton(
                 onPressed: () => authBloc.add(SendVerificationEmailEvent()),
-                child: const Text("Resend email")),
+                child: Text(LocaleKeys.verify_email_resend_email_button.tr())),
           ],
         ),
       ),

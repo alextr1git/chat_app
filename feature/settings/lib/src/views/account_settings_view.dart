@@ -34,7 +34,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
             ..add(InitSettingsEvent()),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Account settings"),
+          title: Text(LocaleKeys.account_settings_account_settings_title.tr()),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -44,7 +44,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                 const SizedBox(
                   height: 30,
                 ),
-                const Text("Your email is:"),
+                Text(LocaleKeys.account_settings_your_email_is.tr()),
                 Text(
                   state.userModel.email,
                   style: const TextStyle(fontWeight: FontWeight.bold),
@@ -58,8 +58,9 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                   enableSuggestions: false,
                   autocorrect: false,
                   decoration: InputDecoration(
-                      hintText: 'Enter your name',
-                      labelText: "Name",
+                      hintText: LocaleKeys.account_settings_name_form_hint.tr(),
+                      labelText:
+                          LocaleKeys.account_settings_name_form_label.tr(),
                       prefixIcon: const Icon(Icons.person_outline),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -72,7 +73,9 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                   height: 20,
                 ),
                 ElevatedButton(
-                    onPressed: () {}, child: const Text("Save changes"))
+                    onPressed: () {}, //TODO create save changes function
+
+                    child: Text(LocaleKeys.account_settings_save_changes.tr()))
               ]);
             },
           ),

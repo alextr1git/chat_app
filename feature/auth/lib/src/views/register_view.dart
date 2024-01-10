@@ -1,7 +1,9 @@
 import 'package:auth/src/bloc/auth_bloc.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:navigation/navigation.dart';
+
 import 'package:core_ui/core_ui.dart';
 
 @RoutePage()
@@ -35,19 +37,19 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign up')),
+      appBar: AppBar(title: Text(LocaleKeys.register_register_title.tr())),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
             const SizedBox(height: 30),
             Text(
-              "We've never met before!",
+              LocaleKeys.register_register_second_title.tr(),
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             const SizedBox(height: 10),
             Text(
-              "Create your account!",
+              LocaleKeys.register_register_call_to_action.tr(),
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 30),
@@ -57,8 +59,8 @@ class _RegisterViewState extends State<RegisterView> {
               enableSuggestions: false,
               autocorrect: false,
               decoration: InputDecoration(
-                  hintText: 'Enter your email',
-                  labelText: "Email",
+                  hintText: LocaleKeys.register_form_email_hint.tr(),
+                  labelText: LocaleKeys.register_form_email_label.tr(),
                   prefixIcon: const Icon(Icons.person_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -75,7 +77,8 @@ class _RegisterViewState extends State<RegisterView> {
               autocorrect: false,
               obscureText: _obscurePassword,
               decoration: InputDecoration(
-                labelText: "Password",
+                hintText: LocaleKeys.register_form_password_hint.tr(),
+                labelText: LocaleKeys.register_form_password_label.tr(),
                 prefixIcon: const Icon(Icons.password_outlined),
                 suffixIcon: IconButton(
                   onPressed: () {
@@ -115,7 +118,7 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                     );
                   },
-                  child: const Text('Sign up'),
+                  child: Text(LocaleKeys.register_register_button.tr()),
                 ),
               ],
             ),
@@ -125,12 +128,14 @@ class _RegisterViewState extends State<RegisterView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Already have an account?"),
+                Text(LocaleKeys.register_already_have_account.tr()),
                 TextButton(
                   onPressed: () {
                     authBloc.add(NavigateToLoginInEvent());
                   },
-                  child: const Text("Login into existing one"),
+                  child: Text(
+                    LocaleKeys.register_redirect_to_login.tr(),
+                  ),
                 ),
               ],
             )

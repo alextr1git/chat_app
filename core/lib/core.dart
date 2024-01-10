@@ -14,3 +14,6 @@ export 'config/firebase_options.dart';
 export 'di/data_di.dart';
 export 'package:firebase_core/firebase_core.dart';
 export 'package:core/utils/custom_route_builder.dart';
+export 'localization/app_localization.dart';
+export 'localization/generated/locale_keys.g.dart';
+export 'package:easy_localization/easy_localization.dart';

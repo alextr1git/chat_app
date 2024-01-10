@@ -1,4 +1,5 @@
 import 'package:auth/auth.dart';
+import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +37,7 @@ class _LoginViewState extends State<LoginView> {
     final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: Text(LocaleKeys.login_login_title.tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -44,12 +45,12 @@ class _LoginViewState extends State<LoginView> {
           children: [
             const SizedBox(height: 30),
             Text(
-              "Welcome here!",
+              LocaleKeys.login_login_second_title.tr(),
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             const SizedBox(height: 10),
             Text(
-              "Login to your account",
+              LocaleKeys.login_login_call_to_action.tr(),
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 30),
@@ -59,8 +60,8 @@ class _LoginViewState extends State<LoginView> {
               enableSuggestions: false,
               autocorrect: false,
               decoration: InputDecoration(
-                  hintText: 'Enter your email',
-                  labelText: "Email",
+                  hintText: LocaleKeys.login_form_email_hint.tr(),
+                  labelText: LocaleKeys.login_form_email_label.tr(),
                   prefixIcon: const Icon(Icons.person_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -77,7 +78,8 @@ class _LoginViewState extends State<LoginView> {
               autocorrect: false,
               obscureText: _obscurePassword,
               decoration: InputDecoration(
-                labelText: "Password",
+                hintText: LocaleKeys.login_form_password_hint.tr(),
+                labelText: LocaleKeys.login_form_password_label.tr(),
                 prefixIcon: const Icon(Icons.password_outlined),
                 suffixIcon: IconButton(
                   onPressed: () {
@@ -114,7 +116,7 @@ class _LoginViewState extends State<LoginView> {
                       password: password,
                     ));
                   },
-                  child: const Text('Login'),
+                  child: Text(LocaleKeys.login_login_button.tr()),
                 ),
               ],
             ),
@@ -124,12 +126,12 @@ class _LoginViewState extends State<LoginView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Don't have an account?"),
+                Text(LocaleKeys.login_dont_have_account.tr()),
                 TextButton(
                   onPressed: () {
                     authBloc.add(NavigateToRegisterEvent());
                   },
-                  child: const Text("Create one!"),
+                  child: Text(LocaleKeys.login_redirect_to_register.tr()),
                 ),
               ],
             )

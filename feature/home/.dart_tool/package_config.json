@@ -188,6 +188,18 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "easy_localization",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/easy_localization-3.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "easy_logger",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/easy_logger-0.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "equatable",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/equatable-2.0.5",
       "packageUri": "lib/",
@@ -198,6 +210,12 @@
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/fake_async-1.3.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "ffi",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/ffi-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "file",
@@ -284,6 +302,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "flutter_localizations",
+      "rootUri": "file:///Users/alextr1/dev/tooling/flutter/packages/flutter_localizations",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "flutter_svg",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/flutter_svg-2.0.9",
       "packageUri": "lib/",
@@ -334,6 +358,12 @@
     {
       "name": "http_parser",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/http_parser-4.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "intl",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/intl-0.18.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -428,10 +458,34 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "path_provider_linux",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "path_provider_platform_interface",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/path_provider_platform_interface-2.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "path_provider_windows",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/path_provider_windows-2.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "petitparser",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/petitparser-6.0.2",
       "packageUri": "lib/",
       "languageVersion": "3.2"
+    },
+    {
+      "name": "platform",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/platform-3.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "plugin_platform_interface",
@@ -468,6 +522,48 @@
       "rootUri": "../../settings",
       "packageUri": "lib/",
       "languageVersion": "3.1"
+    },
+    {
+      "name": "shared_preferences",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/shared_preferences-2.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "shared_preferences_android",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/shared_preferences_android-2.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "shared_preferences_foundation",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "shared_preferences_linux",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/shared_preferences_linux-2.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "shared_preferences_platform_interface",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/shared_preferences_platform_interface-2.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "shared_preferences_web",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/shared_preferences_web-2.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "shared_preferences_windows",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/shared_preferences_windows-2.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "shelf",
@@ -590,6 +686,18 @@
       "languageVersion": "2.15"
     },
     {
+      "name": "win32",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/win32-5.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "xdg_directories",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/xdg_directories-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "xml",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/xml-6.5.0",
       "packageUri": "lib/",
@@ -608,7 +716,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-01-10T09:09:01.799181Z",
+  "generated": "2024-01-10T14:26:31.981567Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

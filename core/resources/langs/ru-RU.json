@@ -1,0 +1,49 @@
+{
+    "login": {
+        "login_title" : "Вход",
+        "login_second_title" : "Добро пожаловать!",
+        "login_call_to_action":"Войдите в свой аккаунт",
+        "form_email_hint" : "Введите email",
+        "form_email_label" : "Email",
+        "form_password_hint" : "Введите пароль",
+        "form_password_label" : "Пароль",
+        "login_button" : "Войти",
+        "dont_have_account" : "Еще нет аккаунта?",
+        "redirect_to_register" : "Создайте!"
+    },
+    "register" : {
+        "register_title" : "Регистрация",
+        "register_second_title" : "Давайте знакомиться!",
+        "register_call_to_action":"Создайте аккаунт",
+        "form_email_hint" : "Введите email",
+        "form_email_label" : "Email",
+        "form_password_hint" : "Введите пароль",
+        "form_password_label" : "Пароль",
+        "register_button" : "Создать",
+        "already_have_account" : "Уже есть аккаунт?",
+        "redirect_to_login" : "Войдите"
+
+    },
+
+    "verify_email" : {
+        "verify_email_title" : "Подтверждение email",
+        "link_has_been_sent" : "Письмо с ссылкой подтверждения было отправлено на вашу почту",
+        "after_verification" : "После подтверждения вы сможете войти в свой аккаунт",
+        "resend_email_label" : "Письмо не пришло?",
+        "resend_email_button" : "Прислать еще раз"
+    },
+    "account_settings" : {
+        "your_email_is" : "Ваш email",
+        "name_form_hint" : "Введите свое имя",
+        "name_form_label" : "Имя",
+        "save_changes" : "Сохранить",
+        "account_settings_title" : "Настройки аккаунта"
+    },
+
+    "settings" : {
+        "view_title" : "Настройки",
+        "switch_language_button" : "Изменить язык"
+    }
+
+}
+
