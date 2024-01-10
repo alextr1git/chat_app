@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'generic_dialog.dart';
 
-Future<void> showErrorDialog(
+Future<bool> showLogoutDialog(
   BuildContext context,
-  String text,
 ) {
-  return showGenericDialog<void>(
+  return showGenericDialog<bool>(
     context: context,
-    title: "Something went wrong",
-    content: text,
+    title: "Logout",
+    content: "Are you sure you want to log out?",
     optionsBuilder: () => {
-      "Ok": null,
+      "Ok": true,
+      "Cancel": false,
     },
-  );
+  ).then((value) => value ?? false);
 }

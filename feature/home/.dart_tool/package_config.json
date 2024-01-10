@@ -242,6 +242,24 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "firebase_database",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/firebase_database-10.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_database_platform_interface",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/firebase_database_platform_interface-0.2.5+16",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_database_web",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/firebase_database_web-0.2.3+16",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "fixnum",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/fixnum-1.1.0",
       "packageUri": "lib/",
@@ -446,6 +464,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "settings",
+      "rootUri": "../../settings",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
       "name": "shelf",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/shelf-1.4.1",
       "packageUri": "lib/",
@@ -584,7 +608,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-01-09T08:46:44.483018Z",
+  "generated": "2024-01-10T09:09:01.799181Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

@@ -176,6 +176,24 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "firebase_database",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/firebase_database-10.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_database_platform_interface",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/firebase_database_platform_interface-0.2.5+16",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_database_web",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/firebase_database_web-0.2.3+16",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///Users/alextr1/dev/tooling/flutter/packages/flutter",
       "packageUri": "lib/",
@@ -326,6 +344,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "settings",
+      "rootUri": "../feature/settings",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///Users/alextr1/dev/tooling/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -428,7 +452,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-01-09T08:44:57.682779Z",
+  "generated": "2024-01-10T10:06:51.322809Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

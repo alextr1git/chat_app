@@ -1,5 +1,5 @@
 import 'package:data/entities/user/user_entity.dart';
-import 'auth_exceptions.dart';
+import '../../exceptions/auth_exceptions.dart';
 import 'authentication_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -15,7 +15,6 @@ class FirebaseAuthProvider implements AuthenticationProvider {
         password: password,
       );
       final user = currentUser;
-      print(user);
       if (user != null) {
         return user;
       } else {

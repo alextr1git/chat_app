@@ -18,6 +18,10 @@ dependencies:
     path: ../../core_ui
   navigation:
     path: ../../navigation
+  auth:
+    path: ../auth
+  settings:
+    path: ../settings
   equatable: ^2.0.5
   flutter_bloc: ^8.1.3
 
