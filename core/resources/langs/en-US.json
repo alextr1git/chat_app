@@ -1,8 +1,8 @@
 {
     "login": {
-        "login_title" : "Login",
-        "login_second_title" : "Welcome here!",
-        "login_call_to_action":"Login to your account",
+        "title" : "Login",
+        "second_title" : "Welcome here!",
+        "call_to_action":"Login to your account",
         "form_email_hint" : "Enter your email",
         "form_email_label" : "Email",
         "form_password_hint" : "Enter your password",
@@ -12,9 +12,9 @@
         "redirect_to_register" : "Create one!"
     },
     "register" : {
-        "register_title" : "Sign up",
-        "register_second_title" : "We've never met before!",
-        "register_call_to_action":"Create your account!",
+        "title" : "Sign up",
+        "second_title" : "We've never met before!",
+        "call_to_action":"Create your account!",
         "form_email_hint" : "Enter your email",
         "form_email_label" : "Email",
         "form_password_hint" : "Enter your password",
@@ -26,7 +26,7 @@
     },
 
     "verify_email" : {
-        "verify_email_title" : "Verify your email",
+        "title" : "Verify your email",
         "link_has_been_sent" : "An email with verification link has been sent to your email address.",
         "after_verification" : "After verification you will be able to log in to your account",
         "resend_email_label" : "If you haven't received, please press on button below",
@@ -41,7 +41,13 @@
     },
     "settings" : {
         "view_title" : "Settings",
-        "switch_language_button" : "Switch language"
+        "choose_language_text" : "Change language"
+    },
+
+    "navbar" : {
+        "account" : "Account",
+        "chats" : "Chats",
+        "settings" : "Settings"
     }
 
 }

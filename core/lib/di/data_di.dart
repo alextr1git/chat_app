@@ -78,5 +78,17 @@ class DataDI {
         userRepository: appLocator.get<UserRepository>(),
       ),
     );
+
+    appLocator.registerLazySingleton<SetUsernameUseCase>(
+      () => SetUsernameUseCase(
+        userRepository: appLocator.get<UserRepository>(),
+      ),
+    );
+
+    appLocator.registerLazySingleton<SetUserPhotoURLUseCase>(
+      () => SetUserPhotoURLUseCase(
+        userRepository: appLocator.get<UserRepository>(),
+      ),
+    );
   }
 }

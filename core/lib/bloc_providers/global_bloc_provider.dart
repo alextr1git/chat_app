@@ -20,6 +20,8 @@ class GlobalBlocProvider extends StatelessWidget {
                 appLocator.get<CheckUserAuthenticationUseCase>(),
                 appLocator.get<SendVerificationEmailUseCase>(),
                 appLocator.get<LogoutUserUseCase>(),
+                appLocator.get<SetUsernameUseCase>(),
+                appLocator.get<SetUserPhotoURLUseCase>(),
                 navigationGetIt.get<AppRouter>(),
               )),
     ], child: child);
