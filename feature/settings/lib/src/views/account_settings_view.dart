@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:settings/settings.dart';
 import 'package:settings/src/account_settings_bloc/account_settings_bloc.dart';
 import 'package:core/core.dart';
 
@@ -14,6 +18,7 @@ class AccountSettingsView extends StatefulWidget {
 class _AccountSettingsViewState extends State<AccountSettingsView> {
   late final TextEditingController _nameController;
   late final UserModel userModel;
+  File? _image;
 
   @override
   void initState() {
@@ -28,6 +33,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
 
   @override
   Widget build(BuildContext context) {
+    final ImageHelper imageHelper = appLocator.get<ImageHelper>();
     return BlocProvider(
       create: (BuildContext context) => AccountSettingsBloc(
         appLocator.get<GetUserUseCase>(),
@@ -49,6 +55,39 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
               }
 
               return Column(children: [
+                Center(
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey[300],
+                      radius: 64,
+                      foregroundImage:
+                          _image != null ? FileImage(_image!) : null,
+                      child: const Text(
+                        "AD",
+                        style: TextStyle(fontSize: 48),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextButton(
+                  onPressed: () async {
+                    final file = await imageHelper.pickImage();
+                    if (file != null) {
+                      final croppedFile = await imageHelper.crop(
+                        file: file,
+                        cropStyle: CropStyle.circle,
+                      );
+                      if (croppedFile != null) {
+                        setState(() => _image = File(croppedFile.path));
+                      }
+                    }
+                  },
+                  child: const Text("Select photo"),
+                ),
                 const SizedBox(
                   height: 30,
                 ),

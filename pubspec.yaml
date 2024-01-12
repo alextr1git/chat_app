@@ -43,6 +43,8 @@ dependencies:
     path: ./navigation
   auth:
     path: ./feature/auth
+  settings:
+    path: ./feature/settings
 
 
   # The following adds the Cupertino Icons font to your application.

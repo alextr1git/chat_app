@@ -50,5 +50,7 @@
     	<string>en</string>
     	<string>ru</string>
     </array>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Select profile photo</string>
 </dict>
 </plist>

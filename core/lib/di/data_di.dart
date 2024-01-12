@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:core/config/firebase_options.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:settings/settings.dart';
 
 import 'app_di.dart';
 
@@ -90,5 +91,7 @@ class DataDI {
         userRepository: appLocator.get<UserRepository>(),
       ),
     );
+
+    appLocator.registerLazySingleton<ImageHelper>(() => ImageHelper());
   }
 }
