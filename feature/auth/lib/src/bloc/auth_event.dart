@@ -33,3 +33,15 @@ class NavigateToRegisterEvent extends AuthEvent {}
 class NavigateToLoginInEvent extends AuthEvent {}
 
 class SendVerificationEmailEvent extends AuthEvent {}
+
+class SetUsernameEvent extends AuthEvent {
+  final String userName;
+
+  SetUsernameEvent({required this.userName});
+}
+
+class SetUserPhotoURLEvent extends AuthEvent {
+  final String userPhotoURL;
+
+  SetUserPhotoURLEvent({required this.userPhotoURL});
+}

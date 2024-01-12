@@ -17,5 +17,8 @@ abstract class UserRepository {
 
   Future<UserModel> checkUserAuthStatus();
 
+  Future<void> setUsername(String username);
+  Future<void> setUserPhoto(String photoURL);
+
   UserModel? get currentUser;
 }

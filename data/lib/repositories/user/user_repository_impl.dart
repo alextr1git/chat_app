@@ -52,4 +52,14 @@ class UserAuthRepositoryImpl implements UserRepository {
     UserEntity userEntity = await provider.checkUserAuthStatus();
     return UserMapper.toModel(userEntity);
   }
+
+  @override
+  Future<void> setUserPhoto(String photoURL) async {
+    await provider.setUserPhoto(photoURL);
+  }
+
+  @override
+  Future<void> setUsername(String username) async {
+    await provider.setUsername(username);
+  }
 }

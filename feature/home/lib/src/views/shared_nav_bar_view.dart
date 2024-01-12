@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:home/home.dart';
 import 'package:navigation/navigation.dart';
@@ -26,18 +27,18 @@ class _SharedNavbarViewState extends State<SharedNavbarView> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: selectedView,
           type: BottomNavigationBarType.fixed,
-          items: const [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              label: 'Account',
+              icon: const Icon(Icons.account_circle),
+              label: LocaleKeys.navbar_account.tr(),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.chat_sharp),
-              label: 'Chats',
+              icon: const Icon(Icons.chat_sharp),
+              label: LocaleKeys.navbar_chats.tr(),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
+              icon: const Icon(Icons.settings),
+              label: LocaleKeys.navbar_settings.tr(),
             ),
           ],
           onTap: (index) {

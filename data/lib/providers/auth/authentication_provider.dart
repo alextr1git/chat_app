@@ -17,4 +17,7 @@ abstract class AuthenticationProvider {
   Future<void> logOutUser();
   Future<void> sendVerification();
   Future<UserEntity> checkUserAuthStatus();
+
+  Future<void> setUsername(String username);
+  Future<void> setUserPhoto(String photoURL);
 }

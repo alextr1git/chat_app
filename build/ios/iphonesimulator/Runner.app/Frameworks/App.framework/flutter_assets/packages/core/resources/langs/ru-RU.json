@@ -1,8 +1,8 @@
 {
     "login": {
-        "login_title" : "Вход",
-        "login_second_title" : "Добро пожаловать!",
-        "login_call_to_action":"Войдите в свой аккаунт",
+        "title" : "Вход",
+        "second_title" : "Добро пожаловать!",
+        "call_to_action":"Войдите в свой аккаунт",
         "form_email_hint" : "Введите email",
         "form_email_label" : "Email",
         "form_password_hint" : "Введите пароль",
@@ -12,9 +12,9 @@
         "redirect_to_register" : "Создайте!"
     },
     "register" : {
-        "register_title" : "Регистрация",
-        "register_second_title" : "Давайте знакомиться!",
-        "register_call_to_action":"Создайте аккаунт",
+        "title" : "Регистрация",
+        "second_title" : "Давайте знакомиться!",
+        "call_to_action":"Создайте аккаунт",
         "form_email_hint" : "Введите email",
         "form_email_label" : "Email",
         "form_password_hint" : "Введите пароль",
@@ -26,7 +26,7 @@
     },
 
     "verify_email" : {
-        "verify_email_title" : "Подтверждение email",
+        "title" : "Подтверждение email",
         "link_has_been_sent" : "Письмо с ссылкой подтверждения было отправлено на вашу почту",
         "after_verification" : "После подтверждения вы сможете войти в свой аккаунт",
         "resend_email_label" : "Письмо не пришло?",
@@ -38,6 +38,17 @@
         "name_form_label" : "Имя",
         "save_changes" : "Сохранить",
         "account_settings_title" : "Настройки аккаунта"
+    },
+
+    "settings" : {
+        "view_title" : "Настройки",
+        "choose_language_text" : "Выберите язык"
+    },
+
+    "navbar" : {
+        "account" : "Аккаунт",
+        "chats" : "Чаты",
+        "settings" : "Настройки"
     }
 
 }

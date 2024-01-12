@@ -103,4 +103,20 @@ class FirebaseAuthProvider implements AuthenticationProvider {
       return UserEntity.empty;
     }
   }
+
+  @override
+  Future<void> setUserPhoto(String photoURL) async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      user.updatePhotoURL(photoURL);
+    }
+  }
+
+  @override
+  Future<void> setUsername(String username) async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      user.updateDisplayName(username);
+    }
+  }
 }

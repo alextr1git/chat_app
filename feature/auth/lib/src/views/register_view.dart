@@ -37,19 +37,19 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
     return Scaffold(
-      appBar: AppBar(title: Text(LocaleKeys.register_register_title.tr())),
+      appBar: AppBar(title: Text(LocaleKeys.register_title.tr())),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
             const SizedBox(height: 30),
             Text(
-              LocaleKeys.register_register_second_title.tr(),
+              LocaleKeys.register_second_title.tr(),
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             const SizedBox(height: 10),
             Text(
-              LocaleKeys.register_register_call_to_action.tr(),
+              LocaleKeys.register_call_to_action.tr(),
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 30),

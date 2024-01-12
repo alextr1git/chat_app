@@ -21,6 +21,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUsecase _loginUseCase;
   final SendVerificationEmailUseCase _sendVerificationEmailUseCase;
   final LogoutUserUseCase _logoutUserUseCase;
+  final SetUsernameUseCase _setUsernameUseCase;
+  final SetUserPhotoURLUseCase _setUserPhotoURLUseCase;
   final AppRouter _router;
 
   AuthBloc(
@@ -29,6 +31,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     this._checkUserAuthenticationUseCase,
     this._sendVerificationEmailUseCase,
     this._logoutUserUseCase,
+    this._setUsernameUseCase,
+    this._setUserPhotoURLUseCase,
     this._router,
   ) : super(AuthState.init) {
     on<InitAuthEvent>(_initAuth);
@@ -38,6 +42,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<NavigateToLoginInEvent>(_navigateToLoginView);
     on<SendVerificationEmailEvent>(_sendVerificationEmail);
     on<LogoutUserEvent>(_logoutUser);
+    on<SetUsernameEvent>(_setUsername);
+    on<SetUserPhotoURLEvent>(_setPhotoURL);
   }
 
   Future<void> _initAuth(
@@ -172,6 +178,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     await _sendVerificationEmailUseCase.execute(NoParams());
+  }
+
+  Future<void> _setUsername(
+    SetUsernameEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    await _setUsernameUseCase.execute(event.userName);
+  }
+
+  Future<void> _setPhotoURL(
+    SetUserPhotoURLEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    await _setUserPhotoURLUseCase.execute(event.userPhotoURL);
   }
 }
 

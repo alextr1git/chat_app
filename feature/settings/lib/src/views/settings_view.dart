@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 
 class SettingsView extends StatelessWidget {
@@ -6,12 +7,16 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> _switchLanguage() {
-      if (EasyLocalization.of(context)!.currentLocale == Locale('ru', 'RU')) {
-        return ['en', 'US'];
-      } else {
-        return ['ru', 'RU'];
-      }
+    const double languageFlagsSize = 50;
+    const Locale russianLocale = Locale("ru", 'RU');
+    const Locale englishLocale = Locale("en", 'US');
+
+    void _setRussianLocale() async {
+      await EasyLocalization.of(context)!.setLocale(russianLocale);
+    }
+
+    void _setEnglishLocale() async {
+      await EasyLocalization.of(context)!.setLocale(englishLocale);
     }
 
     return Scaffold(
@@ -19,13 +24,27 @@ class SettingsView extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            ElevatedButton(
-                onPressed: () {
-                  List<String> newLocale = _switchLanguage();
-                  EasyLocalization.of(context)!
-                      .setLocale(Locale(newLocale[0], newLocale[1]));
-                },
-                child: Text(LocaleKeys.settings_switch_language_button.tr()))
+            Text(LocaleKeys.settings_choose_language_text.tr()),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextButton(
+                  onPressed: _setEnglishLocale,
+                  child: Image.asset(
+                    'core_ui/assets/images/eng_flag.png',
+                    height: languageFlagsSize,
+                    width: languageFlagsSize,
+                  ),
+                ),
+                TextButton(
+                    onPressed: _setRussianLocale,
+                    child: Image.asset(
+                      'core_ui/assets/images/rus_flag.png',
+                      height: languageFlagsSize,
+                      width: languageFlagsSize,
+                    )),
+              ],
+            ),
           ],
         ),
       ),

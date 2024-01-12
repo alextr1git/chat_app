@@ -29,9 +29,10 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) =>
-          AccountSettingsBloc(appLocator.get<GetUserUseCase>())
-            ..add(InitSettingsEvent()),
+      create: (BuildContext context) => AccountSettingsBloc(
+        appLocator.get<GetUserUseCase>(),
+        appLocator.get<SetUsernameUseCase>(),
+      )..add(InitSettingsEvent()),
       child: Scaffold(
         appBar: AppBar(
           title: Text(LocaleKeys.account_settings_account_settings_title.tr()),
@@ -40,6 +41,13 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
           padding: const EdgeInsets.all(10.0),
           child: BlocBuilder<AccountSettingsBloc, AccountSettingsState>(
             builder: (context, state) {
+              final AccountSettingsBloc accountSettingsBloc =
+                  BlocProvider.of<AccountSettingsBloc>(context);
+
+              if (state.userModel.userName != '') {
+                _nameController.text = state.userModel.userName;
+              }
+
               return Column(children: [
                 const SizedBox(
                   height: 30,
@@ -73,8 +81,10 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                   height: 20,
                 ),
                 ElevatedButton(
-                    onPressed: () {}, //TODO create save changes function
-
+                    onPressed: () {
+                      accountSettingsBloc.add(
+                          SetNewUsernameEvent(userName: _nameController.text));
+                    },
                     child: Text(LocaleKeys.account_settings_save_changes.tr()))
               ]);
             },

@@ -37,7 +37,7 @@ class _LoginViewState extends State<LoginView> {
     final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocaleKeys.login_login_title.tr()),
+        title: Text(LocaleKeys.login_title.tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -45,12 +45,12 @@ class _LoginViewState extends State<LoginView> {
           children: [
             const SizedBox(height: 30),
             Text(
-              LocaleKeys.login_login_second_title.tr(),
+              LocaleKeys.login_second_title.tr(),
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             const SizedBox(height: 10),
             Text(
-              LocaleKeys.login_login_call_to_action.tr(),
+              LocaleKeys.login_call_to_action.tr(),
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 30),

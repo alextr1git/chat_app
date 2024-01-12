@@ -4,3 +4,9 @@ part of 'account_settings_bloc.dart';
 abstract class AccountSettingsEvent {}
 
 class InitSettingsEvent extends AccountSettingsEvent {}
+
+class SetNewUsernameEvent extends AccountSettingsEvent {
+  final String userName;
+
+  SetNewUsernameEvent({required this.userName});
+}

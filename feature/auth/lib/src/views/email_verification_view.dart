@@ -25,7 +25,7 @@ class EmailVerificationView extends StatelessWidget {
               height: 20,
             ),
             Text(
-              LocaleKeys.verify_email_verify_email_title.tr(),
+              LocaleKeys.verify_email_title.tr(),
               textAlign: TextAlign.center,
               style: const TextStyle(fontWeight: FontWeight.normal),
             ),

@@ -12,12 +12,15 @@ part 'account_settings_state.dart';
 class AccountSettingsBloc
     extends Bloc<AccountSettingsEvent, AccountSettingsState> {
   final GetUserUseCase _getUserUseCase;
+  final SetUsernameUseCase _setUsernameUseCase;
 
-  AccountSettingsBloc(this._getUserUseCase) : super(AccountSettingsState.init) {
-    on<InitSettingsEvent>(_initSettingsEvent);
+  AccountSettingsBloc(this._getUserUseCase, this._setUsernameUseCase)
+      : super(AccountSettingsState.init) {
+    on<InitSettingsEvent>(_initSettings);
+    on<SetNewUsernameEvent>(_setUsername);
   }
 
-  _initSettingsEvent(
+  _initSettings(
     InitSettingsEvent event,
     Emitter<AccountSettingsState> emit,
   ) async {
@@ -27,5 +30,12 @@ class AccountSettingsBloc
         userModel: userModel,
       ),
     );
+  }
+
+  Future<void> _setUsername(
+    SetNewUsernameEvent event,
+    Emitter<AccountSettingsState> emit,
+  ) async {
+    await _setUsernameUseCase.execute(event.userName);
   }
 }
