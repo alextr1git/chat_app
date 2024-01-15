@@ -5,8 +5,12 @@ abstract class AccountSettingsEvent {}
 
 class InitSettingsEvent extends AccountSettingsEvent {}
 
-class SetNewUsernameEvent extends AccountSettingsEvent {
+class UpdateNameAndImageEvent extends AccountSettingsEvent {
   final String userName;
+  final File image;
 
-  SetNewUsernameEvent({required this.userName});
+  UpdateNameAndImageEvent({
+    required this.userName,
+    required this.image,
+  });
 }

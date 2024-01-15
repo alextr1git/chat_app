@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:auth/auth.dart';
 import 'package:bloc/bloc.dart';
@@ -13,11 +14,13 @@ class AccountSettingsBloc
     extends Bloc<AccountSettingsEvent, AccountSettingsState> {
   final GetUserUseCase _getUserUseCase;
   final SetUsernameUseCase _setUsernameUseCase;
+  final UploadImageUseCase _uploadImageUseCase;
 
-  AccountSettingsBloc(this._getUserUseCase, this._setUsernameUseCase)
+  AccountSettingsBloc(
+      this._getUserUseCase, this._setUsernameUseCase, this._uploadImageUseCase)
       : super(AccountSettingsState.init) {
     on<InitSettingsEvent>(_initSettings);
-    on<SetNewUsernameEvent>(_setUsername);
+    on<UpdateNameAndImageEvent>(_updateNameAndImage);
   }
 
   _initSettings(
@@ -32,10 +35,15 @@ class AccountSettingsBloc
     );
   }
 
-  Future<void> _setUsername(
-    SetNewUsernameEvent event,
+  Future<void> _updateNameAndImage(
+    UpdateNameAndImageEvent event,
     Emitter<AccountSettingsState> emit,
   ) async {
-    await _setUsernameUseCase.execute(event.userName);
+    //await _setUsernameUseCase.execute(event.userName);
+    await _uploadImageUseCase.execute(event.image);
   }
 }
+
+/*
+
+*/

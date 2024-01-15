@@ -38,10 +38,11 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
       create: (BuildContext context) => AccountSettingsBloc(
         appLocator.get<GetUserUseCase>(),
         appLocator.get<SetUsernameUseCase>(),
+        appLocator.get<UploadImageUseCase>(),
       )..add(InitSettingsEvent()),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(LocaleKeys.account_settings_account_settings_title.tr()),
+          title: Text(LocaleKeys.account_settings_title.tr()),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -86,7 +87,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                       }
                     }
                   },
-                  child: const Text("Select photo"),
+                  child: Text(LocaleKeys.account_settings_select_photo.tr()),
                 ),
                 const SizedBox(
                   height: 30,
@@ -121,8 +122,10 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      accountSettingsBloc.add(
-                          SetNewUsernameEvent(userName: _nameController.text));
+                      accountSettingsBloc.add(UpdateNameAndImageEvent(
+                        userName: _nameController.text,
+                        image: _image!,
+                      ));
                     },
                     child: Text(LocaleKeys.account_settings_save_changes.tr()))
               ]);

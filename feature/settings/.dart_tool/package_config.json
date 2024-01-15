@@ -308,6 +308,24 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "firebase_storage",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/firebase_storage-11.6.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_storage_platform_interface",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/firebase_storage_platform_interface-5.1.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_storage_web",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/firebase_storage_web-3.6.17",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "fixnum",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/fixnum-1.1.0",
       "packageUri": "lib/",
@@ -824,7 +842,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-01-12T09:41:02.153341Z",
+  "generated": "2024-01-12T12:19:41.909603Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }
