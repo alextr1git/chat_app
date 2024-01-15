@@ -18,6 +18,7 @@ class AccountSettingsView extends StatefulWidget {
 class _AccountSettingsViewState extends State<AccountSettingsView> {
   late final TextEditingController _nameController;
   late final UserModel userModel;
+  bool isChanged = false;
   File? _image;
 
   @override
@@ -91,7 +92,10 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                         cropStyle: CropStyle.circle,
                       );
                       if (croppedFile != null) {
-                        setState(() => _image = File(croppedFile.path));
+                        setState(() {
+                          _image = File(croppedFile.path);
+                          isChanged = true;
+                        });
                       }
                     }
                   },
@@ -129,12 +133,14 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                   height: 20,
                 ),
                 ElevatedButton(
-                    onPressed: () {
-                      accountSettingsBloc.add(UpdateNameAndImageEvent(
-                        userName: _nameController.text,
-                        image: _image!,
-                      ));
-                    },
+                    onPressed: isChanged
+                        ? () {
+                            accountSettingsBloc.add(UpdateNameAndImageEvent(
+                              userName: _nameController.text,
+                              image: _image!,
+                            ));
+                          }
+                        : null,
                     child: Text(LocaleKeys.account_settings_save_changes.tr()))
               ]);
             },
