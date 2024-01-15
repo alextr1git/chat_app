@@ -15,9 +15,10 @@ class AccountSettingsBloc
   final GetUserUseCase _getUserUseCase;
   final SetUsernameUseCase _setUsernameUseCase;
   final UploadImageUseCase _uploadImageUseCase;
+  final DownloadImageUseCase _downloadImageUseCase;
 
-  AccountSettingsBloc(
-      this._getUserUseCase, this._setUsernameUseCase, this._uploadImageUseCase)
+  AccountSettingsBloc(this._getUserUseCase, this._setUsernameUseCase,
+      this._uploadImageUseCase, this._downloadImageUseCase)
       : super(AccountSettingsState.init) {
     on<InitSettingsEvent>(_initSettings);
     on<UpdateNameAndImageEvent>(_updateNameAndImage);
@@ -27,10 +28,16 @@ class AccountSettingsBloc
     InitSettingsEvent event,
     Emitter<AccountSettingsState> emit,
   ) async {
+    String photoPath = '';
+
     final UserModel userModel = await _getUserUseCase.execute(NoParams());
+    if (userModel.photoURL != null) {
+      photoPath = await _downloadImageUseCase.execute(NoParams());
+    }
     emit(
       state.copyWith(
         userModel: userModel,
+        photoPath: photoPath,
       ),
     );
   }
@@ -39,8 +46,9 @@ class AccountSettingsBloc
     UpdateNameAndImageEvent event,
     Emitter<AccountSettingsState> emit,
   ) async {
-    //await _setUsernameUseCase.execute(event.userName);
+    await _setUsernameUseCase.execute(event.userName);
     await _uploadImageUseCase.execute(event.image);
+    await _downloadImageUseCase.execute(NoParams());
   }
 }
 

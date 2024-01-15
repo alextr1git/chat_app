@@ -37,7 +37,8 @@
         "name_form_hint" : "Enter your name",
         "name_form_label" : "Name",
         "save_changes" : "Save changes",
-        "account_settings_title" : "Account settings"
+        "title" : "Account settings",
+        "select_photo" : "Select photo"
     },
     "settings" : {
         "view_title" : "Settings",

@@ -12,3 +12,5 @@ export 'package:domain/usecases/auth_usecases/logout_user_usecase.dart';
 export 'package:domain/usecases/auth_usecases/set_username_usecase.dart';
 export 'package:domain/usecases/auth_usecases/set_photo_usecase.dart';
 export 'package:domain/usecases/get_user_usecase.dart';
+export 'package:domain/usecases/settings_usecases/upload_image_usecase.dart';
+export 'package:domain/usecases/settings_usecases/download_image_usecase.dart';

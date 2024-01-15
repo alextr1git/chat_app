@@ -37,7 +37,8 @@
         "name_form_hint" : "Введите свое имя",
         "name_form_label" : "Имя",
         "save_changes" : "Сохранить",
-        "account_settings_title" : "Настройки аккаунта"
+        "title" : "Настройки аккаунта",
+        "select_photo" : "Выбрать фото"
     },
 
     "settings" : {

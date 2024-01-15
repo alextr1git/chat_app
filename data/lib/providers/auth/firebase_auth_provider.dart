@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:data/entities/user/user_entity.dart';
 import '../../exceptions/auth_exceptions.dart';
 import 'authentication_provider.dart';
@@ -10,7 +11,7 @@ class FirebaseAuthProvider implements AuthenticationProvider {
     required String password,
   }) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await dataDI.firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -39,7 +40,7 @@ class FirebaseAuthProvider implements AuthenticationProvider {
 
   @override
   UserEntity? get currentUser {
-    final User? firebaseUser = FirebaseAuth.instance.currentUser;
+    final User? firebaseUser = dataDI.firebaseAuth.currentUser;
     return (firebaseUser != null)
         ? UserEntity.fromFirebase(firebaseUser)
         : null;
@@ -51,7 +52,7 @@ class FirebaseAuthProvider implements AuthenticationProvider {
     required String password,
   }) async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await dataDI.firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -76,7 +77,7 @@ class FirebaseAuthProvider implements AuthenticationProvider {
 
   @override
   Future<void> logOutUser() async {
-    final user = FirebaseAuth.instance.currentUser;
+    final user = dataDI.firebaseAuth.currentUser;
     if (user != null) {
       await FirebaseAuth.instance.signOut();
     } else {
@@ -86,7 +87,7 @@ class FirebaseAuthProvider implements AuthenticationProvider {
 
   @override
   Future<void> sendVerification() async {
-    final user = FirebaseAuth.instance.currentUser;
+    final user = dataDI.firebaseAuth.currentUser;
     if (user != null) {
       await user.sendEmailVerification();
     } else {
@@ -96,7 +97,7 @@ class FirebaseAuthProvider implements AuthenticationProvider {
 
   @override
   Future<UserEntity> checkUserAuthStatus() async {
-    final User? user = FirebaseAuth.instance.currentUser;
+    final User? user = dataDI.firebaseAuth.currentUser;
     if (user != null) {
       return currentUser!;
     } else {
@@ -106,7 +107,7 @@ class FirebaseAuthProvider implements AuthenticationProvider {
 
   @override
   Future<void> setUserPhoto(String photoURL) async {
-    final User? user = FirebaseAuth.instance.currentUser;
+    final User? user = dataDI.firebaseAuth.currentUser;
     if (user != null) {
       user.updatePhotoURL(photoURL);
     }
@@ -114,7 +115,7 @@ class FirebaseAuthProvider implements AuthenticationProvider {
 
   @override
   Future<void> setUsername(String username) async {
-    final User? user = FirebaseAuth.instance.currentUser;
+    final User? user = dataDI.firebaseAuth.currentUser;
     if (user != null) {
       user.updateDisplayName(username);
     }

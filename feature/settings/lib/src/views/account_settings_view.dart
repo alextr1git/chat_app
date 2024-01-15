@@ -39,6 +39,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
         appLocator.get<GetUserUseCase>(),
         appLocator.get<SetUsernameUseCase>(),
         appLocator.get<UploadImageUseCase>(),
+        appLocator.get<DownloadImageUseCase>(),
       )..add(InitSettingsEvent()),
       child: Scaffold(
         appBar: AppBar(
@@ -55,6 +56,10 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                 _nameController.text = state.userModel.userName;
               }
 
+              /* if (state.photoPath != '') {
+                _image = File(state.photoPath);
+              }*/
+
               return Column(children: [
                 Center(
                   child: FittedBox(
@@ -62,8 +67,11 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                     child: CircleAvatar(
                       backgroundColor: Colors.grey[300],
                       radius: 64,
-                      foregroundImage:
-                          _image != null ? FileImage(_image!) : null,
+                      foregroundImage: _image != null
+                          ? FileImage(_image!)
+                          : (state.photoPath != ''
+                              ? FileImage(File(state.photoPath))
+                              : null),
                       child: const Text(
                         "AD",
                         style: TextStyle(fontSize: 48),
