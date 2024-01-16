@@ -4,7 +4,6 @@ import 'package:data/data.dart';
 import 'package:data/providers/storage/storage_provider.dart';
 import '../../providers/auth/authentication_provider.dart';
 import 'package:domain/domain.dart';
-import '../../providers/auth/firebase_auth_provider.dart';
 
 class UserAuthRepositoryImpl implements UserRepository {
   final AuthenticationProvider _authProvider;
@@ -75,7 +74,7 @@ class UserAuthRepositoryImpl implements UserRepository {
       userId: currentUser!.id.toString(),
     );
     if (photoURL != null) {
-      _authProvider.setUserPhoto(photoURL);
+      setUserPhoto(photoURL);
     }
   }
 

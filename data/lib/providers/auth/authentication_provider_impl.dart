@@ -4,7 +4,7 @@ import '../../exceptions/auth_exceptions.dart';
 import 'authentication_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseAuthProvider implements AuthenticationProvider {
+class AuthenticationProviderImpl implements AuthenticationProvider {
   @override
   Future<UserEntity> createUser({
     required String email,
@@ -118,6 +118,7 @@ class FirebaseAuthProvider implements AuthenticationProvider {
     final User? user = dataDI.firebaseAuth.currentUser;
     if (user != null) {
       user.updateDisplayName(username);
+      print(username);
     }
   }
 }

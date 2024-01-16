@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:core/core.dart';
 import 'package:data/exceptions/storage_exceptions.dart';
 import 'package:data/providers/storage/storage_provider.dart';
-import 'package:domain/domain.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;

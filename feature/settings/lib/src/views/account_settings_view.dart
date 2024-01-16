@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:settings/settings.dart';
-import 'package:settings/src/account_settings_bloc/account_settings_bloc.dart';
 import 'package:core/core.dart';
 
 class AccountSettingsView extends StatefulWidget {
@@ -18,7 +17,6 @@ class AccountSettingsView extends StatefulWidget {
 class _AccountSettingsViewState extends State<AccountSettingsView> {
   late final TextEditingController _nameController;
   late final UserModel userModel;
-  bool isChanged = false;
   File? _image;
 
   @override
@@ -37,10 +35,10 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
     final ImageHelper imageHelper = appLocator.get<ImageHelper>();
     return BlocProvider(
       create: (BuildContext context) => AccountSettingsBloc(
-        appLocator.get<GetUserUseCase>(),
-        appLocator.get<SetUsernameUseCase>(),
-        appLocator.get<UploadImageUseCase>(),
-        appLocator.get<DownloadImageUseCase>(),
+        getUserUseCase: appLocator.get<GetUserUseCase>(),
+        setUsernameUseCase: appLocator.get<SetUsernameUseCase>(),
+        uploadImageUseCase: appLocator.get<UploadImageUseCase>(),
+        downloadImageUseCase: appLocator.get<DownloadImageUseCase>(),
       )..add(InitSettingsEvent()),
       child: Scaffold(
         appBar: AppBar(
@@ -56,10 +54,6 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
               if (state.userModel.userName != '') {
                 _nameController.text = state.userModel.userName;
               }
-
-              /* if (state.photoPath != '') {
-                _image = File(state.photoPath);
-              }*/
 
               return Column(children: [
                 Center(
@@ -94,7 +88,6 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                       if (croppedFile != null) {
                         setState(() {
                           _image = File(croppedFile.path);
-                          isChanged = true;
                         });
                       }
                     }
@@ -133,14 +126,12 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                   height: 20,
                 ),
                 ElevatedButton(
-                    onPressed: isChanged
-                        ? () {
-                            accountSettingsBloc.add(UpdateNameAndImageEvent(
-                              userName: _nameController.text,
-                              image: _image!,
-                            ));
-                          }
-                        : null,
+                    onPressed: () {
+                      accountSettingsBloc.add(UpdateNameAndImageEvent(
+                        userName: _nameController.text,
+                        image: _image,
+                      ));
+                    },
                     child: Text(LocaleKeys.account_settings_save_changes.tr()))
               ]);
             },

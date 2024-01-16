@@ -1,5 +1,4 @@
 import 'package:data/entities/user/user_entity.dart';
-import 'package:domain/domain.dart';
 
 abstract class AuthenticationProvider {
   UserEntity? get currentUser;

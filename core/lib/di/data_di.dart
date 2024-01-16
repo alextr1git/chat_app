@@ -46,7 +46,7 @@ class DataDI {
 
   void _initAuthResources() {
     appLocator.registerLazySingleton<AuthenticationProvider>(
-        () => FirebaseAuthProvider());
+        () => AuthenticationProviderImpl());
 
     appLocator
         .registerLazySingleton<StorageProvider>(() => StorageProviderImpl());
@@ -63,8 +63,8 @@ class DataDI {
       ),
     );
 
-    appLocator.registerLazySingleton<LoginUsecase>(
-      () => LoginUsecase(
+    appLocator.registerLazySingleton<LoginUseCase>(
+      () => LoginUseCase(
         userRepository: appLocator.get<UserRepository>(),
       ),
     );

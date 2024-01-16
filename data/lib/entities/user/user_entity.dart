@@ -41,13 +41,3 @@ class UserEntity {
     );
   }
 }
-
-/*
-
-Map<String, dynamic> toJson() => {
-"street": street,
-"suite": suite,
-"city": city,
-"zipcode": zipcode,
-"geo": geo,
-};*/

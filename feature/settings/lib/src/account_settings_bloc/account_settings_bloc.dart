@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'package:auth/auth.dart';
-import 'package:bloc/bloc.dart';
 import 'package:domain/usecases/usecase.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:domain/domain.dart';
 
 part 'account_settings_event.dart';
@@ -17,9 +15,16 @@ class AccountSettingsBloc
   final UploadImageUseCase _uploadImageUseCase;
   final DownloadImageUseCase _downloadImageUseCase;
 
-  AccountSettingsBloc(this._getUserUseCase, this._setUsernameUseCase,
-      this._uploadImageUseCase, this._downloadImageUseCase)
-      : super(AccountSettingsState.init) {
+  AccountSettingsBloc(
+      {required getUserUseCase,
+      required setUsernameUseCase,
+      required uploadImageUseCase,
+      required downloadImageUseCase})
+      : _getUserUseCase = getUserUseCase,
+        _setUsernameUseCase = setUsernameUseCase,
+        _uploadImageUseCase = uploadImageUseCase,
+        _downloadImageUseCase = downloadImageUseCase,
+        super(AccountSettingsState.init) {
     on<InitSettingsEvent>(_initSettings);
     on<UpdateNameAndImageEvent>(_updateNameAndImage);
   }
@@ -51,7 +56,3 @@ class AccountSettingsBloc
     await _downloadImageUseCase.execute(NoParams());
   }
 }
-
-/*
-
-*/

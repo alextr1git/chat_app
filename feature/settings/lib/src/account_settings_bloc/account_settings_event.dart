@@ -7,7 +7,7 @@ class InitSettingsEvent extends AccountSettingsEvent {}
 
 class UpdateNameAndImageEvent extends AccountSettingsEvent {
   final String userName;
-  final File image;
+  final File? image;
 
   UpdateNameAndImageEvent({
     required this.userName,

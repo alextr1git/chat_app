@@ -11,10 +11,21 @@ dependencies:
   firebase_storage: ^11.6.0
   flutter:
     sdk: flutter
-  core:
-    path: ../core
   domain:
     path: ../domain
+  core:
+    path: ../core
+  core_ui:
+    path: ../core_ui
+  navigation:
+    path: ../navigation
+  auth:
+    path: ../feature/auth
+  settings:
+    path: ../feature/settings
+  path_provider: ^2.1.2
+  path: ^1.8.3
+  firebase_auth: ^4.16.0
 
 
 dev_dependencies:

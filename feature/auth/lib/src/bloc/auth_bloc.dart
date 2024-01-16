@@ -3,13 +3,11 @@ import 'package:auth/src/navigation/router.dart';
 import 'package:home/src/navigation/router.dart';
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/export_usecases.dart';
 import 'package:domain/usecases/usecase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:navigation/navigation.dart';
 import 'package:data/data.dart';
-import 'package:home/home.dart';
 
 part 'auth_event.dart';
 
@@ -18,23 +16,31 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final CheckUserAuthenticationUseCase _checkUserAuthenticationUseCase;
   final RegisterUsecase _registerUseCase;
-  final LoginUsecase _loginUseCase;
+  final LoginUseCase _loginUseCase;
   final SendVerificationEmailUseCase _sendVerificationEmailUseCase;
   final LogoutUserUseCase _logoutUserUseCase;
   final SetUsernameUseCase _setUsernameUseCase;
   final SetUserPhotoURLUseCase _setUserPhotoURLUseCase;
   final AppRouter _router;
 
-  AuthBloc(
-    this._registerUseCase,
-    this._loginUseCase,
-    this._checkUserAuthenticationUseCase,
-    this._sendVerificationEmailUseCase,
-    this._logoutUserUseCase,
-    this._setUsernameUseCase,
-    this._setUserPhotoURLUseCase,
-    this._router,
-  ) : super(AuthState.init) {
+  AuthBloc({
+    required registerUseCase,
+    required loginUseCase,
+    required checkUserAuthenticationUseCase,
+    required sendVerificationEmailUseCase,
+    required logoutUserUseCase,
+    required setUsernameUseCase,
+    required setUserPhotoURLUseCase,
+    required router,
+  })  : _registerUseCase = registerUseCase,
+        _loginUseCase = loginUseCase,
+        _checkUserAuthenticationUseCase = checkUserAuthenticationUseCase,
+        _sendVerificationEmailUseCase = sendVerificationEmailUseCase,
+        _logoutUserUseCase = logoutUserUseCase,
+        _setUsernameUseCase = setUsernameUseCase,
+        _setUserPhotoURLUseCase = setUserPhotoURLUseCase,
+        _router = router,
+        super(AuthState.init) {
     on<InitAuthEvent>(_initAuth);
     on<RegistrationEvent>(_register);
     on<LoginInEvent>(_login);

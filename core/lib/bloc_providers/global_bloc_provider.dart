@@ -1,5 +1,4 @@
 import 'package:auth/auth.dart';
-import 'package:settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:core/core.dart';
@@ -15,14 +14,17 @@ class GlobalBlocProvider extends StatelessWidget {
     return MultiBlocProvider(providers: <BlocProvider>[
       BlocProvider<AuthBloc>(
           create: (BuildContext context) => AuthBloc(
-                appLocator.get<RegisterUsecase>(),
-                appLocator.get<LoginUsecase>(),
-                appLocator.get<CheckUserAuthenticationUseCase>(),
-                appLocator.get<SendVerificationEmailUseCase>(),
-                appLocator.get<LogoutUserUseCase>(),
-                appLocator.get<SetUsernameUseCase>(),
-                appLocator.get<SetUserPhotoURLUseCase>(),
-                navigationGetIt.get<AppRouter>(),
+                registerUseCase: appLocator.get<RegisterUsecase>(),
+                loginUseCase: appLocator.get<LoginUseCase>(),
+                checkUserAuthenticationUseCase:
+                    appLocator.get<CheckUserAuthenticationUseCase>(),
+                sendVerificationEmailUseCase:
+                    appLocator.get<SendVerificationEmailUseCase>(),
+                logoutUserUseCase: appLocator.get<LogoutUserUseCase>(),
+                setUsernameUseCase: appLocator.get<SetUsernameUseCase>(),
+                setUserPhotoURLUseCase:
+                    appLocator.get<SetUserPhotoURLUseCase>(),
+                router: navigationGetIt.get<AppRouter>(),
               )),
     ], child: child);
   }
