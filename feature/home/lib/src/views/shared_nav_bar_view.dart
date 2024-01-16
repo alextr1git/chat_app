@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:home/home.dart';
+import 'package:home/src/views/personal_chat_view.dart';
 import 'package:navigation/navigation.dart';
 import 'package:settings/settings.dart';
 
@@ -16,7 +17,8 @@ class _SharedNavbarViewState extends State<SharedNavbarView> {
   int selectedView = 0;
 
   final List<Widget> _views = const [
-    AccountSettingsView(),
+    //AccountSettingsView(),
+    PersonalChatView(),
     ChatHomeView(),
     SettingsView(),
   ];

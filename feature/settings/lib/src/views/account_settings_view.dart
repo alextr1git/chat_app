@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:auth/auth.dart';
+import 'package:core_ui/core_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +34,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
     final ImageHelper imageHelper = appLocator.get<ImageHelper>();
     return BlocProvider(
       create: (BuildContext context) => AccountSettingsBloc(
@@ -43,6 +46,24 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(LocaleKeys.account_settings_title.tr()),
+          actions: [
+            PopupMenuButton<MenuAction>(onSelected: (value) async {
+              switch (value) {
+                case MenuAction.logout:
+                  final shouldLogout = await showLogoutDialog(context);
+                  if (shouldLogout) {
+                    authBloc.add(LogoutUserEvent());
+                  } else {}
+              }
+            }, itemBuilder: (context) {
+              return [
+                const PopupMenuItem<MenuAction>(
+                  value: MenuAction.logout,
+                  child: Text('Log out'),
+                ),
+              ];
+            })
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -132,7 +153,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                         image: _image,
                       ));
                     },
-                    child: Text(LocaleKeys.account_settings_save_changes.tr()))
+                    child: Text(LocaleKeys.account_settings_save_changes.tr())),
               ]);
             },
           ),
