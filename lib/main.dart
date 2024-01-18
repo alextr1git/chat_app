@@ -1,4 +1,3 @@
-import 'package:auth/auth.dart';
 import 'package:core/bloc_providers/global_bloc_provider.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';

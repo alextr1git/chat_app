@@ -1,5 +1,7 @@
-abstract class RealTimeDatabase {
-  Future<void> postNewMessage();
-  Future<void> getChatsForUser();
-  Future<void> getMessagesForChat();
+import 'package:data/entities/chats/message_entity.dart';
+
+abstract class RealTimeDatabaseProvider {
+  Future<void> postNewMessage(
+    MessageEntity messageEntity,
+  );
 }

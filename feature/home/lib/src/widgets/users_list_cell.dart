@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:home/src/bloc/chat_bloc.dart';
 
 class UserListCell extends StatefulWidget {
   final String _name;
@@ -24,8 +26,11 @@ class UserListCell extends StatefulWidget {
 class UserListCellState extends State<UserListCell> {
   @override
   Widget build(BuildContext context) {
+    final ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        chatBloc.add(NavigateToPersonalChatViewEvent());
+      },
       child: Container(
         padding:
             const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),

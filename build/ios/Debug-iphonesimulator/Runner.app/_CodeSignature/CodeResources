@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		8I13HsqxuUz5kqKHNDV3Yun2Yjg=
+		/Yl8eNNLlVD9Ra1X2Tz3N+r5VxU=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		NDwbBFmFjr5/UAgknarSApaefL0=
+		HjW3rZn8dzbfcvthhL/L22xTaKU=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<data>
@@ -90,15 +90,15 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		TbCfYsu81wWrciF/JYNQQZvOUsg=
+		PC2R4VAYF34PtmZsjbkabfVM3pc=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/core/resources/langs/en-US.json</key>
 		<data>
-		C2wqJVJb7MKW+cXuqhvGpH9T9n0=
+		1D/dI/lBvvyqIZkqRIztZC5FUWc=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/core/resources/langs/ru-RU.json</key>
 		<data>
-		3LUR9zJq+20dn+CpICp7mix51qE=
+		aYB/fALfj+15s8tq8i4pvaGWx5s=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -198,7 +198,7 @@
 		</data>
 		<key>Frameworks/FirebaseDatabase.framework/FirebaseDatabase</key>
 		<data>
-		uHg4Edr+il0Fv22aXMSpkU0yFdA=
+		6QtQdK/giaIHHjH35ujapQvQB5g=
 		</data>
 		<key>Frameworks/FirebaseDatabase.framework/Info.plist</key>
 		<data>
@@ -699,11 +699,19 @@
 		</data>
 		<key>Frameworks/shared_preferences_foundation.framework/_CodeSignature/CodeResources</key>
 		<data>
-		9HOKLaZaYqtguoD1eSP2S/ufqwA=
+		W5+tTDqEI+gvQ+qFvn8GhzEhOpc=
 		</data>
 		<key>Frameworks/shared_preferences_foundation.framework/shared_preferences_foundation</key>
 		<data>
-		gKmHroMHJjvyr7l/yW6milwb/70=
+		vj5KtubvCzxJJl27t91JkuC13HM=
+		</data>
+		<key>Frameworks/shared_preferences_foundation.framework/shared_preferences_foundation_privacy.bundle/Info.plist</key>
+		<data>
+		FZKFEIrZQ8V52uxyQIT1ti1Zsog=
+		</data>
+		<key>Frameworks/shared_preferences_foundation.framework/shared_preferences_foundation_privacy.bundle/PrivacyInfo.xcprivacy</key>
+		<data>
+		6uLTlq7fgHHWA8emYDf4ImHC+AY=
 		</data>
 		<key>GoogleService-Info.plist</key>
 		<data>
@@ -794,7 +802,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			mD67jJ9QRWI4eg/rP7lBgjdpEh8xNLi81yAu20ijKpc=
+			eNciQZJanRbwyH7PGTjLJ4UlTCa6/MRWoyVGEfhcCjI=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -808,7 +816,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			7qR59d9I/KneeLQjBndrVwJEYE7caxDEtyPLQAznovU=
+			b76C930hKL1rOqEatdSKVNkyLcK+8BxFI6oZJD1AEMQ=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
@@ -871,21 +879,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			lmwszXOBSS+TUustFG+lQOCsmCHPy7JWKon2eXh0SsU=
+			1VEyFrzqxr4BjQ24/vztWGUM5JnyYKmMw11FeJVdOB4=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/core/resources/langs/en-US.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			H5Qqgmk8Rw9Q6AS+XZOsk/Ho1Epo7Itn1gfrkjThlW4=
+			Lak07DHp1EoHyahkxlgOyJTtM6QfQ3omRL5c5mNCNFI=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/core/resources/langs/ru-RU.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			4T8x/pCFhbiwtdP70TpKBn7DAamkppPjFkMbu17lkXg=
+			A57VoynJUAxtlctKEPtVuaRM1PFsMGTxx9WVJCrxPH8=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
@@ -1060,7 +1068,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			j2SGXWy/by8OHt4cg8tYSdGLGEarsMPqxaGlppRzjgs=
+			p/i+MQ11PbPoGvjOPBd12iFMSSrYTtHe7ruKFDU2I7M=
 			</data>
 		</dict>
 		<key>Frameworks/FirebaseDatabase.framework/Info.plist</key>
@@ -1741,14 +1749,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			fX7YlZ4Y0yVy0e7BxRB00BlUjliTGqrBmNmfAvqp2+4=
+			bpEvuFUdSAQ5hMJw0dv6gN6+LRudUj8lO3s47u4xSXA=
 			</data>
 		</dict>
 		<key>Frameworks/shared_preferences_foundation.framework/shared_preferences_foundation</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			GQb5/BGiw+0mqAYcdoSHq0obtYPH4z8G2Hqzh1qHFnQ=
+			KEmFKyQkB2ueu0+b/yceGki+orRdfcLXR98k87Fyg4Q=
+			</data>
+		</dict>
+		<key>Frameworks/shared_preferences_foundation.framework/shared_preferences_foundation_privacy.bundle/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			hlrnaGmP24x7yL/3t5qSG9fUvjmU9m/vwuKJ7wfWXSY=
+			</data>
+		</dict>
+		<key>Frameworks/shared_preferences_foundation.framework/shared_preferences_foundation_privacy.bundle/PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			BWQouTi9VwGKYAGdFcPB7i+nJ/I2h1mLu9k0hIsYCxo=
 			</data>
 		</dict>
 		<key>GoogleService-Info.plist</key>

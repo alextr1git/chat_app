@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
+import 'package:home/home.dart';
 import 'package:navigation/navigation.dart';
 
 class GlobalBlocProvider extends StatelessWidget {
@@ -26,6 +27,11 @@ class GlobalBlocProvider extends StatelessWidget {
                     appLocator.get<SetUserPhotoURLUseCase>(),
                 router: navigationGetIt.get<AppRouter>(),
               )),
+      BlocProvider<ChatBloc>(
+          create: (BuildContext context) => ChatBloc(
+                router: navigationGetIt.get<AppRouter>(),
+                postMessageUseCase: appLocator.get<PostMessageUseCase>(),
+              ))
     ], child: child);
   }
 }

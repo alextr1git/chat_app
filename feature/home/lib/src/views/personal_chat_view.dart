@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:navigation/navigation.dart';
 
 class ChatMessage {
   final String messageContent;
@@ -10,6 +11,7 @@ class ChatMessage {
   ChatMessage({required this.messageContent, required this.messageType});
 }
 
+@RoutePage()
 class PersonalChatView extends StatefulWidget {
   const PersonalChatView({super.key});
 

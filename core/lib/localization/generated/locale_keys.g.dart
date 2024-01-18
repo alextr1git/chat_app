@@ -43,5 +43,8 @@ abstract class  LocaleKeys {
   static const navbar_chats = 'navbar.chats';
   static const navbar_settings = 'navbar.settings';
   static const navbar = 'navbar';
+  static const chats_title = 'chats.title';
+  static const chats_search = 'chats.search';
+  static const chats = 'chats';
 
 }

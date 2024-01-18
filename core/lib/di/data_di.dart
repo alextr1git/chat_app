@@ -2,7 +2,6 @@ import 'package:data/data.dart';
 import 'package:data/providers/auth/authentication_provider.dart';
 import 'package:data/providers/storage/storage_provider.dart';
 import 'package:data/providers/storage/storage_provider_impl.dart';
-import 'package:data/repositories/user/user_repository_impl.dart';
 import 'package:domain/domain.dart';
 import 'package:domain/usecases/settings_usecases/upload_image_usecase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,30 +16,31 @@ import 'app_di.dart';
 final DataDI dataDI = DataDI();
 
 class DataDI {
+  late final FirebaseApp _firebaseApp;
   late final FirebaseAuth _firebaseAuth;
   late final FirebaseDatabase _firebaseDatabase;
   late final FirebaseStorage _firebaseStorage;
 
   Future<void> initDependencies() async {
     await _initFirebase();
-    _firebaseAuth = _initFirebaseAuth();
-    _firebaseDatabase = _initFirebaseDatabase();
-    _firebaseStorage = _initFirebaseStorage();
+    _firebaseAuth = FirebaseAuth.instance;
+    _firebaseDatabase = FirebaseDatabase.instanceFor(
+      app: _firebaseApp,
+      databaseURL:
+          "https://chatapp-a0b76-default-rtdb.europe-west1.firebasedatabase.app/",
+    );
+    _firebaseStorage = FirebaseStorage.instance;
     _initAuthResources();
   }
 
   Future<void> _initFirebase() async {
-    await Firebase.initializeApp(
+    _firebaseApp = await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }
 
-  FirebaseAuth _initFirebaseAuth() => FirebaseAuth.instance;
-  FirebaseDatabase _initFirebaseDatabase() => FirebaseDatabase.instance;
-  FirebaseStorage _initFirebaseStorage() => FirebaseStorage.instance;
-
   FirebaseAuth get firebaseAuth => _firebaseAuth;
-  FirebaseDatabase get firebaseDatabase => _firebaseDatabase;
+  DatabaseReference get firebaseDatabaseRef => _firebaseDatabase.ref();
   FirebaseStorage get firebaseStorage => _firebaseStorage;
   Reference get firebaseStorageRef => _firebaseStorage.ref();
 
@@ -51,16 +51,28 @@ class DataDI {
     appLocator
         .registerLazySingleton<StorageProvider>(() => StorageProviderImpl());
 
+    appLocator.registerLazySingleton<RealTimeDatabaseProvider>(() =>
+        RealTimeDatabaseProviderImpl(databaseReference: firebaseDatabaseRef));
+
     appLocator
         .registerLazySingleton<UserRepository>(() => UserAuthRepositoryImpl(
               authProvider: appLocator.get<AuthenticationProvider>(),
               storageProvider: appLocator.get<StorageProvider>(),
             ));
 
+    appLocator.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(
+          databaseProvider: appLocator.get<RealTimeDatabaseProvider>(),
+        ));
+
     appLocator.registerLazySingleton<RegisterUsecase>(
       () => RegisterUsecase(
         userRepository: appLocator.get<UserRepository>(),
       ),
+    );
+
+    appLocator.registerLazySingleton<PostMessageUseCase>(
+      () =>
+          PostMessageUseCase(chatRepository: appLocator.get<ChatRepository>()),
     );
 
     appLocator.registerLazySingleton<LoginUseCase>(

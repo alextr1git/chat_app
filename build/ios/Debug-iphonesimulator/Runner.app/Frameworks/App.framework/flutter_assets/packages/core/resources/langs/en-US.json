@@ -49,7 +49,14 @@
         "account" : "Account",
         "chats" : "Chats",
         "settings" : "Settings"
-    }
+    },
+
+    "chats" : {
+    "title" : "Chats",
+        "search" : "Search"
+ }
+
+
 
 }
 

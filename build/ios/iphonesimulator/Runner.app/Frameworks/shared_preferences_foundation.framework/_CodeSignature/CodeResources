@@ -8,9 +8,32 @@
 		<data>
 		z5Ujsqz4llZJbgOL/aoRneF3xfs=
 		</data>
+		<key>shared_preferences_foundation_privacy.bundle/Info.plist</key>
+		<data>
+		FZKFEIrZQ8V52uxyQIT1ti1Zsog=
+		</data>
+		<key>shared_preferences_foundation_privacy.bundle/PrivacyInfo.xcprivacy</key>
+		<data>
+		6uLTlq7fgHHWA8emYDf4ImHC+AY=
+		</data>
 	</dict>
 	<key>files2</key>
-	<dict/>
+	<dict>
+		<key>shared_preferences_foundation_privacy.bundle/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			hlrnaGmP24x7yL/3t5qSG9fUvjmU9m/vwuKJ7wfWXSY=
+			</data>
+		</dict>
+		<key>shared_preferences_foundation_privacy.bundle/PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			BWQouTi9VwGKYAGdFcPB7i+nJ/I2h1mLu9k0hIsYCxo=
+			</data>
+		</dict>
+	</dict>
 	<key>rules</key>
 	<dict>
 		<key>^.*</key>
