@@ -1,15 +1,12 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:core_ui/core_ui.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:home/home.dart';
 import 'package:navigation/navigation.dart';
-
-class ChatMessage {
-  final String messageContent;
-  final String messageType;
-
-  ChatMessage({required this.messageContent, required this.messageType});
-}
 
 @RoutePage()
 class PersonalChatView extends StatefulWidget {
@@ -20,28 +17,14 @@ class PersonalChatView extends StatefulWidget {
 }
 
 class _PersonalChatViewState extends State<PersonalChatView> {
-  List<ChatMessage> messages = [
-    ChatMessage(messageContent: "Hello, Will", messageType: "receiver"),
-    ChatMessage(messageContent: "How have you been?", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "Hey Kriss, I am doing fine dude. wbu?",
-        messageType: "sender"),
-    ChatMessage(messageContent: "ehhhh, doing OK.", messageType: "receiver"),
-    ChatMessage(
-        messageContent:
-            "Is there any thing wrongIs there any thing wrongIs there any thing wrongIs there any thing wrongIs there any thing wrong?",
-        messageType: "sender"),
-    ChatMessage(messageContent: "Hello, Will", messageType: "receiver"),
-    ChatMessage(messageContent: "How have you been?", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "Hey Kriss, I am doing fine dude. wbu?",
-        messageType: "sender"),
-    ChatMessage(messageContent: "ehhhh, doing OK.", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "Is there any thing wrong?", messageType: "sender"),
-  ];
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -61,13 +44,13 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                   backgroundImage: FileImage(File('')),
                   maxRadius: 26,
                 ),
-                const Expanded(
+                Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Alexander Ivashkevich",
-                        style: TextStyle(
+                        chatBloc.state.currentChat!.title,
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w600),
                       ),
                     ],
@@ -80,11 +63,11 @@ class _PersonalChatViewState extends State<PersonalChatView> {
       ),
       body: Column(
         children: [
-          Expanded(
+          /*Expanded(
               child: SingleChildScrollView(
             child: Align(
               child: ListView.builder(
-                itemCount: messages.length,
+                itemCount: 10,
                 shrinkWrap: true,
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                 physics: const NeverScrollableScrollPhysics(),
@@ -114,7 +97,7 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                 },
               ),
             ),
-          )),
+          )),*/
           SafeArea(
             bottom: true,
             child: Padding(

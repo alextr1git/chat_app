@@ -12,14 +12,27 @@ part 'chat_state.dart';
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final AppRouter _router;
   final PostMessageUseCase _postMessageUseCase;
-  ChatBloc(
-      {required AppRouter router,
-      required PostMessageUseCase postMessageUseCase})
-      : _router = router,
+  final CreateNewChatUseCase _createNewChatUseCase;
+  final GetMessagesForChatUseCase _getMessagesForChatUseCase;
+  StreamSubscription<MessageModel>? _streamSubscriptionMessageModel;
+  ChatBloc({
+    required AppRouter router,
+    required PostMessageUseCase postMessageUseCase,
+    required CreateNewChatUseCase createNewChatUseCase,
+    required GetMessagesForChatUseCase getMessagesForChatUseCase,
+  })  : _router = router,
         _postMessageUseCase = postMessageUseCase,
-        super(ChatInitial()) {
-    on<NavigateToPersonalChatViewEvent>(_navigateToPersonalChatView);
+        _createNewChatUseCase = createNewChatUseCase,
+        _getMessagesForChatUseCase = getMessagesForChatUseCase,
+        super(const ChatState(
+          currentChat: null,
+          messageModels: null,
+        )) {
     on<PostMessageToDBEvent>(_postMessage);
+    on<CreateNewChatEvent>(_createNewChat);
+    on<GetMessagesForChatEvent>(_getMessagesForChat);
+    on<NavigateToPersonalChatViewEvent>(_navigateToPersonalChatView);
+    on<NavigateToAddChatViewEvent>(_navigateToAddChatView);
   }
 
   Future<void> _postMessage(
@@ -29,10 +42,42 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     await _postMessageUseCase.execute(event.messageModel);
   }
 
+  Future<void> _createNewChat(
+    CreateNewChatEvent event,
+    Emitter<ChatState> emit,
+  ) async {
+    await _createNewChatUseCase.execute(event.chatModel);
+    emit(
+      state.copyWith(
+        currentChat: event.chatModel,
+      ),
+    );
+    _router.pop();
+    _router.push(const PersonalChatRoute());
+  }
+
+  void _getMessagesForChat(
+    GetMessagesForChatEvent event,
+    Emitter<ChatState> emit,
+  ) {
+    Stream<MessageModel> messageModels =
+        _getMessagesForChatUseCase.execute(event.chatModel);
+    _streamSubscriptionMessageModel = messageModels.listen((event) {
+      print("${event.id};; ${event.message}");
+    });
+  }
+
   Future<void> _navigateToPersonalChatView(
     _,
     Emitter<ChatState> emit,
   ) async {
     _router.push(const PersonalChatRoute());
+  }
+
+  Future<void> _navigateToAddChatView(
+    _,
+    Emitter<ChatState> emit,
+  ) async {
+    _router.push(const AddChatRoute());
   }
 }

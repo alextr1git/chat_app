@@ -36,6 +36,7 @@ class _ChatHomeViewState extends State<ChatHomeView> {
   ];
   @override
   Widget build(BuildContext context) {
+    ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
     return Scaffold(
       body: Scaffold(
         body: SingleChildScrollView(
@@ -65,7 +66,17 @@ class _ChatHomeViewState extends State<ChatHomeView> {
                           children: <Widget>[
                             TextButton(
                               onPressed: () async {
-                                MessageModel messageModel = const MessageModel(
+                                //chatBloc.add(NavigateToAddChatViewEvent());
+
+                                chatBloc.add(GetMessagesForChatEvent(
+                                    chatModel: ChatModel(
+                                        id: "jkjkjkl2134",
+                                        title: "sfd",
+                                        lastMessageId: "",
+                                        timestamp: 234234,
+                                        messageCount: 0)));
+
+                                /* MessageModel messageModel = const MessageModel(
                                   id: "jknkj1234",
                                   chatId: "jkjkjkl2134",
                                   senderId: "kjnkjjk2134",
@@ -80,7 +91,7 @@ class _ChatHomeViewState extends State<ChatHomeView> {
                                       ));
                                 } catch (e) {
                                   print(e.toString());
-                                }
+                                }*/
                               },
                               child: Icon(
                                 Icons.add,

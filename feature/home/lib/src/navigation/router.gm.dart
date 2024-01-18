@@ -12,6 +12,12 @@ part of 'router.dart';
 abstract class _$HomeModuleRouter extends AutoRouterModule {
   @override
   final Map<String, PageFactory> pagesMap = {
+    AddChatRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddChatView(),
+      );
+    },
     ChatHomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -31,6 +37,20 @@ abstract class _$HomeModuleRouter extends AutoRouterModule {
       );
     },
   };
+}
+
+/// generated route for
+/// [AddChatView]
+class AddChatRoute extends PageRouteInfo<void> {
+  const AddChatRoute({List<PageRouteInfo>? children})
+      : super(
+          AddChatRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddChatRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

@@ -1,6 +1,21 @@
 part of 'chat_bloc.dart';
 
 @immutable
-abstract class ChatState {}
+class ChatState {
+  final ChatModel? currentChat;
+  final Stream<MessageModel>? messageModels;
 
-class ChatInitial extends ChatState {}
+  const ChatState({
+    required this.currentChat,
+    required this.messageModels,
+  });
+
+  ChatState copyWith({
+    ChatModel? currentChat,
+    Stream<MessageModel>? messageModels,
+  }) =>
+      ChatState(
+        currentChat: currentChat ?? this.currentChat,
+        messageModels: messageModels ?? this.messageModels,
+      );
+}

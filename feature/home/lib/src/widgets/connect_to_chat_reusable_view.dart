@@ -1,23 +1,42 @@
 import 'package:flutter/material.dart';
 
-class ConnectToChat extends StatelessWidget {
+class ConnectToChat extends StatefulWidget {
   final String _textFieldHint;
   final String _textFieldLabel;
   final String _buttonText;
-  final Function() _onPressed;
+  final Function(String text) _onPressed;
   final Icon _icon;
-  const ConnectToChat({
+  ConnectToChat({
     required String textFieldHint,
     required String textFieldLabel,
     required String buttonText,
     required Icon icon,
-    required Function() onPressed,
+    required Function(String text) onPressed,
     super.key,
   })  : _textFieldHint = textFieldHint,
         _textFieldLabel = textFieldLabel,
         _buttonText = buttonText,
         _onPressed = onPressed,
         _icon = icon;
+
+  @override
+  State<ConnectToChat> createState() => _ConnectToChatState();
+}
+
+class _ConnectToChatState extends State<ConnectToChat> {
+  late final TextEditingController _textEditingController;
+
+  @override
+  void initState() {
+    _textEditingController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +47,14 @@ class ConnectToChat extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              controller: _textEditingController,
               keyboardType: TextInputType.emailAddress,
               enableSuggestions: false,
               autocorrect: false,
               decoration: InputDecoration(
-                hintText: _textFieldHint,
-                labelText: _textFieldLabel,
-                prefixIcon: _icon,
+                hintText: widget._textFieldHint,
+                labelText: widget._textFieldLabel,
+                prefixIcon: widget._icon,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -49,9 +69,9 @@ class ConnectToChat extends StatelessWidget {
                   padding: MaterialStateProperty.all<EdgeInsets>(
                       const EdgeInsets.fromLTRB(64, 12, 64, 12))),
               onPressed: () {
-                _onPressed();
+                widget._onPressed(_textEditingController.text);
               },
-              child: Text(_buttonText),
+              child: Text(widget._buttonText),
             )
           ],
         ),
