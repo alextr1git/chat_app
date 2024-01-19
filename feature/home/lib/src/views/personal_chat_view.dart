@@ -25,6 +25,8 @@ class _PersonalChatViewState extends State<PersonalChatView> {
   @override
   Widget build(BuildContext context) {
     final ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
+    chatBloc
+        .add(GetMessagesForChatEvent(chatModel: chatBloc.state.currentChat!));
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(

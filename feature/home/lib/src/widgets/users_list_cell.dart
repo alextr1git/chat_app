@@ -1,24 +1,55 @@
+/*/*
+import 'package:flutter/material.dart';
+
+import '../../home.dart';
+
+typedef ChatsCallback = void Function(MockUser user);
+
+class UserInListCell extends StatelessWidget {
+  final MockUser userMock;
+  final ChatsCallback onTap;
+  const UserInListCell({
+    super.key,
+    required this.userMock,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () {
+        onTap(userMock);
+      },
+      title: Text(
+        userMock.name,
+        maxLines: 1,
+        softWrap: true,
+        overflow: TextOverflow.ellipsis,
+      ),
+      trailing: const Icon(Icons.verified_user),
+    );
+  }
+}
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/src/bloc/chat_bloc.dart';
 
+import '../../home.dart';
+
+typedef ChatsCallback = void Function(MockUser user);
+
 class UserListCell extends StatefulWidget {
-  final String _name;
-  final String _messageText;
-  final File? _image;
-  final String _time;
+  final MockUser _user;
+  final ChatsCallback onTap;
+
   const UserListCell({
     super.key,
-    required name,
-    required messageText,
-    required image,
-    required time,
-  })  : _name = name,
-        _messageText = messageText,
-        _image = image,
-        _time = time;
+    required user,
+    required this.onTap,
+  }) : _user = user;
   @override
   UserListCellState createState() => UserListCellState();
 }
@@ -29,7 +60,8 @@ class UserListCellState extends State<UserListCell> {
     final ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
     return GestureDetector(
       onTap: () {
-        chatBloc.add(NavigateToPersonalChatViewEvent());
+        onTap(_user);
+        //  chatBloc.add(NavigateToPersonalChatViewEvent());
       },
       child: Container(
         padding:
@@ -86,3 +118,8 @@ class UserListCellState extends State<UserListCell> {
     );
   }
 }
+
+
+*/
+
+*/

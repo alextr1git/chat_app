@@ -3,7 +3,11 @@ part of 'chat_bloc.dart';
 @immutable
 abstract class ChatEvent {}
 
-class NavigateToPersonalChatViewEvent extends ChatEvent {}
+class NavigateToPersonalChatViewEvent extends ChatEvent {
+  final ChatModel selectedChat;
+
+  NavigateToPersonalChatViewEvent({required this.selectedChat});
+}
 
 class NavigateToAddChatViewEvent extends ChatEvent {}
 
@@ -26,3 +30,5 @@ class GetMessagesForChatEvent extends ChatEvent {
 
   GetMessagesForChatEvent({required this.chatModel});
 }
+
+class GetChatsForUser extends ChatEvent {}

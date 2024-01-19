@@ -3,19 +3,23 @@ part of 'chat_bloc.dart';
 @immutable
 class ChatState {
   final ChatModel? currentChat;
-  final Stream<MessageModel>? messageModels;
+  final List<ChatModel>? chatsOfUser;
+  final Stream<MessageModel>? messageModelsStream;
 
   const ChatState({
     required this.currentChat,
-    required this.messageModels,
+    required this.messageModelsStream,
+    required this.chatsOfUser,
   });
 
   ChatState copyWith({
     ChatModel? currentChat,
-    Stream<MessageModel>? messageModels,
+    Stream<MessageModel>? messageModelsStream,
+    List<ChatModel>? chatsOfUser,
   }) =>
       ChatState(
         currentChat: currentChat ?? this.currentChat,
-        messageModels: messageModels ?? this.messageModels,
+        messageModelsStream: messageModelsStream ?? this.messageModelsStream,
+        chatsOfUser: chatsOfUser ?? this.chatsOfUser,
       );
 }

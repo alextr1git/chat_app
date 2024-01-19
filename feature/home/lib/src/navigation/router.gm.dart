@@ -18,10 +18,10 @@ abstract class _$HomeModuleRouter extends AutoRouterModule {
         child: const AddChatView(),
       );
     },
-    ChatHomeRoute.name: (routeData) {
+    ChatsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ChatHomeView(),
+        child: const ChatsView(),
       );
     },
     PersonalChatRoute.name: (routeData) {
@@ -54,15 +54,15 @@ class AddChatRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [ChatHomeView]
-class ChatHomeRoute extends PageRouteInfo<void> {
-  const ChatHomeRoute({List<PageRouteInfo>? children})
+/// [ChatsView]
+class ChatsRoute extends PageRouteInfo<void> {
+  const ChatsRoute({List<PageRouteInfo>? children})
       : super(
-          ChatHomeRoute.name,
+          ChatsRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'ChatHomeRoute';
+  static const String name = 'ChatsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

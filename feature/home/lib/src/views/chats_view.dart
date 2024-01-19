@@ -1,42 +1,34 @@
-import 'dart:io';
-
+import 'package:flutter/material.dart';
 import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:domain/domain.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/src/bloc/chat_bloc.dart';
-import 'package:home/src/widgets/users_list_cell.dart';
 import 'package:navigation/navigation.dart';
-import 'package:auth/auth.dart';
-
-class MockUser {
-  final String name = "Alexander";
-  final String messageText = "It tastes like heaven, burns like hell";
-  final File? image = null;
-  final String time = "04:30";
-}
 
 @RoutePage()
-class ChatHomeView extends StatefulWidget {
-  const ChatHomeView({super.key});
+class ChatsView extends StatefulWidget {
+  const ChatsView({super.key});
 
   @override
-  State<ChatHomeView> createState() => _ChatHomeViewState();
+  State<ChatsView> createState() => _ChatsViewState();
 }
 
-class _ChatHomeViewState extends State<ChatHomeView> {
-  List<MockUser> users = [
-    MockUser(),
-    MockUser(),
-    MockUser(),
-    MockUser(),
-    MockUser(),
-    MockUser()
-  ];
+class _ChatsViewState extends State<ChatsView> {
+  List<ChatModel> listOfChatModelsOfUser = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
+    chatBloc.add(GetChatsForUser());
+    setState(() {
+      listOfChatModelsOfUser = chatBloc.state.chatsOfUser!;
+    });
     return Scaffold(
       body: Scaffold(
         body: SingleChildScrollView(
@@ -81,7 +73,7 @@ class _ChatHomeViewState extends State<ChatHomeView> {
                                   chatId: "jkjkjkl2134",
                                   senderId: "kjnkjjk2134",
                                   message: "Hello my friend!",
-                                  timeStamp: 124124124124,
+                                  timeStamp: 124124124124124,
                                 );
                                 try {
                                   context
@@ -127,16 +119,25 @@ class _ChatHomeViewState extends State<ChatHomeView> {
                 ),
               ),
               ListView.builder(
-                itemCount: users.length,
+                itemCount: listOfChatModelsOfUser.length,
                 shrinkWrap: true,
                 padding: const EdgeInsets.only(top: 16),
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return UserListCell(
-                    name: users[index].name,
-                    messageText: users[index].messageText,
-                    image: users[index].image,
-                    time: users[index].time,
+                  final chat = listOfChatModelsOfUser[index];
+                  return ListTile(
+                    onTap: () {
+                      chatBloc.add(
+                          NavigateToPersonalChatViewEvent(selectedChat: chat));
+                      print(chatBloc.state.currentChat!.title);
+                    },
+                    title: Text(
+                      chat.title,
+                      maxLines: 1,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    trailing: const Icon(Icons.verified_user),
                   );
                 },
               ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:domain/usecases/usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/src/navigation/router.dart';
@@ -14,25 +15,30 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final PostMessageUseCase _postMessageUseCase;
   final CreateNewChatUseCase _createNewChatUseCase;
   final GetMessagesForChatUseCase _getMessagesForChatUseCase;
+  final GetChatsForUserUseCase _getChatsForUserUseCase;
   StreamSubscription<MessageModel>? _streamSubscriptionMessageModel;
   ChatBloc({
     required AppRouter router,
     required PostMessageUseCase postMessageUseCase,
     required CreateNewChatUseCase createNewChatUseCase,
     required GetMessagesForChatUseCase getMessagesForChatUseCase,
+    required GetChatsForUserUseCase getChatsForUserUseCase,
   })  : _router = router,
         _postMessageUseCase = postMessageUseCase,
         _createNewChatUseCase = createNewChatUseCase,
         _getMessagesForChatUseCase = getMessagesForChatUseCase,
+        _getChatsForUserUseCase = getChatsForUserUseCase,
         super(const ChatState(
           currentChat: null,
-          messageModels: null,
+          messageModelsStream: null,
+          chatsOfUser: [],
         )) {
     on<PostMessageToDBEvent>(_postMessage);
     on<CreateNewChatEvent>(_createNewChat);
     on<GetMessagesForChatEvent>(_getMessagesForChat);
     on<NavigateToPersonalChatViewEvent>(_navigateToPersonalChatView);
     on<NavigateToAddChatViewEvent>(_navigateToAddChatView);
+    on<GetChatsForUser>(_getChatsForUser);
   }
 
   Future<void> _postMessage(
@@ -60,17 +66,32 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     GetMessagesForChatEvent event,
     Emitter<ChatState> emit,
   ) {
-    Stream<MessageModel> messageModels =
+    Stream<MessageModel> messageModelsStream =
         _getMessagesForChatUseCase.execute(event.chatModel);
-    _streamSubscriptionMessageModel = messageModels.listen((event) {
-      print("${event.id};; ${event.message}");
+
+    _streamSubscriptionMessageModel = messageModelsStream.listen((event) {
+      /* print("${event.id};; ${event.message}");*/
     });
   }
 
-  Future<void> _navigateToPersonalChatView(
-    _,
+  void _getChatsForUser(
+    GetChatsForUser event,
     Emitter<ChatState> emit,
   ) async {
+    List<ChatModel> chatModels =
+        await _getChatsForUserUseCase.execute(const NoParams());
+    emit(
+      state.copyWith(chatsOfUser: chatModels),
+    );
+  }
+
+  Future<void> _navigateToPersonalChatView(
+    NavigateToPersonalChatViewEvent event,
+    Emitter<ChatState> emit,
+  ) async {
+    emit(
+      state.copyWith(currentChat: event.selectedChat),
+    );
     _router.push(const PersonalChatRoute());
   }
 

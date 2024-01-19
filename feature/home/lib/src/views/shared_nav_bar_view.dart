@@ -19,7 +19,7 @@ class _SharedNavbarViewState extends State<SharedNavbarView> {
 
   final List<Widget> _views = const [
     AccountSettingsView(),
-    ChatHomeView(),
+    ChatsView(),
     SettingsView(),
   ];
   @override
