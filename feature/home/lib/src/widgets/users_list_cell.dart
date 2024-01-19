@@ -1,67 +1,23 @@
-/*/*
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../home.dart';
 
-typedef ChatsCallback = void Function(MockUser user);
-
 class UserInListCell extends StatelessWidget {
-  final MockUser userMock;
-  final ChatsCallback onTap;
+  final ChatModel chat;
+
   const UserInListCell({
     super.key,
-    required this.userMock,
-    required this.onTap,
+    required this.chat,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: () {
-        onTap(userMock);
-      },
-      title: Text(
-        userMock.name,
-        maxLines: 1,
-        softWrap: true,
-        overflow: TextOverflow.ellipsis,
-      ),
-      trailing: const Icon(Icons.verified_user),
-    );
-  }
-}
-
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:home/src/bloc/chat_bloc.dart';
-
-import '../../home.dart';
-
-typedef ChatsCallback = void Function(MockUser user);
-
-class UserListCell extends StatefulWidget {
-  final MockUser _user;
-  final ChatsCallback onTap;
-
-  const UserListCell({
-    super.key,
-    required user,
-    required this.onTap,
-  }) : _user = user;
-  @override
-  UserListCellState createState() => UserListCellState();
-}
-
-class UserListCellState extends State<UserListCell> {
-  @override
-  Widget build(BuildContext context) {
-    final ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
+    ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
     return GestureDetector(
       onTap: () {
-        onTap(_user);
-        //  chatBloc.add(NavigateToPersonalChatViewEvent());
+        chatBloc.add(NavigateToPersonalChatViewEvent(selectedChat: chat));
       },
       child: Container(
         padding:
@@ -72,9 +28,10 @@ class UserListCellState extends State<UserListCell> {
               child: Row(
                 children: <Widget>[
                   CircleAvatar(
-                    backgroundImage: widget._image != null
-                        ? FileImage(widget._image!)
-                        : null,
+                    backgroundImage: /*widget._image != null
+                          ? FileImage(widget._image!)
+                          :*/
+                        null,
                     maxRadius: 30,
                   ),
                   const SizedBox(
@@ -87,14 +44,14 @@ class UserListCellState extends State<UserListCell> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            widget._name,
+                            chat.title,
                             style: const TextStyle(fontSize: 16),
                           ),
                           const SizedBox(
                             height: 6,
                           ),
                           Text(
-                            widget._messageText,
+                            chat.lastMessageId,
                             style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey.shade600,
@@ -108,7 +65,7 @@ class UserListCellState extends State<UserListCell> {
               ),
             ),
             Text(
-              widget._time,
+              chat.timestamp.toString(),
               style:
                   const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
             ),
@@ -118,8 +75,3 @@ class UserListCellState extends State<UserListCell> {
     );
   }
 }
-
-
-*/
-
-*/

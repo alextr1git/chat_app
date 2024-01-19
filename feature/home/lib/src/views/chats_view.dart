@@ -1,34 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
-import 'package:domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/src/bloc/chat_bloc.dart';
 import 'package:navigation/navigation.dart';
 
+import '../widgets/users_list_cell.dart';
+
 @RoutePage()
-class ChatsView extends StatefulWidget {
+class ChatsView extends StatelessWidget {
   const ChatsView({super.key});
-
-  @override
-  State<ChatsView> createState() => _ChatsViewState();
-}
-
-class _ChatsViewState extends State<ChatsView> {
-  List<ChatModel> listOfChatModelsOfUser = [];
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
     chatBloc.add(GetChatsForUser());
-    setState(() {
-      listOfChatModelsOfUser = chatBloc.state.chatsOfUser!;
-    });
     return Scaffold(
       body: Scaffold(
         body: SingleChildScrollView(
@@ -58,15 +44,7 @@ class _ChatsViewState extends State<ChatsView> {
                           children: <Widget>[
                             TextButton(
                               onPressed: () async {
-                                //chatBloc.add(NavigateToAddChatViewEvent());
-
-                                chatBloc.add(GetMessagesForChatEvent(
-                                    chatModel: ChatModel(
-                                        id: "jkjkjkl2134",
-                                        title: "sfd",
-                                        lastMessageId: "",
-                                        timestamp: 234234,
-                                        messageCount: 0)));
+                                chatBloc.add(NavigateToAddChatViewEvent());
 
                                 /* MessageModel messageModel = const MessageModel(
                                   id: "jknkj1234",
@@ -118,26 +96,17 @@ class _ChatsViewState extends State<ChatsView> {
                   ),
                 ),
               ),
-              ListView.builder(
-                itemCount: listOfChatModelsOfUser.length,
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(top: 16),
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final chat = listOfChatModelsOfUser[index];
-                  return ListTile(
-                    onTap: () {
-                      chatBloc.add(
-                          NavigateToPersonalChatViewEvent(selectedChat: chat));
-                      print(chatBloc.state.currentChat!.title);
+              BlocBuilder<ChatBloc, ChatState>(
+                builder: (context, state) {
+                  return ListView.builder(
+                    itemCount: state.chatsOfUser!.length,
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(top: 16),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final chat = state.chatsOfUser![index];
+                      return UserInListCell(chat: chat);
                     },
-                    title: Text(
-                      chat.title,
-                      maxLines: 1,
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    trailing: const Icon(Icons.verified_user),
                   );
                 },
               ),

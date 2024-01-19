@@ -12,11 +12,11 @@ part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final AppRouter _router;
-  final PostMessageUseCase _postMessageUseCase;
+
   final CreateNewChatUseCase _createNewChatUseCase;
-  final GetMessagesForChatUseCase _getMessagesForChatUseCase;
+
   final GetChatsForUserUseCase _getChatsForUserUseCase;
-  StreamSubscription<MessageModel>? _streamSubscriptionMessageModel;
+
   ChatBloc({
     required AppRouter router,
     required PostMessageUseCase postMessageUseCase,
@@ -24,28 +24,16 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     required GetMessagesForChatUseCase getMessagesForChatUseCase,
     required GetChatsForUserUseCase getChatsForUserUseCase,
   })  : _router = router,
-        _postMessageUseCase = postMessageUseCase,
         _createNewChatUseCase = createNewChatUseCase,
-        _getMessagesForChatUseCase = getMessagesForChatUseCase,
         _getChatsForUserUseCase = getChatsForUserUseCase,
         super(const ChatState(
           currentChat: null,
-          messageModelsStream: null,
           chatsOfUser: [],
         )) {
-    on<PostMessageToDBEvent>(_postMessage);
     on<CreateNewChatEvent>(_createNewChat);
-    on<GetMessagesForChatEvent>(_getMessagesForChat);
     on<NavigateToPersonalChatViewEvent>(_navigateToPersonalChatView);
     on<NavigateToAddChatViewEvent>(_navigateToAddChatView);
     on<GetChatsForUser>(_getChatsForUser);
-  }
-
-  Future<void> _postMessage(
-    PostMessageToDBEvent event,
-    Emitter<ChatState> emit,
-  ) async {
-    await _postMessageUseCase.execute(event.messageModel);
   }
 
   Future<void> _createNewChat(
@@ -59,19 +47,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       ),
     );
     _router.pop();
-    _router.push(const PersonalChatRoute());
-  }
-
-  void _getMessagesForChat(
-    GetMessagesForChatEvent event,
-    Emitter<ChatState> emit,
-  ) {
-    Stream<MessageModel> messageModelsStream =
-        _getMessagesForChatUseCase.execute(event.chatModel);
-
-    _streamSubscriptionMessageModel = messageModelsStream.listen((event) {
-      /* print("${event.id};; ${event.message}");*/
-    });
+    _router.push(PersonalChatRoute(chatModel: event.chatModel));
   }
 
   void _getChatsForUser(
@@ -92,7 +68,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     emit(
       state.copyWith(currentChat: event.selectedChat),
     );
-    _router.push(const PersonalChatRoute());
+    _router.push(PersonalChatRoute(chatModel: event.selectedChat));
   }
 
   Future<void> _navigateToAddChatView(

@@ -25,9 +25,13 @@ abstract class _$HomeModuleRouter extends AutoRouterModule {
       );
     },
     PersonalChatRoute.name: (routeData) {
+      final args = routeData.argsAs<PersonalChatRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const PersonalChatView(),
+        child: PersonalChatView(
+          key: args.key,
+          chatModel: args.chatModel,
+        ),
       );
     },
     SharedNavbarRoute.name: (routeData) {
@@ -69,16 +73,40 @@ class ChatsRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [PersonalChatView]
-class PersonalChatRoute extends PageRouteInfo<void> {
-  const PersonalChatRoute({List<PageRouteInfo>? children})
-      : super(
+class PersonalChatRoute extends PageRouteInfo<PersonalChatRouteArgs> {
+  PersonalChatRoute({
+    Key? key,
+    required ChatModel chatModel,
+    List<PageRouteInfo>? children,
+  }) : super(
           PersonalChatRoute.name,
+          args: PersonalChatRouteArgs(
+            key: key,
+            chatModel: chatModel,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'PersonalChatRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<PersonalChatRouteArgs> page =
+      PageInfo<PersonalChatRouteArgs>(name);
+}
+
+class PersonalChatRouteArgs {
+  const PersonalChatRouteArgs({
+    this.key,
+    required this.chatModel,
+  });
+
+  final Key? key;
+
+  final ChatModel chatModel;
+
+  @override
+  String toString() {
+    return 'PersonalChatRouteArgs{key: $key, chatModel: $chatModel}';
+  }
 }
 
 /// generated route for

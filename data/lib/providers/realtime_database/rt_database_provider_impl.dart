@@ -57,7 +57,6 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     };
     try {
       await finalRef.update(data);
-      print("Data has been written");
     } catch (e) {}
   }
 
@@ -132,7 +131,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
             }
           }
         }
-        print("list of chats: $listOfChats");
+
         return listOfChats;
       } else {
         print('No data available.');
