@@ -62,6 +62,7 @@ class DataDI {
 
     appLocator.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(
           databaseProvider: appLocator.get<RealTimeDatabaseProvider>(),
+          authProvider: appLocator.get<AuthenticationProvider>(),
         ));
 
     appLocator.registerLazySingleton<RegisterUsecase>(
@@ -70,6 +71,23 @@ class DataDI {
       ),
     );
 
+    appLocator.registerLazySingleton<CreateNewChatUseCase>(
+      () => CreateNewChatUseCase(
+        chatRepository: appLocator.get<ChatRepository>(),
+      ),
+    );
+
+    appLocator.registerLazySingleton<GetMessagesForChatUseCase>(
+      () => GetMessagesForChatUseCase(
+        chatRepository: appLocator.get<ChatRepository>(),
+      ),
+    );
+
+    appLocator.registerLazySingleton<GetChatsForUserUseCase>(
+      () => GetChatsForUserUseCase(
+        chatRepository: appLocator.get<ChatRepository>(),
+      ),
+    );
     appLocator.registerLazySingleton<PostMessageUseCase>(
       () =>
           PostMessageUseCase(chatRepository: appLocator.get<ChatRepository>()),

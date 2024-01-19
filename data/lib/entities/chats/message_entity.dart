@@ -7,17 +7,19 @@ class MessageEntity {
 
   MessageEntity({
     required this.id,
-    required this.chatId,
     required this.senderId,
     required this.message,
     required this.timeStamp,
+    required this.chatId,
   });
 
-  factory MessageEntity.fromJson(Map<String, dynamic> json) => MessageEntity(
-        id: json['id'] ?? "",
-        chatId: json['chatId'] ?? "",
-        senderId: json['senderId'] ?? "",
-        message: json['message'] ?? "",
-        timeStamp: json['timeStamp'] ?? 0,
+  factory MessageEntity.fromJson(
+          Map<Object?, Object?> json, String chatId, String messageId) =>
+      MessageEntity(
+        id: messageId ?? "",
+        chatId: chatId ?? "",
+        senderId: json['sender-id'].toString() ?? "",
+        message: json['message'].toString() ?? "",
+        timeStamp: json['timestamp'] as num ?? 0,
       );
 }

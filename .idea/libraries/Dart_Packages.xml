@@ -41,7 +41,6 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/auto_route-7.8.4/lib" />
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/auto_route-5.0.4/lib" />
             </list>
           </value>
         </entry>
@@ -146,8 +145,8 @@
         <entry key="code_builder">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/code_builder-4.9.0/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/code_builder-4.10.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/code_builder-4.9.0/lib" />
             </list>
           </value>
         </entry>
@@ -450,8 +449,8 @@
         <entry key="http">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/http-1.1.2/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/http-1.2.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/http-1.1.2/lib" />
             </list>
           </value>
         </entry>
@@ -760,8 +759,8 @@
         <entry key="shared_preferences_foundation">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.4/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.5/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.4/lib" />
             </list>
           </value>
         </entry>
@@ -972,7 +971,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/analyzer-6.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/args-2.4.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/async-2.11.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/auto_route-5.0.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/auto_route-7.8.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/auto_route_generator-7.3.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/bloc-8.1.2/lib" />

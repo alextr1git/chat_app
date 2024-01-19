@@ -6,7 +6,7 @@ abstract class ChatMapper {
     return ChatEntity(
       id: model.id,
       title: model.title,
-      lastMessage: model.lastMessage,
+      lastMessageId: model.lastMessageId,
       timestamp: model.timestamp,
       messageCount: model.messageCount,
     );
@@ -16,7 +16,7 @@ abstract class ChatMapper {
     return ChatModel(
       id: entity.id,
       title: entity.title,
-      lastMessage: entity.lastMessage,
+      lastMessageId: entity.lastMessageId,
       timestamp: entity.timestamp,
       messageCount: entity.messageCount,
     );

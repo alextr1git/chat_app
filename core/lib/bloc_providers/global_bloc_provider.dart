@@ -31,6 +31,11 @@ class GlobalBlocProvider extends StatelessWidget {
           create: (BuildContext context) => ChatBloc(
                 router: navigationGetIt.get<AppRouter>(),
                 postMessageUseCase: appLocator.get<PostMessageUseCase>(),
+                createNewChatUseCase: appLocator.get<CreateNewChatUseCase>(),
+                getChatsForUserUseCase:
+                    appLocator.get<GetChatsForUserUseCase>(),
+                getMessagesForChatUseCase:
+                    appLocator.get<GetMessagesForChatUseCase>(),
               ))
     ], child: child);
   }

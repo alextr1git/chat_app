@@ -10,8 +10,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  data:
+    path: ../data
   core:
     path: ../core
+  core_ui:
+    path: ../core_ui
+  navigation:
+    path: ../navigation
+  auth:
+    path: ../feature/auth
+  settings:
+    path: ../feature/settings
 
 
 dev_dependencies:

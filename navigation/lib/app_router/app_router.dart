@@ -1,3 +1,4 @@
+import 'package:home/home.dart';
 import 'package:navigation/navigation.dart';
 import 'package:auth/src/navigation/router.dart';
 import 'package:home/src/navigation/router.dart';
@@ -19,10 +20,11 @@ class AppRouter extends _$AppRouter {
         AutoRoute(initial: true, page: StartAuthRoute.page),
         AutoRoute(page: RegisterRoute.page),
         AutoRoute(page: LoginRoute.page),
-        AutoRoute(page: ChatHomeRoute.page),
+        AutoRoute(page: ChatsRoute.page),
         AutoRoute(page: EmailVerificationRoute.page),
         AutoRoute(page: SharedNavbarRoute.page),
         AutoRoute(page: PersonalChatRoute.page),
+        AutoRoute(page: AddChatRoute.page),
         CustomRoute(
           page: FailurePopupRoute.page,
           path: '/failure_popup',
