@@ -8,12 +8,15 @@ import 'package:domain/domain.dart';
 class UserAuthRepositoryImpl implements UserRepository {
   final AuthenticationProvider _authProvider;
   final StorageProvider _storageProvider;
+  final RealTimeDatabaseProvider _databaseProvider;
 
   const UserAuthRepositoryImpl({
     required AuthenticationProvider authProvider,
     required StorageProvider storageProvider,
+    required RealTimeDatabaseProvider databaseProvider,
   })  : _storageProvider = storageProvider,
-        _authProvider = authProvider;
+        _authProvider = authProvider,
+        _databaseProvider = databaseProvider;
 
   @override
   Future<UserModel> createUser({
@@ -65,6 +68,10 @@ class UserAuthRepositoryImpl implements UserRepository {
   @override
   Future<void> setUsername(String username) async {
     await _authProvider.setUsername(username);
+    await _databaseProvider.updateUsernameData(
+      currentUser!.id,
+      username,
+    );
   }
 
   @override

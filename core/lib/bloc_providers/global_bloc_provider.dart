@@ -12,31 +12,43 @@ class GlobalBlocProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: <BlocProvider>[
-      BlocProvider<AuthBloc>(
-          create: (BuildContext context) => AuthBloc(
-                registerUseCase: appLocator.get<RegisterUsecase>(),
-                loginUseCase: appLocator.get<LoginUseCase>(),
-                checkUserAuthenticationUseCase:
-                    appLocator.get<CheckUserAuthenticationUseCase>(),
-                sendVerificationEmailUseCase:
-                    appLocator.get<SendVerificationEmailUseCase>(),
-                logoutUserUseCase: appLocator.get<LogoutUserUseCase>(),
-                setUsernameUseCase: appLocator.get<SetUsernameUseCase>(),
-                setUserPhotoURLUseCase:
-                    appLocator.get<SetUserPhotoURLUseCase>(),
-                router: navigationGetIt.get<AppRouter>(),
-              )),
-      BlocProvider<ChatBloc>(
-          create: (BuildContext context) => ChatBloc(
-                router: navigationGetIt.get<AppRouter>(),
-                postMessageUseCase: appLocator.get<PostMessageUseCase>(),
-                createNewChatUseCase: appLocator.get<CreateNewChatUseCase>(),
-                getChatsForUserUseCase:
-                    appLocator.get<GetChatsForUserUseCase>(),
-                getMessagesForChatUseCase:
-                    appLocator.get<GetMessagesForChatUseCase>(),
-              ))
-    ], child: child);
+    return MultiBlocProvider(
+      providers: <BlocProvider>[
+        BlocProvider<AuthBloc>(
+            create: (BuildContext context) => AuthBloc(
+                  registerUseCase: appLocator.get<RegisterUsecase>(),
+                  loginUseCase: appLocator.get<LoginUseCase>(),
+                  checkUserAuthenticationUseCase:
+                      appLocator.get<CheckUserAuthenticationUseCase>(),
+                  sendVerificationEmailUseCase:
+                      appLocator.get<SendVerificationEmailUseCase>(),
+                  logoutUserUseCase: appLocator.get<LogoutUserUseCase>(),
+                  setUsernameUseCase: appLocator.get<SetUsernameUseCase>(),
+                  setUserPhotoURLUseCase:
+                      appLocator.get<SetUserPhotoURLUseCase>(),
+                  router: navigationGetIt.get<AppRouter>(),
+                )),
+        BlocProvider<ChatBloc>(
+            create: (BuildContext context) => ChatBloc(
+                  router: navigationGetIt.get<AppRouter>(),
+                  postMessageUseCase: appLocator.get<PostMessageUseCase>(),
+                  createNewChatUseCase: appLocator.get<CreateNewChatUseCase>(),
+                  getChatsForUserUseCase:
+                      appLocator.get<GetChatsForUserUseCase>(),
+                  getMessagesForChatUseCase:
+                      appLocator.get<GetMessagesForChatUseCase>(),
+                  getMembersOfChatUsecase:
+                      appLocator.get<GetMembersOfChatUsecase>(),
+                )),
+        BlocProvider<MessageBloc>(
+            create: (BuildContext context) => MessageBloc(
+                  getMessagesForChatUseCase:
+                      appLocator.get<GetMessagesForChatUseCase>(),
+                  postMessageUseCase: appLocator.get<PostMessageUseCase>(),
+                  router: appLocator.get<AppRouter>(),
+                )),
+      ],
+      child: child,
+    );
   }
 }

@@ -58,11 +58,13 @@ class DataDI {
         .registerLazySingleton<UserRepository>(() => UserAuthRepositoryImpl(
               authProvider: appLocator.get<AuthenticationProvider>(),
               storageProvider: appLocator.get<StorageProvider>(),
+              databaseProvider: appLocator.get<RealTimeDatabaseProvider>(),
             ));
 
     appLocator.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(
           databaseProvider: appLocator.get<RealTimeDatabaseProvider>(),
           authProvider: appLocator.get<AuthenticationProvider>(),
+          storageProvider: appLocator.get<StorageProvider>(),
         ));
 
     appLocator.registerLazySingleton<RegisterUsecase>(
@@ -140,6 +142,10 @@ class DataDI {
               userRepository: appLocator.get<UserRepository>(),
             ));
 
+    appLocator.registerLazySingleton<GetMembersOfChatUsecase>(
+        () => GetMembersOfChatUsecase(
+              chatRepository: appLocator.get<ChatRepository>(),
+            ));
     appLocator.registerLazySingleton<DownloadImageUseCase>(() =>
         DownloadImageUseCase(userRepository: appLocator.get<UserRepository>()));
 

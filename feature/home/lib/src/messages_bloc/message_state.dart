@@ -1,22 +1,12 @@
 part of 'message_bloc.dart';
 
 @immutable
-class MessageState {
-  final StreamController<List<MessageModel>> messageModelsStreamController;
-  final ChatModel? currentChat;
+abstract class MessageState {}
 
-  const MessageState({
-    required this.messageModelsStreamController,
-    required this.currentChat,
-  });
+class MessageLoadingState extends MessageState {}
 
-  MessageState copyWith({
-    StreamController<List<MessageModel>>? messageModelsStreamController,
-    ChatModel? currentChat,
-  }) =>
-      MessageState(
-        messageModelsStreamController:
-            messageModelsStreamController ?? this.messageModelsStreamController,
-        currentChat: currentChat ?? this.currentChat,
-      );
+class MessageLoadedState extends MessageState {
+  final Stream<MessageModel> messageModelsStream;
+
+  MessageLoadedState({required this.messageModelsStream});
 }

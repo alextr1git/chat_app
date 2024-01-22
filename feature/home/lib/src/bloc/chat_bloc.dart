@@ -16,6 +16,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final CreateNewChatUseCase _createNewChatUseCase;
 
   final GetChatsForUserUseCase _getChatsForUserUseCase;
+  final GetMembersOfChatUsecase _getMembersOfChatUsecase;
 
   ChatBloc({
     required AppRouter router,
@@ -23,9 +24,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     required CreateNewChatUseCase createNewChatUseCase,
     required GetMessagesForChatUseCase getMessagesForChatUseCase,
     required GetChatsForUserUseCase getChatsForUserUseCase,
+    required GetMembersOfChatUsecase getMembersOfChatUsecase,
   })  : _router = router,
         _createNewChatUseCase = createNewChatUseCase,
         _getChatsForUserUseCase = getChatsForUserUseCase,
+        _getMembersOfChatUsecase = getMembersOfChatUsecase,
         super(const ChatState(
           currentChat: null,
           chatsOfUser: [],
@@ -34,6 +37,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<NavigateToPersonalChatViewEvent>(_navigateToPersonalChatView);
     on<NavigateToAddChatViewEvent>(_navigateToAddChatView);
     on<GetChatsForUser>(_getChatsForUser);
+    on<PopChatRouteEvent>(_popChatRouteEvent);
+    on<GetMembersOfChatEvent>(_getMembersOfChat);
   }
 
   Future<void> _createNewChat(
@@ -61,6 +66,18 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     );
   }
 
+  Future<void> _getMembersOfChat(
+    GetMembersOfChatEvent event,
+    Emitter<ChatState> emit,
+  ) async {
+    List<ChatMemberModel> listOfChatMemberModels =
+        await _getMembersOfChatUsecase.execute(event.chatModel.id);
+    print(listOfChatMemberModels);
+    emit(
+      state.copyWith(membersOfChat: listOfChatMemberModels),
+    );
+  }
+
   Future<void> _navigateToPersonalChatView(
     NavigateToPersonalChatViewEvent event,
     Emitter<ChatState> emit,
@@ -76,5 +93,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     Emitter<ChatState> emit,
   ) async {
     _router.push(const AddChatRoute());
+  }
+
+  Future<void> _popChatRouteEvent(
+    _,
+    Emitter<ChatState> emit,
+  ) async {
+    _router.pop();
   }
 }

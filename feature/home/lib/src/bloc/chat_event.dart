@@ -18,3 +18,11 @@ class CreateNewChatEvent extends ChatEvent {
 }
 
 class GetChatsForUser extends ChatEvent {}
+
+class PopChatRouteEvent extends ChatEvent {}
+
+class GetMembersOfChatEvent extends ChatEvent {
+  final ChatModel chatModel;
+
+  GetMembersOfChatEvent({required this.chatModel});
+}

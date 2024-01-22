@@ -25,6 +25,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: SharedNavbarRoute.page),
         AutoRoute(page: PersonalChatRoute.page),
         AutoRoute(page: AddChatRoute.page),
+        AutoRoute(page: ChatSettingsRoute.page),
         CustomRoute(
           page: FailurePopupRoute.page,
           path: '/failure_popup',

@@ -18,39 +18,120 @@ class PersonalChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MessageModel> listOfMessageModel = [];
-    return BlocProvider(
-      create: (BuildContext context) => MessageBloc(
-        getMessagesForChatUseCase: appLocator.get<GetMessagesForChatUseCase>(),
-        postMessageUseCase: appLocator.get<PostMessageUseCase>(),
-      )..add(GetMessagesForChatEvent(chatModel: chatModel)),
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          flexibleSpace: SafeArea(
-            child: Container(
-              padding: const EdgeInsets.only(
-                left: 25,
-                right: 25,
-                bottom: 10,
-                top: 10,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  CircleAvatar(
-                    backgroundImage: null,
-                    maxRadius: 26,
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
+    ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
+    MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
+    messageBloc.add(GetMessagesForChatEvent(currentChat: chatModel));
+    chatBloc.add(GetMembersOfChatEvent(chatModel: chatModel));
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        flexibleSpace: SafeArea(
+          child: Container(
+            padding: const EdgeInsets.only(
+              top: 5,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      chatBloc.add(PopChatRouteEvent());
+                    },
+                    child: const Icon(Icons.arrow_back_ios_sharp)),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(5.0),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          color: Colors.amber,
+                        ),
+                        child: Text(
                           chatModel.title,
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                TextButton(
+                    onPressed: () {
+                      messageBloc.add(
+                          NavigateToChatSettingsEvent(currentChat: chatModel));
+                    },
+                    child: const Icon(
+                      Icons.settings,
+                      size: 30,
+                    )),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          BlocBuilder<MessageBloc, MessageState>(
+            builder: (context, state) {
+              if (state is MessageLoadedState) {
+                return StreamBuilder(
+                    stream: state.messageModelsStream,
+                    builder: (context, snapshot) {
+                      final tilesList = <ListTile>[];
+                      if (snapshot.hasData) {
+                        print(snapshot.data!.message);
+                        tilesList.add(ListTile(
+                          title: Text(snapshot.data!.message),
+                        ));
+                      } else {
+                        return const Text("No messages yet!");
+                      }
+                      return Expanded(
+                          child: ListView(
+                        children: tilesList,
+                      ));
+                    });
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+          SafeArea(
+            bottom: true,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Stack(
+                children: [
+                  Container(
+                    height: 60,
+                    width: double.infinity,
+                    color: Colors.white,
+                    child: Row(
+                      children: <Widget>[
+                        const Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                                hintText: "Write message...",
+                                hintStyle: TextStyle(color: Colors.black54),
+                                border: InputBorder.none),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        FloatingActionButton(
+                          onPressed: () {},
+                          backgroundColor: lightTheme.colorScheme.onBackground,
+                          elevation: 1,
+                          child: const Icon(
+                            Icons.send,
+                            size: 22,
+                          ),
                         ),
                       ],
                     ),
@@ -59,37 +140,13 @@ class PersonalChatView extends StatelessWidget {
               ),
             ),
           ),
-        ),
-        body: Column(
-          children: [
-            BlocBuilder<MessageBloc, MessageState>(
-              builder: (context, state) {
-                return StreamBuilder<List<MessageModel>>(
-                    stream: context
-                        .read<MessageBloc>()
-                        .state
-                        .messageModelsStreamController!
-                        .stream,
-                    builder: (context, snapshot) {
-                      final tilesList = <ListTile>[];
-                      if (snapshot.hasData) {
-                        snapshot.data!.forEach((message) {
-                          tilesList.add(ListTile(
-                            title: Text(message.message),
-                          ));
-                        });
-                      } else {
-                        return Text("No messages yet!");
-                      }
-                      return Expanded(
-                          child: ListView(
-                        children: tilesList,
-                      ));
-                    });
-              },
-            ),
+        ],
+      ),
+    );
+  }
+}
 
-            /*Expanded(
+/*Expanded(
               child: SingleChildScrollView(
             child: Align(
               child: ListView.builder(
@@ -124,49 +181,3 @@ class PersonalChatView extends StatelessWidget {
               ),
             ),
           )),*/
-            SafeArea(
-              bottom: true,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 60,
-                      width: double.infinity,
-                      color: Colors.white,
-                      child: Row(
-                        children: <Widget>[
-                          const Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                  hintText: "Write message...",
-                                  hintStyle: TextStyle(color: Colors.black54),
-                                  border: InputBorder.none),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          FloatingActionButton(
-                            onPressed: () {},
-                            backgroundColor:
-                                lightTheme.colorScheme.onBackground,
-                            elevation: 1,
-                            child: const Icon(
-                              Icons.send,
-                              size: 22,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}

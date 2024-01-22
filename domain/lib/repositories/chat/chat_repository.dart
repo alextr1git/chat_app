@@ -6,5 +6,6 @@ abstract class ChatRepository {
   Future<void> createNewChat(ChatModel chatModel);
   Future<void> postMessage(MessageModel messageModel);
   Future<List<ChatModel>> getChatsForUser();
+  Future<List<ChatMemberModel>> getMembersOfChat(String chatId);
   Stream<MessageModel> getMessagesForChat(ChatModel chatModel);
 }

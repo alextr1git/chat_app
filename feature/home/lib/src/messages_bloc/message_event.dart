@@ -12,7 +12,15 @@ class PostMessageToDBEvent extends MessageEvent {
 }
 
 class GetMessagesForChatEvent extends MessageEvent {
-  final ChatModel chatModel;
+  final ChatModel currentChat;
 
-  GetMessagesForChatEvent({required this.chatModel});
+  GetMessagesForChatEvent({required this.currentChat});
 }
+
+class NavigateToChatSettingsEvent extends MessageEvent {
+  final ChatModel currentChat;
+
+  NavigateToChatSettingsEvent({required this.currentChat});
+}
+
+class PopChatSettingsViewEvent extends MessageEvent {}

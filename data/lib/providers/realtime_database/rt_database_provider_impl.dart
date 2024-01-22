@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:data/entities/chat_members/chat_member_entity.dart';
 import 'package:data/entities/chats/chat_entity.dart';
 import 'package:data/entities/chats/message_entity.dart';
 import 'package:data/providers/realtime_database/rt_database_provider.dart';
@@ -137,5 +138,78 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
         print('No data available.');
       }
     }
+  }
+
+  Future<List<String>> getUserIDS(String chatId) async {
+    List<String> listOfUID = [];
+
+    final DatabaseReference chatUsersRef =
+        _databaseReference.child("chat-users");
+
+    try {
+      final DataSnapshot snapshot = await chatUsersRef.get();
+//chat-id -> {users}
+
+      if (snapshot.exists) {
+        Object chats = snapshot.value!;
+
+        if (chats != null && chats is Map<Object?, Object?>) {
+          chats.forEach((chatID, chatIDValue) {
+            if (chatID.toString() == chatId) {
+              var membersOfChat =
+                  chatIDValue as Map<Object?, Object?>; //{userid : true}
+              membersOfChat.forEach((userID, _) async {
+                listOfUID.add(userID.toString());
+              });
+            }
+          });
+        }
+      }
+    } catch (e) {
+      print("Error occured!");
+    }
+    return listOfUID;
+  }
+
+  @override
+  Future<List<ChatMemberEntity>> getMembersOfChat(String chatId) async {
+    List<ChatMemberEntity> listOfChatMembers = [];
+    List<String> listOfUID = await getUserIDS(chatId);
+    try {
+      listOfUID.forEach((id) async {
+        ChatMemberEntity newChatMemberEntity = ChatMemberEntity(uid: id);
+        final DatabaseReference usersF =
+            _databaseReference.child("users").child(id);
+        final DataSnapshot snapshotSecond =
+            await usersF.get(); //user-id -> username: usernameUser?
+
+        if (snapshotSecond.exists) {
+          var username = snapshotSecond.value!;
+          if (username != null && username is Map<Object?, Object?>) {
+            var usernameValue = username["username"];
+            //only once
+            newChatMemberEntity.copyWith(username: usernameValue.toString());
+          }
+        }
+        listOfChatMembers.add(newChatMemberEntity);
+      });
+    } catch (e) {
+      print('Error in provider: ${e.toString()}');
+    }
+    return listOfChatMembers;
+  }
+
+  @override
+  Future<void> updateUsernameData(String userId, String username) async {
+    final DatabaseReference usersRef =
+        _databaseReference.child("users/$userId");
+
+    final Map<String, dynamic> usersData = {
+      "username": username,
+    };
+
+    try {
+      await usersRef.update(usersData);
+    } catch (e) {}
   }
 }

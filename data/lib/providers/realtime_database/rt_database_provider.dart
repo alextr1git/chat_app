@@ -3,7 +3,14 @@ import 'dart:async';
 import 'package:data/entities/chats/chat_entity.dart';
 import 'package:data/entities/chats/message_entity.dart';
 
+import '../../entities/chat_members/chat_member_entity.dart';
+
 abstract class RealTimeDatabaseProvider {
+  Future<void> updateUsernameData(
+    String userId,
+    String username,
+  );
+
   Future<void> createNewChat(
     ChatEntity chatEntity,
     String userId,
@@ -11,6 +18,10 @@ abstract class RealTimeDatabaseProvider {
 
   Future<List<ChatEntity>?> getChatsForUser(
     String userId,
+  );
+
+  Future<List<ChatMemberEntity>> getMembersOfChat(
+    String chatId,
   );
 
   Stream<MessageEntity> getMessagesForChat(
