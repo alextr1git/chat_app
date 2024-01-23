@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:core/core.dart';
 import 'package:data/exceptions/storage_exceptions.dart';
@@ -13,11 +14,14 @@ class StorageProviderImpl implements StorageProvider {
     required String userId,
   }) async {
     try {
-      String photoUrl = ("photos/$userId.jpg");
-      Reference ref = dataDI.firebaseStorageRef.child(photoUrl);
+      Reference ref = dataDI.firebaseStorageRef.child("photos/$userId.jpg");
       ref.putFile(image);
-      return (photoUrl);
-    } on FirebaseException catch (_) {
+      /*
+      UploadTask uploadTask = ref.putFile(image);
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});*/
+      return ("photos/$userId.jpg");
+    } on FirebaseException catch (e) {
+      print(e.toString());
       throw GenericStorageException();
     }
   }

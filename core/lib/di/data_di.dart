@@ -29,7 +29,10 @@ class DataDI {
       databaseURL:
           "https://chatapp-a0b76-default-rtdb.europe-west1.firebasedatabase.app/",
     );
-    _firebaseStorage = FirebaseStorage.instance;
+    _firebaseStorage = FirebaseStorage.instanceFor(
+      app: _firebaseApp,
+      bucket: "gs://chatapp-a0b76.appspot.com/",
+    );
     _initAuthResources();
   }
 
@@ -41,7 +44,6 @@ class DataDI {
 
   FirebaseAuth get firebaseAuth => _firebaseAuth;
   DatabaseReference get firebaseDatabaseRef => _firebaseDatabase.ref();
-  FirebaseStorage get firebaseStorage => _firebaseStorage;
   Reference get firebaseStorageRef => _firebaseStorage.ref();
 
   void _initAuthResources() {
@@ -73,8 +75,14 @@ class DataDI {
       ),
     );
 
-    appLocator.registerLazySingleton<GetUsernameByIDUsecase>(
-      () => GetUsernameByIDUsecase(
+    appLocator.registerLazySingleton<JoinChatUseCase>(
+      () => JoinChatUseCase(
+        chatRepository: appLocator.get<ChatRepository>(),
+      ),
+    );
+
+    appLocator.registerLazySingleton<GetUsernameByIDUseCase>(
+      () => GetUsernameByIDUseCase(
         userRepository: appLocator.get<UserRepository>(),
       ),
     );

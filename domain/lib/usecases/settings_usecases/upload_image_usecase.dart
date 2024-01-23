@@ -12,8 +12,6 @@ class UploadImageUseCase implements FutureUseCase<File?, NoParams> {
 
   @override
   Future<NoParams> execute(File? image) async {
-    //To prevent uploading the same image over and over with a new username,
-    //this condition is added;
     if (image != null) {
       await _userRepository.uploadImage(image);
     }

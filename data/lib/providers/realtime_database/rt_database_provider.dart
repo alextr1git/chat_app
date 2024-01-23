@@ -11,8 +11,8 @@ abstract class RealTimeDatabaseProvider {
     String username,
   );
 
-  Future<void> createNewChat(
-    ChatEntity chatEntity,
+  Future<ChatEntity?> createNewChat(
+    String chatTitle,
     String userId,
   );
 
@@ -33,4 +33,6 @@ abstract class RealTimeDatabaseProvider {
   );
 
   Future<String> getUsernameByID(String userID);
+
+  Future<ChatEntity?> joinChat(String chatID, String userID);
 }

@@ -27,7 +27,7 @@
 
     "verify_email" : {
         "title" : "Verify your email",
-        "link_has_been_sent" : "An email with verification link has been sent to your email address.",
+        "link_has_been_sent" : "An email with verification link has been sent to your email address",
         "after_verification" : "After verification you will be able to log in to your account",
         "resend_email_label" : "If you haven't received, please press on button below",
         "resend_email_button" : "Resend email"
@@ -52,9 +52,9 @@
     },
 
     "chats" : {
-    "title" : "Chats",
+        "title" : "Chats",
         "search" : "Search"
- }
+    }
 
 
 

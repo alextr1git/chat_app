@@ -33,10 +33,13 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<void> createNewChat(ChatModel chatModel) async {
-    ChatEntity chatEntity = ChatMapper.toEntity(chatModel);
+  Future<ChatModel?> createNewChat(String chatTitle) async {
     UserEntity userEntity = _authProvider.currentUser!;
-    await _databaseProvider.createNewChat(chatEntity, userEntity.id);
+    final ChatEntity? chatEntity =
+        await _databaseProvider.createNewChat(chatTitle, userEntity.id);
+    if (chatEntity != null) {
+      return ChatMapper.toModel(chatEntity);
+    }
   }
 
   @override
@@ -83,5 +86,18 @@ class ChatRepositoryImpl implements ChatRepository {
       chatMembersModels.add(ChatMemberMapper.toModel(chatMemberEntity));
     });
     return chatMembersModels;
+  }
+
+  @override
+  Future<ChatModel?> joinChat(String chatID) async {
+    UserEntity? userEntity = _authProvider.currentUser;
+    if (userEntity != null) {
+      UserModel? userModel = UserMapper.toModel(userEntity);
+      ChatEntity? chatEntity =
+          await _databaseProvider.joinChat(chatID, userModel.id);
+      if (chatEntity != null) {
+        return ChatMapper.toModel(chatEntity);
+      }
+    }
   }
 }

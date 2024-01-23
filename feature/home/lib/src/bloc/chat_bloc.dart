@@ -17,6 +17,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   final GetChatsForUserUseCase _getChatsForUserUseCase;
   final GetMembersOfChatUsecase _getMembersOfChatUsecase;
+  final JoinChatUseCase _joinChatUseCase;
 
   ChatBloc({
     required AppRouter router,
@@ -25,10 +26,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     required GetMessagesForChatUseCase getMessagesForChatUseCase,
     required GetChatsForUserUseCase getChatsForUserUseCase,
     required GetMembersOfChatUsecase getMembersOfChatUsecase,
+    required JoinChatUseCase joinChatUseCase,
   })  : _router = router,
         _createNewChatUseCase = createNewChatUseCase,
         _getChatsForUserUseCase = getChatsForUserUseCase,
         _getMembersOfChatUsecase = getMembersOfChatUsecase,
+        _joinChatUseCase = joinChatUseCase,
         super(const ChatState(
           currentChat: null,
           chatsOfUser: [],
@@ -39,20 +42,35 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<GetChatsForUser>(_getChatsForUser);
     on<PopChatRouteEvent>(_popChatRouteEvent);
     on<GetMembersOfChatEvent>(_getMembersOfChat);
+    on<JoinChatEvent>(_joinChat);
   }
 
   Future<void> _createNewChat(
     CreateNewChatEvent event,
     Emitter<ChatState> emit,
   ) async {
-    await _createNewChatUseCase.execute(event.chatModel);
-    emit(
-      state.copyWith(
-        currentChat: event.chatModel,
-      ),
-    );
-    _router.pop();
-    _router.push(PersonalChatRoute(chatModel: event.chatModel));
+    final ChatModel? createdChatModel =
+        await _createNewChatUseCase.execute(event.chatTitle);
+    if (createdChatModel != null) {
+      emit(
+        state.copyWith(
+          currentChat: createdChatModel,
+        ),
+      );
+      _router.pop();
+      _router.push(PersonalChatRoute(chatModel: createdChatModel));
+    }
+  }
+
+  Future<void> _joinChat(
+    JoinChatEvent event,
+    Emitter<ChatState> emit,
+  ) async {
+    final ChatModel? chatModel = await _joinChatUseCase.execute(event.chatID);
+    if (chatModel != null) {
+      _router.pop();
+      _router.push(PersonalChatRoute(chatModel: chatModel));
+    }
   }
 
   void _getChatsForUser(

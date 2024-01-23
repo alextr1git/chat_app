@@ -3,9 +3,10 @@ import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 
 abstract class ChatRepository {
-  Future<void> createNewChat(ChatModel chatModel);
+  Future<ChatModel?> createNewChat(String chatTitle);
   Future<void> postMessage(MessageModel messageModel);
   Future<List<ChatModel>> getChatsForUser();
+  Future<ChatModel?> joinChat(String chatId);
   Future<List<ChatMemberModel>> getMembersOfChat(String chatId);
   Stream<MessageModel> getMessagesForChat(ChatModel chatModel);
 }

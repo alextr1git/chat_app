@@ -9,6 +9,7 @@ abstract class ChatMapper {
       lastMessageId: model.lastMessageId,
       timestamp: model.timestamp,
       messageCount: model.messageCount,
+      creatorId: model.creatorId,
     );
   }
 
@@ -19,6 +20,7 @@ abstract class ChatMapper {
       lastMessageId: entity.lastMessageId,
       timestamp: entity.timestamp,
       messageCount: entity.messageCount,
+      creatorId: entity.creatorId,
     );
   }
 }

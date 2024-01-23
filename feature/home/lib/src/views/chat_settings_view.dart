@@ -68,8 +68,8 @@ class ChatSettingsView extends StatelessWidget {
                       children: [
                         TextButton(
                           onPressed: () {
-                            Clipboard.setData(
-                                    const ClipboardData(text: "Your Copy text"))
+                            Clipboard.setData(ClipboardData(
+                                    text: chatBloc.state.currentChat!.id))
                                 .then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -83,7 +83,7 @@ class ChatSettingsView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Link",
+                          chatBloc.state.currentChat!.id,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

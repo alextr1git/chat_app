@@ -12,9 +12,15 @@ class NavigateToPersonalChatViewEvent extends ChatEvent {
 class NavigateToAddChatViewEvent extends ChatEvent {}
 
 class CreateNewChatEvent extends ChatEvent {
-  final ChatModel chatModel;
+  final String chatTitle;
 
-  CreateNewChatEvent({required this.chatModel});
+  CreateNewChatEvent({required this.chatTitle});
+}
+
+class JoinChatEvent extends ChatEvent {
+  final String chatID;
+
+  JoinChatEvent({required this.chatID});
 }
 
 class GetChatsForUser extends ChatEvent {}

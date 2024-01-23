@@ -39,14 +39,7 @@ class AddChatView extends StatelessWidget {
               textFieldLabel: 'Name',
               buttonText: 'Create',
               onPressed: (String text) {
-                ChatModel chatModel = ChatModel(
-                  id: "",
-                  title: text,
-                  lastMessageId: "",
-                  timestamp: 21412421,
-                  messageCount: 0,
-                );
-                chatBloc.add(CreateNewChatEvent(chatModel: chatModel));
+                chatBloc.add(CreateNewChatEvent(chatTitle: text));
               },
               icon: const Icon(Icons.abc_rounded),
             ),
@@ -54,7 +47,9 @@ class AddChatView extends StatelessWidget {
               textFieldHint: 'Enter link to chat',
               textFieldLabel: 'Link',
               buttonText: 'Connect',
-              onPressed: (String text) {},
+              onPressed: (String text) {
+                chatBloc.add(JoinChatEvent(chatID: text));
+              },
               icon: const Icon(Icons.link),
             ),
           ],

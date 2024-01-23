@@ -13,30 +13,53 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
       : _databaseReference = databaseReference;
 
   @override
-  Future<void> createNewChat(ChatEntity chatEntity, String userId) async {
-    final String chatId = chatEntity.id;
+  Future<ChatEntity?> createNewChat(String chatTitle, String userId) async {
     final DatabaseReference chatsRef = _databaseReference.child("chats");
 
-    final DatabaseReference chatsUsersRef =
-        _databaseReference.child("chat-users").child(chatId);
-
-    final String title = chatEntity.title;
-    final int messagesCount = chatEntity.messageCount;
-    final String lastMessageId = chatEntity.lastMessageId;
-    final num timestamp = chatEntity.timestamp;
-
-    final Map<String, dynamic> chatsData = {
-      "title": title,
-      "messages-count": messagesCount,
-      "last-message-id": lastMessageId,
-      "timestamp": timestamp,
-    };
-
-    final Map<String, dynamic> chatUsersData = {userId: true};
     try {
-      await chatsRef.push().update(chatsData);
-      await chatsUsersRef.update(chatUsersData);
+      final String chatKey = (await chatsRef.push().key).toString();
+      final ChatEntity newChatEntity = ChatEntity(
+        id: chatKey,
+        title: chatTitle,
+        lastMessageId: "",
+        timestamp: 0,
+        messageCount: 0,
+        creatorId: userId,
+      );
+      final chatData = {
+        "id": newChatEntity.id,
+        "title": newChatEntity.title,
+        "last-message-id": newChatEntity.lastMessageId,
+        "timestamp": newChatEntity.timestamp,
+        "message-count": newChatEntity.messageCount,
+        "creator-id": newChatEntity.creatorId,
+      };
+      await chatsRef.child(chatKey).update(chatData);
+      await addChatToChatUsersAndUserChats(
+        userID: userId,
+        chatID: newChatEntity.id,
+      );
+      return newChatEntity;
     } catch (e) {}
+  }
+
+  Future<void> addChatToChatUsersAndUserChats({
+    required String userID,
+    required String chatID,
+  }) async {
+    final DatabaseReference userChatsRef =
+        _databaseReference.child(" user-chats").child(userID);
+    final Map<String, dynamic> userChatsData = {chatID: true};
+
+    final DatabaseReference chatUsersRef =
+        _databaseReference.child("chat-users").child(chatID);
+    final Map<String, dynamic> chatUsersData = {userID: true};
+    try {
+      await userChatsRef.update(userChatsData);
+      await chatUsersRef.update(chatUsersData);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -237,5 +260,22 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
       }
     }
     return username;
+  }
+
+  @override
+  Future<ChatEntity?> joinChat(String chatID, String userID) async {
+    final DatabaseReference chatRef = _databaseReference.child("chats/$chatID");
+    final DataSnapshot snapshot = await chatRef.get();
+    if (snapshot.exists) {
+      Object data = snapshot.value!;
+      if (data != null && data is Map<Object?, Object?>) {
+        ChatEntity returnedChat = ChatEntity.fromJson(data, chatID);
+        await addChatToChatUsersAndUserChats(
+          userID: userID,
+          chatID: chatID,
+        );
+        return returnedChat;
+      }
+    }
   }
 }

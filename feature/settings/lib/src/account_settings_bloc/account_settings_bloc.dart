@@ -14,7 +14,7 @@ class AccountSettingsBloc
   final SetUsernameUseCase _setUsernameUseCase;
   final UploadImageUseCase _uploadImageUseCase;
   final DownloadImageUseCase _downloadImageUseCase;
-  final GetUsernameByIDUsecase _getUsernameByIDUsecase;
+  final GetUsernameByIDUseCase _getUsernameByIDUsecase;
 
   AccountSettingsBloc({
     required getUserUseCase,
@@ -40,9 +40,10 @@ class AccountSettingsBloc
 
     final UserModel userModel = await _getUserUseCase.execute(NoParams());
 
-    if (userModel.photoURL != null) {
+    if (userModel.photoURL != null && userModel.photoURL != '') {
       photoPath = await _downloadImageUseCase.execute(NoParams());
     }
+    print(photoPath);
 
     final String username = await _getUsernameByIDUsecase.execute(userModel.id);
 
