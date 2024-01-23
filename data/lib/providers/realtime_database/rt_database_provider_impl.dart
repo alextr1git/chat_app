@@ -83,7 +83,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
       await finalRef.update(data);
     } catch (e) {}
   }
-
+/*
   @override
   Stream<MessageEntity> getMessagesForChat(ChatEntity chatEntity) {
     StreamController<MessageEntity> messageController =
@@ -93,28 +93,49 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     final DatabaseReference finalRef =
         _databaseReference.child("messages").child(chatId);
 
-    StreamSubscription<DatabaseEvent> subscription =
-        finalRef.onValue.listen((DatabaseEvent event) {
+    finalRef.limitToFirst(10).onValue.listen((event) {
       final allMessages = event.snapshot.value;
-
       if (allMessages != null && allMessages is Map<Object?, Object?>) {
-        allMessages.forEach((key, value) {
+        allMessages.forEach((messageId, messageData) {
           try {
-            String messageId = key.toString();
-            if (value != null && value is Map<Object?, Object?>) {
-              MessageEntity messageEntity =
-                  MessageEntity.fromJson(value, chatId, messageId);
+            if (messageData != null && messageData is Map<Object?, Object?>) {
+              MessageEntity messageEntity = MessageEntity.fromJson(
+                  messageData, chatId, messageId.toString());
               messageController.add(messageEntity);
             }
-          } catch (e) {
-            print("Error converting message: $e");
-          }
+          } catch (e) {}
         });
-      } else {
-        print("Correct message Type is:  ${allMessages.runtimeType}");
       }
     });
     return messageController.stream;
+  }*/
+
+  @override
+  Stream<MessageEntity> getMessagesForChat(ChatEntity chatEntity) {
+    final String chatId = chatEntity.id;
+    final DatabaseReference finalRef =
+        _databaseReference.child("messages").child(chatId);
+
+    Stream dbStream = finalRef.limitToFirst(10).onValue;
+
+    return dbStream
+        .map((message) => transformMapToMessageEntity(message, chatId));
+  }
+
+  MessageEntity transformMapToMessageEntity(message, String chatID) {
+    late MessageEntity messageEntity;
+    var messageMap = message.snapshot.value;
+    if (messageMap != null && messageMap is Map<Object?, Object?>) {
+      messageMap.forEach((messageId, messageData) {
+        try {
+          if (messageData != null && messageData is Map<Object?, Object?>) {
+            messageEntity = MessageEntity.fromJson(
+                messageData, chatID, messageId.toString());
+          }
+        } catch (e) {}
+      });
+    }
+    return messageEntity;
   }
 
   @override

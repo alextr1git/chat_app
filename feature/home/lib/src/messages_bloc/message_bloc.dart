@@ -21,11 +21,23 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
         _postMessageUseCase = postMessageUseCase,
         _router = router,
         super(MessageLoadingState()) {
+    on<InitMessageEvent>(_init);
     on<PostMessageToDBEvent>(_postMessage);
     on<GetMessagesForChatEvent>(_getMessagesForChat);
     on<NavigateToChatSettingsEvent>(_navigateToSettingsView);
     on<PopChatSettingsViewEvent>(_popChatSettingsView);
   }
+
+  void _init(
+    InitMessageEvent event,
+    Emitter<MessageState> emit,
+  ) {
+    StreamSubscription<MessageModel> subscriptionOfMessageModels =
+        _getMessagesForChatUseCase.execute(event.currentChat).listen((event) {
+      print(event.message);
+    });
+  }
+
   Future<void> _postMessage(
     PostMessageToDBEvent event,
     Emitter<MessageState> emit,
@@ -36,12 +48,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   void _getMessagesForChat(
     GetMessagesForChatEvent event,
     Emitter<MessageState> emit,
-  ) {
-    emit(MessageLoadingState());
-    emit(MessageLoadedState(
-        messageModelsStream:
-            _getMessagesForChatUseCase.execute(event.currentChat)));
-  }
+  ) async {}
 
   void _navigateToSettingsView(
     NavigateToChatSettingsEvent event,

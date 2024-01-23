@@ -20,7 +20,7 @@ class PersonalChatView extends StatelessWidget {
   Widget build(BuildContext context) {
     ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
     MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
-    messageBloc.add(GetMessagesForChatEvent(currentChat: chatModel));
+    messageBloc.add(InitMessageEvent(currentChat: chatModel));
     chatBloc.add(GetMembersOfChatEvent(chatModel: chatModel));
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -77,7 +77,17 @@ class PersonalChatView extends StatelessWidget {
           BlocBuilder<MessageBloc, MessageState>(
             builder: (context, state) {
               if (state is MessageLoadedState) {
-                return StreamBuilder(
+                return Expanded(
+                    child: ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: state.listOfMessageModel.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      title: Text(state.listOfMessageModel[index].message),
+                    );
+                  },
+                ));
+                /*return StreamBuilder(
                     stream: state.messageModelsStream,
                     builder: (context, snapshot) {
                       final tilesList = <ListTile>[];
@@ -93,7 +103,7 @@ class PersonalChatView extends StatelessWidget {
                           child: ListView(
                         children: tilesList,
                       ));
-                    });
+                    });*/
               } else {
                 return const Center(
                   child: CircularProgressIndicator(),

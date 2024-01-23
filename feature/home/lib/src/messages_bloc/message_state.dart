@@ -6,7 +6,7 @@ abstract class MessageState {}
 class MessageLoadingState extends MessageState {}
 
 class MessageLoadedState extends MessageState {
-  final Stream<MessageModel> messageModelsStream;
+  final List<MessageModel> listOfMessageModel;
 
-  MessageLoadedState({required this.messageModelsStream});
+  MessageLoadedState({required this.listOfMessageModel});
 }

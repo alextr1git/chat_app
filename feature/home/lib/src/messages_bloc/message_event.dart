@@ -3,6 +3,12 @@ part of 'message_bloc.dart';
 @immutable
 abstract class MessageEvent {}
 
+class InitMessageEvent extends MessageEvent {
+  final ChatModel currentChat;
+
+  InitMessageEvent({required this.currentChat});
+}
+
 class PostMessageToDBEvent extends MessageEvent {
   final MessageModel messageModel;
 

@@ -45,14 +45,8 @@ class ChatRepositoryImpl implements ChatRepository {
   @override
   Stream<MessageModel> getMessagesForChat(ChatModel chatModel) {
     ChatEntity chatEntity = ChatMapper.toEntity(chatModel);
-    StreamController<MessageModel> messageModelsController =
-        StreamController<MessageModel>();
-    print(chatModel.id);
-    _databaseProvider.getMessagesForChat(chatEntity).listen((event) {
-      messageModelsController.add(MessageMapper.toModel(event));
-    });
-
-    return messageModelsController.stream;
+    Stream entitiesStream = _databaseProvider.getMessagesForChat(chatEntity);
+    return entitiesStream.map((entity) => MessageMapper.toModel(entity));
   }
 
   @override
