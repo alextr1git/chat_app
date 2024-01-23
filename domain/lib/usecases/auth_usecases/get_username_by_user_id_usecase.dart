@@ -1,16 +1,15 @@
 import 'package:domain/domain.dart';
 import 'package:domain/usecases/usecase.dart';
 
-class SetUsernameUseCase implements FutureUseCase<String, NoParams> {
+class GetUsernameByIDUsecase implements FutureUseCase<String, String> {
   final UserRepository _userRepository;
 
-  SetUsernameUseCase({
+  GetUsernameByIDUsecase({
     required UserRepository userRepository,
   }) : _userRepository = userRepository;
 
   @override
-  Future<NoParams> execute(String input) async {
-    _userRepository.updateUsername(input);
-    return const NoParams();
+  Future<String> execute(String userID) async {
+    return await _userRepository.getUsernameByID(userID);
   }
 }

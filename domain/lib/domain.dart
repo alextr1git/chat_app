@@ -9,6 +9,7 @@ export 'models/chat/chat_model.dart';
 export 'models/chat/users_in_chat_model.dart';
 export 'models/chat_members/chat_member_model.dart';
 export 'package:domain/usecases/auth_usecases/check_user_auth_usecase.dart';
+export 'package:domain/usecases/auth_usecases/get_username_by_user_id_usecase.dart';
 export 'package:domain/usecases/auth_usecases/login_usecase.dart';
 export 'package:domain/usecases/auth_usecases/register_usecase.dart';
 export 'package:domain/usecases/auth_usecases/send_verification_email_usecase.dart';

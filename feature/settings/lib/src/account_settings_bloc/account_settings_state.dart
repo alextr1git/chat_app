@@ -15,19 +15,17 @@ class AccountSettingsState {
   AccountSettingsState copyWith({
     UserModel? userModel,
     String? photoPath,
-    String? username;
-
+    String? username,
   }) =>
       AccountSettingsState(
         userModel: userModel ?? this.userModel,
         photoPath: photoPath ?? this.photoPath,
-          username: username ?? this.username,
-
+        username: username ?? this.username,
       );
 
   static AccountSettingsState get init => AccountSettingsState(
         userModel: UserModel.empty,
         photoPath: '',
-      username: '',
+        username: '',
       );
 }

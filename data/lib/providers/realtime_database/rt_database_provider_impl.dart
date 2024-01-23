@@ -223,4 +223,19 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
       await usersRef.update(usersData);
     } catch (e) {}
   }
+
+  @override
+  Future<String> getUsernameByID(String userID) async {
+    String username = "";
+    final DatabaseReference usersRef =
+        _databaseReference.child("users/$userID");
+    DataSnapshot usersSnapshot = await usersRef.get();
+    if (usersSnapshot.exists) {
+      var userData = usersSnapshot.value!;
+      if (userData != null && userData is Map<Object?, Object?>) {
+        username = userData["username"].toString();
+      }
+    }
+    return username;
+  }
 }

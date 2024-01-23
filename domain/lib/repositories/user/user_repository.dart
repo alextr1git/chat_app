@@ -19,8 +19,8 @@ abstract class UserRepository {
   Future<void> sendVerification();
 
   Future<UserModel> checkUserAuthStatus();
-
-  Future<void> setUsername(String username);
+  Future<String> getUsernameByID(String userID);
+  Future<void> updateUsername(String username);
   Future<void> setUserPhoto(String photoURL);
   Future<void> uploadImage(File image);
   Future<String> downloadImage();

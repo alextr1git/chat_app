@@ -68,8 +68,7 @@ class UserAuthRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<void> setUsername(String username) async {
-    // await _authProvider.setUsername(username);
+  Future<void> updateUsername(String username) async {
     await _databaseProvider.updateUsernameData(
       currentUser!.id,
       username,
@@ -92,5 +91,10 @@ class UserAuthRepositoryImpl implements UserRepository {
     return await _storageProvider.downloadImage(
       userId: currentUser!.id.toString(),
     );
+  }
+
+  @override
+  Future<String> getUsernameByID(String userID) async {
+    return await _databaseProvider.getUsernameByID(userID);
   }
 }

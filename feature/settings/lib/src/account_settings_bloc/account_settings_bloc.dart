@@ -14,16 +14,19 @@ class AccountSettingsBloc
   final SetUsernameUseCase _setUsernameUseCase;
   final UploadImageUseCase _uploadImageUseCase;
   final DownloadImageUseCase _downloadImageUseCase;
+  final GetUsernameByIDUsecase _getUsernameByIDUsecase;
 
-  AccountSettingsBloc(
-      {required getUserUseCase,
-      required setUsernameUseCase,
-      required uploadImageUseCase,
-      required downloadImageUseCase})
-      : _getUserUseCase = getUserUseCase,
+  AccountSettingsBloc({
+    required getUserUseCase,
+    required setUsernameUseCase,
+    required uploadImageUseCase,
+    required downloadImageUseCase,
+    required getUsernameByIDUsecase,
+  })  : _getUserUseCase = getUserUseCase,
         _setUsernameUseCase = setUsernameUseCase,
         _uploadImageUseCase = uploadImageUseCase,
         _downloadImageUseCase = downloadImageUseCase,
+        _getUsernameByIDUsecase = getUsernameByIDUsecase,
         super(AccountSettingsState.init) {
     on<InitSettingsEvent>(_initSettings);
     on<UpdateNameAndImageEvent>(_updateNameAndImage);
@@ -40,10 +43,14 @@ class AccountSettingsBloc
     if (userModel.photoURL != null) {
       photoPath = await _downloadImageUseCase.execute(NoParams());
     }
+
+    final String username = await _getUsernameByIDUsecase.execute(userModel.id);
+
     emit(
       state.copyWith(
         userModel: userModel,
         photoPath: photoPath,
+        username: username,
       ),
     );
   }

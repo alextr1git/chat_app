@@ -42,6 +42,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
         setUsernameUseCase: appLocator.get<SetUsernameUseCase>(),
         uploadImageUseCase: appLocator.get<UploadImageUseCase>(),
         downloadImageUseCase: appLocator.get<DownloadImageUseCase>(),
+        getUsernameByIDUsecase: appLocator.get<GetUsernameByIDUsecase>(),
       )..add(InitSettingsEvent()),
       child: Scaffold(
         appBar: AppBar(

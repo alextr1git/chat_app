@@ -73,6 +73,12 @@ class DataDI {
       ),
     );
 
+    appLocator.registerLazySingleton<GetUsernameByIDUsecase>(
+      () => GetUsernameByIDUsecase(
+        userRepository: appLocator.get<UserRepository>(),
+      ),
+    );
+
     appLocator.registerLazySingleton<CreateNewChatUseCase>(
       () => CreateNewChatUseCase(
         chatRepository: appLocator.get<ChatRepository>(),

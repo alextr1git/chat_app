@@ -31,4 +31,6 @@ abstract class RealTimeDatabaseProvider {
   Future<void> postNewMessage(
     MessageEntity messageEntity,
   );
+
+  Future<String> getUsernameByID(String userID);
 }
