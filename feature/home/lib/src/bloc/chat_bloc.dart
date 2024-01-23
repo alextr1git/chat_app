@@ -72,7 +72,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ) async {
     List<ChatMemberModel> listOfChatMemberModels =
         await _getMembersOfChatUsecase.execute(event.chatModel.id);
-    print(listOfChatMemberModels);
     emit(
       state.copyWith(membersOfChat: listOfChatMemberModels),
     );

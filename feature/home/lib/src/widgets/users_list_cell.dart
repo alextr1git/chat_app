@@ -6,8 +6,10 @@ import 'package:home/src/messages_bloc/message_bloc.dart';
 import '../../home.dart';
 
 class UserInListCell extends StatelessWidget {
+  final ChatMemberModel chatMemberModel;
   const UserInListCell({
     super.key,
+    required this.chatMemberModel,
   });
 
   @override
@@ -36,7 +38,9 @@ class UserInListCell extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "User 1",
+                          chatMemberModel.username == ""
+                              ? "NoName"
+                              : chatMemberModel.username!,
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),

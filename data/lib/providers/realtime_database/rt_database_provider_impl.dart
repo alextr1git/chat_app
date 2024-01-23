@@ -171,32 +171,43 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     return listOfUID;
   }
 
+  Future<List<Map<String?, String?>>> getUsersDataFromDB(
+      List<String> listOfUID) async {
+    List<Map<String?, String?>> usersData = [];
+    final DatabaseReference usersReference = _databaseReference.child("users");
+    final DataSnapshot usersSnapshot = await usersReference.get(); // {user-id}:
+    // {username:Alexander}
+    if (usersSnapshot.exists) {
+      var users = usersSnapshot.value!;
+      if (users != null && users is Map<Object?, Object?>) {
+        users.forEach((userId, userData) {
+          if (userData != null &&
+              userData is Map<Object?, Object?> &&
+              listOfUID.contains(userId)) {
+            var username = userData["username"];
+            Map<String, String> data = {"$userId": "$username"};
+            usersData.add(data);
+          }
+        });
+      }
+    }
+    return usersData;
+  }
+
   @override
   Future<List<ChatMemberEntity>> getMembersOfChat(String chatId) async {
-    List<ChatMemberEntity> listOfChatMembers = [];
     List<String> listOfUID = await getUserIDS(chatId);
-    try {
-      listOfUID.forEach((id) async {
-        ChatMemberEntity newChatMemberEntity = ChatMemberEntity(uid: id);
-        final DatabaseReference usersF =
-            _databaseReference.child("users").child(id);
-        final DataSnapshot snapshotSecond =
-            await usersF.get(); //user-id -> username: usernameUser?
-
-        if (snapshotSecond.exists) {
-          var username = snapshotSecond.value!;
-          if (username != null && username is Map<Object?, Object?>) {
-            var usernameValue = username["username"];
-            //only once
-            newChatMemberEntity.copyWith(username: usernameValue.toString());
-          }
-        }
-        listOfChatMembers.add(newChatMemberEntity);
+    List<Map<String?, String?>> listOfUsersData =
+        await getUsersDataFromDB(listOfUID);
+    List<ChatMemberEntity> listOfChatMembersEntities = [];
+    listOfUsersData.forEach((userMap) {
+      userMap.forEach((key, value) {
+        ChatMemberEntity newChatMemberEntity =
+            ChatMemberEntity(uid: key.toString(), username: value);
+        listOfChatMembersEntities.add(newChatMemberEntity);
       });
-    } catch (e) {
-      print('Error in provider: ${e.toString()}');
-    }
-    return listOfChatMembers;
+    });
+    return listOfChatMembersEntities;
   }
 
   @override

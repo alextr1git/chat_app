@@ -1,3 +1,4 @@
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,9 @@ import 'package:navigation/navigation.dart';
 
 @RoutePage()
 class ChatSettingsView extends StatelessWidget {
-  const ChatSettingsView({super.key});
+  const ChatSettingsView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +83,7 @@ class ChatSettingsView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          chatBloc.state.membersOfChat![0].username!,
+                          "Link",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -102,9 +105,13 @@ class ChatSettingsView extends StatelessWidget {
                     color: Colors.white70,
                     borderRadius: BorderRadius.circular(10)),
                 child: ListView.builder(
-                    itemCount: 5,
+                    itemCount: chatBloc.state.membersOfChat!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return const UserInListCell();
+                      final chatMemberModel =
+                          chatBloc.state.membersOfChat![index];
+                      return UserInListCell(
+                        chatMemberModel: chatMemberModel,
+                      );
                     }),
               ),
             ),
