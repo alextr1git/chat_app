@@ -36,6 +36,7 @@ class AccountSettingsBloc
     String photoPath = '';
 
     final UserModel userModel = await _getUserUseCase.execute(NoParams());
+
     if (userModel.photoURL != null) {
       photoPath = await _downloadImageUseCase.execute(NoParams());
     }

@@ -4,6 +4,7 @@ import 'package:domain/domain.dart';
 
 abstract class UserRepository {
   Future<UserModel> createUser({
+    required String username,
     required String email,
     required String password,
   });

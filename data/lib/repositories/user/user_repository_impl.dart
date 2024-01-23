@@ -20,6 +20,7 @@ class UserAuthRepositoryImpl implements UserRepository {
 
   @override
   Future<UserModel> createUser({
+    required String username,
     required String email,
     required String password,
   }) async {
@@ -27,6 +28,7 @@ class UserAuthRepositoryImpl implements UserRepository {
       email: email,
       password: password,
     );
+    _databaseProvider.updateUsernameData(userEntity.id, username);
     return UserMapper.toModel(userEntity);
   }
 
@@ -67,7 +69,7 @@ class UserAuthRepositoryImpl implements UserRepository {
 
   @override
   Future<void> setUsername(String username) async {
-    await _authProvider.setUsername(username);
+    // await _authProvider.setUsername(username);
     await _databaseProvider.updateUsernameData(
       currentUser!.id,
       username,

@@ -14,7 +14,7 @@ class EmailVerificationView extends StatelessWidget {
     final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocaleKeys.verify_email.tr()),
+        title: Text(LocaleKeys.verify_email_title.tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -25,7 +25,7 @@ class EmailVerificationView extends StatelessWidget {
               height: 20,
             ),
             Text(
-              LocaleKeys.verify_email_title.tr(),
+              LocaleKeys.verify_email_link_has_been_sent.tr(),
               textAlign: TextAlign.center,
               style: const TextStyle(fontWeight: FontWeight.normal),
             ),
@@ -33,7 +33,7 @@ class EmailVerificationView extends StatelessWidget {
               height: 20,
             ),
             Text(
-              LocaleKeys.verify_email_link_has_been_sent.tr(),
+              LocaleKeys.verify_email_after_verification.tr(),
               textAlign: TextAlign.center,
               style: const TextStyle(fontWeight: FontWeight.normal),
             ),

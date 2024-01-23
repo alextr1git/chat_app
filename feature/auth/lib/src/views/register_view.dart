@@ -15,12 +15,15 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
+  late final TextEditingController _nameController;
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
+
   bool _obscurePassword = true;
 
   @override
   void initState() {
+    _nameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     super.initState();
@@ -28,6 +31,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -54,6 +58,20 @@ class _RegisterViewState extends State<RegisterView> {
             ),
             const SizedBox(height: 30),
             TextField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                  hintText: LocaleKeys.register_form_email_hint.tr(),
+                  labelText: LocaleKeys.register_form_email_label.tr(),
+                  prefixIcon: const Icon(Icons.person_outline),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
+            ),
+            const SizedBox(height: 20),
+            TextField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               enableSuggestions: false,
@@ -61,7 +79,7 @@ class _RegisterViewState extends State<RegisterView> {
               decoration: InputDecoration(
                   hintText: LocaleKeys.register_form_email_hint.tr(),
                   labelText: LocaleKeys.register_form_email_label.tr(),
-                  prefixIcon: const Icon(Icons.person_outline),
+                  prefixIcon: const Icon(Icons.email_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -108,11 +126,13 @@ class _RegisterViewState extends State<RegisterView> {
                         borderRadius: BorderRadius.circular(10),
                       )),
                   onPressed: () async {
+                    final username = _nameController.text;
                     final email = _emailController.text;
                     final password = _passwordController.text;
 
                     authBloc.add(
                       RegistrationEvent(
+                        username: username,
                         email: email,
                         password: password,
                       ),

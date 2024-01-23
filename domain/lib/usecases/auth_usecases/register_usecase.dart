@@ -11,6 +11,7 @@ class RegisterUsecase implements FutureUseCase<Map<String, String>, UserModel> {
   @override
   Future<UserModel> execute(Map<String, String> input) async {
     return _userRepository.createUser(
+      username: input['username']!,
       email: input['email']!,
       password: input['password']!,
     );

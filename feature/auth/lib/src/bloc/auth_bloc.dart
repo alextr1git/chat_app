@@ -83,6 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ));
       final UserModel userModel = await _registerUseCase.execute(
         {
+          'username': event.username,
           'email': event.email,
           'password': event.password,
         },

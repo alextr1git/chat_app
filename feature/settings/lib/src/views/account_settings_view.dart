@@ -72,8 +72,8 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
               final AccountSettingsBloc accountSettingsBloc =
                   BlocProvider.of<AccountSettingsBloc>(context);
 
-              if (state.userModel.userName != '') {
-                _nameController.text = state.userModel.userName;
+              if (state.username != '') {
+                _nameController.text = state.username;
               }
 
               return Column(children: [
