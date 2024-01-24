@@ -4,7 +4,7 @@ import 'package:domain/domain.dart';
 import 'package:domain/usecases/usecase.dart';
 
 class GetMessagesForChatUseCase
-    implements StreamUseCase<ChatModel, MessageModel> {
+    implements StreamUseCase<ChatModel, List<MessageModel>> {
   final ChatRepository _chatRepository;
 
   GetMessagesForChatUseCase({
@@ -12,7 +12,7 @@ class GetMessagesForChatUseCase
   }) : _chatRepository = chatRepository;
 
   @override
-  Stream<MessageModel> execute(ChatModel chatModel) {
+  Stream<List<MessageModel>> execute(ChatModel chatModel) {
     return _chatRepository.getMessagesForChat(chatModel);
   }
 }

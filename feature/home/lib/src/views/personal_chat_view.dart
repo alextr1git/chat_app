@@ -82,28 +82,32 @@ class PersonalChatView extends StatelessWidget {
                   padding: const EdgeInsets.all(8),
                   itemCount: state.listOfMessageModel.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      title: Text(state.listOfMessageModel[index].message),
+                    return Container(
+                      padding: const EdgeInsets.only(
+                          left: 14, right: 14, bottom: 10),
+                      child: Align(
+                        alignment: (state.currentUser.id ==
+                                state.listOfMessageModel[index].senderId
+                            ? Alignment.topLeft
+                            : Alignment.topRight),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: (state.currentUser.id ==
+                                    state.listOfMessageModel[index].senderId
+                                ? Colors.grey.shade200
+                                : Colors.blue[200]),
+                          ),
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            state.listOfMessageModel[index].message,
+                            style: const TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      ),
                     );
                   },
                 ));
-                /*return StreamBuilder(
-                    stream: state.messageModelsStream,
-                    builder: (context, snapshot) {
-                      final tilesList = <ListTile>[];
-                      if (snapshot.hasData) {
-                        print(snapshot.data!.message);
-                        tilesList.add(ListTile(
-                          title: Text(snapshot.data!.message),
-                        ));
-                      } else {
-                        return const Text("No messages yet!");
-                      }
-                      return Expanded(
-                          child: ListView(
-                        children: tilesList,
-                      ));
-                    });*/
               } else {
                 return const Center(
                   child: CircularProgressIndicator(),

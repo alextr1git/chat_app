@@ -5,6 +5,7 @@ abstract class MessageEvent {}
 
 class InitMessageEvent extends MessageEvent {
   final ChatModel currentChat;
+  /*final StreamSubscription<List<MessageModel>> streamSubscription;*/
 
   InitMessageEvent({required this.currentChat});
 }
@@ -17,12 +18,6 @@ class PostMessageToDBEvent extends MessageEvent {
   });
 }
 
-class GetMessagesForChatEvent extends MessageEvent {
-  final ChatModel currentChat;
-
-  GetMessagesForChatEvent({required this.currentChat});
-}
-
 class NavigateToChatSettingsEvent extends MessageEvent {
   final ChatModel currentChat;
 
@@ -30,3 +25,12 @@ class NavigateToChatSettingsEvent extends MessageEvent {
 }
 
 class PopChatSettingsViewEvent extends MessageEvent {}
+
+class MessagesHasBeenUpdatedEvent extends MessageEvent {
+  final List<MessageModel> updatedListOfMessages;
+  final UserModel currentUser;
+  MessagesHasBeenUpdatedEvent({
+    required this.updatedListOfMessages,
+    required this.currentUser,
+  });
+}

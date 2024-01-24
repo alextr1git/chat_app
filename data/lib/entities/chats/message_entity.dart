@@ -12,6 +12,15 @@ class MessageEntity {
     required this.timeStamp,
     required this.chatId,
   });
+  static MessageEntity get empty {
+    return MessageEntity(
+      id: '',
+      chatId: '',
+      senderId: '',
+      message: '',
+      timeStamp: 0,
+    );
+  }
 
   factory MessageEntity.fromJson(
           Map<Object?, Object?> json, String chatId, String messageId) =>

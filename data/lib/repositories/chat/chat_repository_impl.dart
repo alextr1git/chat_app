@@ -43,10 +43,20 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Stream<MessageModel> getMessagesForChat(ChatModel chatModel) {
+  Stream<List<MessageModel>> getMessagesForChat(ChatModel chatModel) {
     ChatEntity chatEntity = ChatMapper.toEntity(chatModel);
     Stream entitiesStream = _databaseProvider.getMessagesForChat(chatEntity);
-    return entitiesStream.map((entity) => MessageMapper.toModel(entity));
+    return entitiesStream
+        .map((listOfEntities) => listOfEntitiesToListOfModels(listOfEntities));
+  }
+
+  List<MessageModel> listOfEntitiesToListOfModels(
+      List<MessageEntity> listOfEntites) {
+    List<MessageModel> listOfModels = [];
+    listOfEntites.forEach((entity) {
+      listOfModels.add(MessageMapper.toModel(entity));
+    });
+    return listOfModels;
   }
 
   @override

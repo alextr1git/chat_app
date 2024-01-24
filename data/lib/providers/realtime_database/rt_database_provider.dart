@@ -24,7 +24,7 @@ abstract class RealTimeDatabaseProvider {
     String chatId,
   );
 
-  Stream<MessageEntity> getMessagesForChat(
+  Stream<List<MessageEntity>> getMessagesForChat(
     ChatEntity chatEntity,
   );
 

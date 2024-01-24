@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:domain/usecases/usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:domain/domain.dart';
@@ -12,31 +13,47 @@ part 'message_state.dart';
 class MessageBloc extends Bloc<MessageEvent, MessageState> {
   final GetMessagesForChatUseCase _getMessagesForChatUseCase;
   final PostMessageUseCase _postMessageUseCase;
+  final GetUserUseCase _getUserUseCase;
   final AppRouter _router;
-  MessageBloc({
-    required GetMessagesForChatUseCase getMessagesForChatUseCase,
-    required PostMessageUseCase postMessageUseCase,
-    required AppRouter router,
-  })  : _getMessagesForChatUseCase = getMessagesForChatUseCase,
+  MessageBloc(
+      {required GetMessagesForChatUseCase getMessagesForChatUseCase,
+      required PostMessageUseCase postMessageUseCase,
+      required AppRouter router,
+      required GetUserUseCase getUserUseCase})
+      : _getMessagesForChatUseCase = getMessagesForChatUseCase,
         _postMessageUseCase = postMessageUseCase,
         _router = router,
+        _getUserUseCase = getUserUseCase,
         super(MessageLoadingState()) {
     on<InitMessageEvent>(_init);
     on<PostMessageToDBEvent>(_postMessage);
-    on<GetMessagesForChatEvent>(_getMessagesForChat);
     on<NavigateToChatSettingsEvent>(_navigateToSettingsView);
     on<PopChatSettingsViewEvent>(_popChatSettingsView);
+    on<MessagesHasBeenUpdatedEvent>(_updateListOfMessages);
   }
 
   void _init(
     InitMessageEvent event,
     Emitter<MessageState> emit,
-  ) {
-    StreamSubscription<MessageModel> subscriptionOfMessageModels =
-        _getMessagesForChatUseCase.execute(event.currentChat).listen((event) {
-      print(event.message);
+  ) async {
+    UserModel currentUser = await _getUserUseCase.execute(NoParams());
+    StreamSubscription<List<MessageModel>> subscriptionOfMessageModels =
+        _getMessagesForChatUseCase
+            .execute(event.currentChat)
+            .listen((listOfMessages) {
+      add(MessagesHasBeenUpdatedEvent(
+        updatedListOfMessages: listOfMessages,
+        currentUser: currentUser,
+      ));
     });
   }
+  /*
+  void _dispose( InitMessageEvent event,
+      Emitter<MessageState> emit,){
+    subscriptionOfMessageModels.cancel;
+
+  }
+*/
 
   Future<void> _postMessage(
     PostMessageToDBEvent event,
@@ -45,10 +62,17 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     await _postMessageUseCase.execute(event.messageModel);
   }
 
-  void _getMessagesForChat(
-    GetMessagesForChatEvent event,
+  void _updateListOfMessages(
+    MessagesHasBeenUpdatedEvent event,
     Emitter<MessageState> emit,
-  ) async {}
+  ) {
+    emit(
+      MessageLoadedState(
+        listOfMessageModel: event.updatedListOfMessages,
+        currentUser: event.currentUser,
+      ),
+    );
+  }
 
   void _navigateToSettingsView(
     NavigateToChatSettingsEvent event,

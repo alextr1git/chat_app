@@ -83,47 +83,22 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
       await finalRef.update(data);
     } catch (e) {}
   }
-/*
-  @override
-  Stream<MessageEntity> getMessagesForChat(ChatEntity chatEntity) {
-    StreamController<MessageEntity> messageController =
-        StreamController<MessageEntity>();
 
+  @override
+  Stream<List<MessageEntity>> getMessagesForChat(ChatEntity chatEntity) {
     final String chatId = chatEntity.id;
     final DatabaseReference finalRef =
         _databaseReference.child("messages").child(chatId);
 
-    finalRef.limitToFirst(10).onValue.listen((event) {
-      final allMessages = event.snapshot.value;
-      if (allMessages != null && allMessages is Map<Object?, Object?>) {
-        allMessages.forEach((messageId, messageData) {
-          try {
-            if (messageData != null && messageData is Map<Object?, Object?>) {
-              MessageEntity messageEntity = MessageEntity.fromJson(
-                  messageData, chatId, messageId.toString());
-              messageController.add(messageEntity);
-            }
-          } catch (e) {}
-        });
-      }
-    });
-    return messageController.stream;
-  }*/
-
-  @override
-  Stream<MessageEntity> getMessagesForChat(ChatEntity chatEntity) {
-    final String chatId = chatEntity.id;
-    final DatabaseReference finalRef =
-        _databaseReference.child("messages").child(chatId);
-
-    Stream dbStream = finalRef.limitToFirst(10).onValue;
+    Stream dbStream = finalRef.onValue;
 
     return dbStream
-        .map((message) => transformMapToMessageEntity(message, chatId));
+        .map((messages) => transformMapToMessageEntity(messages, chatId));
   }
 
-  MessageEntity transformMapToMessageEntity(message, String chatID) {
-    late MessageEntity messageEntity;
+  List<MessageEntity> transformMapToMessageEntity(message, String chatID) {
+    MessageEntity messageEntity = MessageEntity.empty;
+    List<MessageEntity> listOfMessageEntities = [];
     var messageMap = message.snapshot.value;
     if (messageMap != null && messageMap is Map<Object?, Object?>) {
       messageMap.forEach((messageId, messageData) {
@@ -131,11 +106,12 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
           if (messageData != null && messageData is Map<Object?, Object?>) {
             messageEntity = MessageEntity.fromJson(
                 messageData, chatID, messageId.toString());
+            listOfMessageEntities.add(messageEntity);
           }
         } catch (e) {}
       });
     }
-    return messageEntity;
+    return listOfMessageEntities;
   }
 
   @override

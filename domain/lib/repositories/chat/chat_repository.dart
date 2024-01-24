@@ -8,5 +8,5 @@ abstract class ChatRepository {
   Future<List<ChatModel>> getChatsForUser();
   Future<ChatModel?> joinChat(String chatId);
   Future<List<ChatMemberModel>> getMembersOfChat(String chatId);
-  Stream<MessageModel> getMessagesForChat(ChatModel chatModel);
+  Stream<List<MessageModel>> getMessagesForChat(ChatModel chatModel);
 }
