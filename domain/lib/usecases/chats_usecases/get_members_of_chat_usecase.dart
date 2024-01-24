@@ -11,6 +11,8 @@ class GetMembersOfChatUsecase
 
   @override
   Future<List<ChatMemberModel>> execute(String chatID) async {
-    return _chatRepository.getMembersOfChat(chatID);
+    List<ChatMemberModel> listOfChatMemberModels =
+        await _chatRepository.getMembersOfChat(chatID);
+    return listOfChatMemberModels;
   }
 }

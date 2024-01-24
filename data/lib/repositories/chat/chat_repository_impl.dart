@@ -53,9 +53,9 @@ class ChatRepositoryImpl implements ChatRepository {
   List<MessageModel> listOfEntitiesToListOfModels(
       List<MessageEntity> listOfEntites) {
     List<MessageModel> listOfModels = [];
-    listOfEntites.forEach((entity) {
+    for (var entity in listOfEntites) {
       listOfModels.add(MessageMapper.toModel(entity));
-    });
+    }
     return listOfModels;
   }
 
@@ -66,9 +66,9 @@ class ChatRepositoryImpl implements ChatRepository {
     List<ChatEntity>? listOfChatEntities =
         await _databaseProvider.getChatsForUser(userId);
     if (listOfChatEntities != null) {
-      listOfChatEntities.forEach((entity) {
+      for (var entity in listOfChatEntities) {
         listOfChatModels.add(ChatMapper.toModel(entity));
-      });
+      }
     }
     return listOfChatModels;
   }
@@ -78,7 +78,7 @@ class ChatRepositoryImpl implements ChatRepository {
     List<ChatMemberModel> chatMembersModels = [];
     List<ChatMemberEntity> chatMembersEntities =
         await _databaseProvider.getMembersOfChat(chatId);
-    chatMembersEntities.forEach((chatMemberEntity) async {
+    for (var chatMemberEntity in chatMembersEntities) {
       final String image = await _storageProvider.downloadImage(
         userId: chatMemberEntity.uid,
       );
@@ -88,7 +88,7 @@ class ChatRepositoryImpl implements ChatRepository {
         );
       }
       chatMembersModels.add(ChatMemberMapper.toModel(chatMemberEntity));
-    });
+    }
     return chatMembersModels;
   }
 

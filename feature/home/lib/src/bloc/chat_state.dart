@@ -4,22 +4,26 @@ part of 'chat_bloc.dart';
 class ChatState {
   final ChatModel? currentChat;
   final List<ChatModel>? chatsOfUser;
-  final List<ChatMemberModel>? membersOfChat;
+  final List<ChatMemberModel>? activeMembersOfChat;
+  final List<ChatMemberModel>? allMembersOfChat;
 
   const ChatState({
     required this.currentChat,
     required this.chatsOfUser,
-    this.membersOfChat,
+    required this.activeMembersOfChat,
+    required this.allMembersOfChat,
   });
 
   ChatState copyWith({
     ChatModel? currentChat,
     List<ChatModel>? chatsOfUser,
-    List<ChatMemberModel>? membersOfChat,
+    List<ChatMemberModel>? activeMembersOfChat,
+    List<ChatMemberModel>? allMembersOfChat,
   }) =>
       ChatState(
         currentChat: currentChat ?? this.currentChat,
         chatsOfUser: chatsOfUser ?? this.chatsOfUser,
-        membersOfChat: membersOfChat ?? this.membersOfChat,
+        activeMembersOfChat: activeMembersOfChat ?? this.activeMembersOfChat,
+        allMembersOfChat: allMembersOfChat ?? this.allMembersOfChat,
       );
 }

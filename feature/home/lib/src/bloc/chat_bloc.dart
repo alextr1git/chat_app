@@ -38,6 +38,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         super(const ChatState(
           currentChat: null,
           chatsOfUser: [],
+          activeMembersOfChat: [],
+          allMembersOfChat: [],
         )) {
     on<CreateNewChatEvent>(_createNewChat);
     on<NavigateToPersonalChatViewEvent>(_navigateToPersonalChatView);
@@ -91,13 +93,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   Future<void> _getMembersOfChat(
     GetMembersOfChatEvent event,
     Emitter<ChatState> emit,
-  ) async {
-    List<ChatMemberModel> listOfChatMemberModels =
-        await _getMembersOfChatUsecase.execute(event.chatModel.id);
-    emit(
-      state.copyWith(membersOfChat: listOfChatMemberModels),
-    );
-  }
+  ) async {}
 
   Future<void> _removeUserFromChat(
     RemoveUserFromChatEvent event,
@@ -119,9 +115,22 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     NavigateToPersonalChatViewEvent event,
     Emitter<ChatState> emit,
   ) async {
+    List<ChatMemberModel> listOfActiveChatMemberModels = [];
+    List<ChatMemberModel> listOfChatMemberModels =
+        await _getMembersOfChatUsecase.execute(event.selectedChat.id);
+    for (var member in listOfChatMemberModels) {
+      if (member.isMember) {
+        listOfActiveChatMemberModels.add(member);
+      }
+    }
     emit(
-      state.copyWith(currentChat: event.selectedChat),
+      state.copyWith(
+        currentChat: event.selectedChat,
+        allMembersOfChat: listOfChatMemberModels,
+        activeMembersOfChat: listOfActiveChatMemberModels,
+      ),
     );
+
     _router.push(PersonalChatRoute(chatModel: event.selectedChat));
   }
 

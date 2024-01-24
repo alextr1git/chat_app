@@ -107,10 +107,10 @@ class ChatSettingsView extends StatelessWidget {
                         color: Colors.white70,
                         borderRadius: BorderRadius.circular(10)),
                     child: ListView.builder(
-                        itemCount: chatBloc.state.membersOfChat!.length,
+                        itemCount: chatBloc.state.activeMembersOfChat!.length,
                         itemBuilder: (BuildContext context, int index) {
                           final chatMemberModel =
-                              chatBloc.state.membersOfChat![index];
+                              chatBloc.state.activeMembersOfChat![index];
                           return UserInListCell(
                             chatMemberModel: chatMemberModel,
                             isCreator: chatMemberModel.uid ==

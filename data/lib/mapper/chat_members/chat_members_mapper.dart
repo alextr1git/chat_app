@@ -5,6 +5,7 @@ abstract class ChatMemberMapper {
   static ChatMemberEntity toEntity(ChatMemberModel model) {
     return ChatMemberEntity(
       uid: model.uid,
+      isMember: model.isMember,
       username: model.username,
       image: model.image,
     );
@@ -13,6 +14,7 @@ abstract class ChatMemberMapper {
   static ChatMemberModel toModel(ChatMemberEntity entity) {
     return ChatMemberModel(
       uid: entity.uid,
+      isMember: entity.isMember,
       username: entity.username,
       image: entity.image,
     );

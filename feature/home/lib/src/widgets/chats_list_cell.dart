@@ -16,9 +16,12 @@ class ChatsInListCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
+    MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
+
     return GestureDetector(
       onTap: () {
         chatBloc.add(NavigateToPersonalChatViewEvent(selectedChat: chat));
+        messageBloc.add(InitMessageEvent(currentChat: chat));
       },
       child: Container(
         padding:

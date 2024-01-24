@@ -41,8 +41,6 @@ class _PersonalChatViewState extends State<PersonalChatView> {
   Widget build(BuildContext context) {
     ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
     MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
-    messageBloc.add(InitMessageEvent(currentChat: widget.chatModel));
-    chatBloc.add(GetMembersOfChatEvent(chatModel: widget.chatModel));
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -108,8 +106,8 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                         ? ChatOwnerMessage(
                             message: state.listOfMessageModel[index].message)
                         : ChatMemberMessage(
-                            username: (chatBloc.state.membersOfChat != null)
-                                ? chatBloc.state.membersOfChat!
+                            username: (chatBloc.state.allMembersOfChat != null)
+                                ? chatBloc.state.allMembersOfChat!
                                     .firstWhere((member) =>
                                         member.uid ==
                                         state

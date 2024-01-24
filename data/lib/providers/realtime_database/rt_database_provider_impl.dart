@@ -162,74 +162,61 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     }
   }
 
-  Future<List<String>> getUserIDS(String chatId) async {
-    List<String> listOfUID = [];
+  @override
+  Future<List<ChatMemberEntity>> getMembersOfChat(String chatId) async {
+    Map<String, Map<String, String>> mapOfUIDtoIsMember =
+        await getMapUserIsMember(chatId);
+
+    List<ChatMemberEntity> listOfChatMemberEntities = [];
+    for (var userElement in mapOfUIDtoIsMember.entries) {
+      String username = await getUserDataFromDB(userElement.key);
+      ChatMemberEntity newChatMemberEntity = ChatMemberEntity(
+          uid: userElement.key,
+          username: username,
+          isMember: (userElement.value["isMember"] == 'true'));
+      listOfChatMemberEntities.add(newChatMemberEntity);
+    }
+
+    return listOfChatMemberEntities;
+  }
+
+  Future<Map<String, Map<String, String>>> getMapUserIsMember(
+      String chatId) async {
+    Map<String, Map<String, String>> mapOfData =
+        {}; // {userID : {isMember : bool}}
 
     final DatabaseReference chatUsersRef =
-        _databaseReference.child("chat-users");
+        _databaseReference.child("chat-users").child(chatId);
 
     try {
       final DataSnapshot snapshot = await chatUsersRef.get();
-//chat-id -> {users}
 
       if (snapshot.exists) {
-        Object chats = snapshot.value!;
-
-        if (chats != null && chats is Map<Object?, Object?>) {
-          chats.forEach((chatID, chatIDValue) {
-            if (chatID.toString() == chatId) {
-              var membersOfChat =
-                  chatIDValue as Map<Object?, Object?>; //{userid : true}
-              membersOfChat.forEach((userID, _) async {
-                listOfUID.add(userID.toString());
-              });
-            }
+        Object users = snapshot.value!;
+        if (users != null && users is Map<Object?, Object?>) {
+          users.forEach((userID, userIDBool) {
+            mapOfData[userID.toString()] = {"isMember": userIDBool.toString()};
           });
         }
       }
     } catch (e) {
       print("Error occured!");
     }
-    return listOfUID;
+    return mapOfData;
   }
 
-  Future<List<Map<String?, String?>>> getUsersDataFromDB(
-      List<String> listOfUID) async {
-    List<Map<String?, String?>> usersData = [];
-    final DatabaseReference usersReference = _databaseReference.child("users");
-    final DataSnapshot usersSnapshot = await usersReference.get(); // {user-id}:
-    // {username:Alexander}
-    if (usersSnapshot.exists) {
-      var users = usersSnapshot.value!;
-      if (users != null && users is Map<Object?, Object?>) {
-        users.forEach((userId, userData) {
-          if (userData != null &&
-              userData is Map<Object?, Object?> &&
-              listOfUID.contains(userId)) {
-            var username = userData["username"];
-            Map<String, String> data = {"$userId": "$username"};
-            usersData.add(data);
-          }
-        });
+  Future<String> getUserDataFromDB(String userID) async {
+    String username = "";
+    final DatabaseReference userReference =
+        _databaseReference.child("users").child(userID);
+    final DataSnapshot userSnapshot = await userReference.get();
+    if (userSnapshot.exists) {
+      var user = userSnapshot.value!;
+      if (user != null && user is Map<Object?, Object?>) {
+        username = user["username"].toString();
       }
     }
-    return usersData;
-  }
-
-  @override
-  Future<List<ChatMemberEntity>> getMembersOfChat(String chatId) async {
-    List<String> listOfUID = await getUserIDS(chatId);
-    List<Map<String?, String?>> listOfUsersData =
-        await getUsersDataFromDB(listOfUID);
-    List<ChatMemberEntity> listOfChatMembersEntities = [];
-    listOfUsersData.forEach((userMap) {
-      userMap.forEach((key, value) {
-        ChatMemberEntity newChatMemberEntity =
-            ChatMemberEntity(uid: key.toString(), username: value);
-        listOfChatMembersEntities.add(newChatMemberEntity);
-      });
-    });
-    return listOfChatMembersEntities;
+    return username;
   }
 
   @override

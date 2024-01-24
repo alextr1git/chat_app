@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class ChatMemberModel {
   final String uid;
+  final bool isMember;
   final String? username;
   final String? image;
 
   ChatMemberModel({
     required this.uid,
+    required this.isMember,
     required this.username,
     required this.image,
   });
@@ -15,10 +17,12 @@ class ChatMemberModel {
     String? uid,
     String? username,
     String? image,
+    bool? isMember,
   }) =>
       ChatMemberModel(
         uid: uid ?? this.uid,
         username: username ?? this.username,
         image: image ?? this.image,
+        isMember: isMember ?? this.isMember,
       );
 }
