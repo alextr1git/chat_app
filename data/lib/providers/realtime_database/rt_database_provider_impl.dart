@@ -65,11 +65,11 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
   @override
   Future<void> postNewMessage(MessageEntity messageEntity) async {
     final String chatId = messageEntity.chatId;
-    final String messageId = messageEntity.id;
 
     final DatabaseReference finalRef =
-        _databaseReference.child("messages").child(chatId).child(messageId);
+        _databaseReference.child("messages").child(chatId);
 
+    final DatabaseReference messageRef = await finalRef.push();
     final String senderId = messageEntity.senderId;
     final String message = messageEntity.message;
     final num timestamp = messageEntity.timeStamp;
@@ -80,7 +80,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
       "timestamp": timestamp,
     };
     try {
-      await finalRef.update(data);
+      await messageRef.update(data);
     } catch (e) {}
   }
 
@@ -90,7 +90,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     final DatabaseReference finalRef =
         _databaseReference.child("messages").child(chatId);
 
-    Stream dbStream = finalRef.onValue;
+    Stream dbStream = finalRef.orderByChild('timestamp').onValue;
 
     return dbStream
         .map((messages) => transformMapToMessageEntity(messages, chatId));
@@ -107,6 +107,8 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
             messageEntity = MessageEntity.fromJson(
                 messageData, chatID, messageId.toString());
             listOfMessageEntities.add(messageEntity);
+            listOfMessageEntities
+                .sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
           }
         } catch (e) {}
       });
@@ -273,6 +275,33 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
         );
         return returnedChat;
       }
+    }
+  }
+
+  @override
+  Future<void> removeUserFromChat({
+    required String userID,
+    required String chatID,
+  }) async {
+    await removeMemberFromChatUsersAndUserChats(
+      userID: userID,
+      chatID: chatID,
+    );
+  }
+
+  Future<void> removeMemberFromChatUsersAndUserChats({
+    required String userID,
+    required String chatID,
+  }) async {
+    final DatabaseReference userChatsRef =
+        _databaseReference.child(" user-chats").child(userID).child(chatID);
+    final DatabaseReference chatUsersRef =
+        _databaseReference.child("chat-users").child(chatID).child(userID);
+    try {
+      await userChatsRef.remove();
+      await chatUsersRef.remove();
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

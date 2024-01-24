@@ -104,4 +104,15 @@ class ChatRepositoryImpl implements ChatRepository {
       }
     }
   }
+
+  @override
+  Future<void> removeUserFromChat({
+    required String userID,
+    required String chatID,
+  }) async {
+    await _databaseProvider.removeUserFromChat(
+      userID: userID,
+      chatID: chatID,
+    );
+  }
 }

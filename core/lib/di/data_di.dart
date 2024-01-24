@@ -75,6 +75,12 @@ class DataDI {
       ),
     );
 
+    appLocator.registerLazySingleton<RemoveUserFromChatUseCase>(
+      () => RemoveUserFromChatUseCase(
+        chatRepository: appLocator.get<ChatRepository>(),
+      ),
+    );
+
     appLocator.registerLazySingleton<JoinChatUseCase>(
       () => JoinChatUseCase(
         chatRepository: appLocator.get<ChatRepository>(),

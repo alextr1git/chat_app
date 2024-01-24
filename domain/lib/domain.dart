@@ -21,6 +21,7 @@ export 'package:domain/usecases/settings_usecases/upload_image_usecase.dart';
 export 'package:domain/usecases/settings_usecases/download_image_usecase.dart';
 export 'package:domain/usecases/chats_usecases/post_message_usecase.dart';
 export 'package:domain/usecases/chats_usecases/join_chat_usecase.dart';
+export 'package:domain/usecases/chats_usecases/remove_user_from_chat_usecase.dart';
 export 'package:domain/usecases/chats_usecases/create_new_chat_usecase.dart';
 export 'package:domain/usecases/chats_usecases/get_messages_for_chat_usecase.dart';
 export 'package:domain/usecases/chats_usecases/get_chats_for_user_usecase.dart';

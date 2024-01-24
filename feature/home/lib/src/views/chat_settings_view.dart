@@ -98,22 +98,33 @@ class ChatSettingsView extends StatelessWidget {
             const Divider(
               height: 10,
             ),
-            Expanded(
-              flex: 3,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white70,
-                    borderRadius: BorderRadius.circular(10)),
-                child: ListView.builder(
-                    itemCount: chatBloc.state.membersOfChat!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final chatMemberModel =
-                          chatBloc.state.membersOfChat![index];
-                      return UserInListCell(
-                        chatMemberModel: chatMemberModel,
-                      );
-                    }),
-              ),
+            BlocBuilder<ChatBloc, ChatState>(
+              builder: (context, state) {
+                return Expanded(
+                  flex: 3,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: ListView.builder(
+                        itemCount: chatBloc.state.membersOfChat!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final chatMemberModel =
+                              chatBloc.state.membersOfChat![index];
+                          return UserInListCell(
+                            chatMemberModel: chatMemberModel,
+                            isCreator: chatMemberModel.uid ==
+                                chatBloc.state.currentChat!.creatorId,
+                            isShowingToCreator:
+                                (messageBloc.state as MessageLoadedState)
+                                        .currentUser
+                                        .id ==
+                                    chatBloc.state.currentChat!.creatorId,
+                          );
+                        }),
+                  ),
+                );
+              },
             ),
             Expanded(
               flex: 2,

@@ -9,4 +9,8 @@ abstract class ChatRepository {
   Future<ChatModel?> joinChat(String chatId);
   Future<List<ChatMemberModel>> getMembersOfChat(String chatId);
   Stream<List<MessageModel>> getMessagesForChat(ChatModel chatModel);
+  Future<void> removeUserFromChat({
+    required String userID,
+    required String chatID,
+  });
 }

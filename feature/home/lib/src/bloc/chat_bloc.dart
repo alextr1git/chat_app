@@ -18,6 +18,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final GetChatsForUserUseCase _getChatsForUserUseCase;
   final GetMembersOfChatUsecase _getMembersOfChatUsecase;
   final JoinChatUseCase _joinChatUseCase;
+  final RemoveUserFromChatUseCase _removeUserFromChatUseCase;
 
   ChatBloc({
     required AppRouter router,
@@ -27,11 +28,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     required GetChatsForUserUseCase getChatsForUserUseCase,
     required GetMembersOfChatUsecase getMembersOfChatUsecase,
     required JoinChatUseCase joinChatUseCase,
+    required RemoveUserFromChatUseCase removeUserFromChatUseCase,
   })  : _router = router,
         _createNewChatUseCase = createNewChatUseCase,
         _getChatsForUserUseCase = getChatsForUserUseCase,
         _getMembersOfChatUsecase = getMembersOfChatUsecase,
         _joinChatUseCase = joinChatUseCase,
+        _removeUserFromChatUseCase = removeUserFromChatUseCase,
         super(const ChatState(
           currentChat: null,
           chatsOfUser: [],
@@ -43,6 +46,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<PopChatRouteEvent>(_popChatRouteEvent);
     on<GetMembersOfChatEvent>(_getMembersOfChat);
     on<JoinChatEvent>(_joinChat);
+    on<RemoveUserFromChatEvent>(_removeUserFromChat);
   }
 
   Future<void> _createNewChat(
@@ -93,6 +97,22 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     emit(
       state.copyWith(membersOfChat: listOfChatMemberModels),
     );
+  }
+
+  Future<void> _removeUserFromChat(
+    RemoveUserFromChatEvent event,
+    Emitter<ChatState> emit,
+  ) async {
+    final String userID = event.userID;
+    final String chatID = event.chatID;
+    if (userID != null && chatID != null) {
+      Map<String, String> mapOfRemoveUser = {
+        "userID": userID,
+        "chatID": chatID,
+      };
+      await _removeUserFromChatUseCase.execute(mapOfRemoveUser);
+      add(GetMembersOfChatEvent(chatModel: state.currentChat!));
+    }
   }
 
   Future<void> _navigateToPersonalChatView(

@@ -10,18 +10,39 @@ import 'package:home/home.dart';
 import 'package:home/src/messages_bloc/message_bloc.dart';
 import 'package:navigation/navigation.dart';
 
+import '../widgets/chat_member_message_ui.dart';
+import '../widgets/chat_owner_message_ui.dart';
+
 @RoutePage()
-class PersonalChatView extends StatelessWidget {
+class PersonalChatView extends StatefulWidget {
   final ChatModel chatModel;
 
   const PersonalChatView({super.key, required this.chatModel});
 
   @override
+  State<PersonalChatView> createState() => _PersonalChatViewState();
+}
+
+class _PersonalChatViewState extends State<PersonalChatView> {
+  late final TextEditingController _messageTextController;
+  @override
+  void initState() {
+    _messageTextController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _messageTextController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
     MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
-    messageBloc.add(InitMessageEvent(currentChat: chatModel));
-    chatBloc.add(GetMembersOfChatEvent(chatModel: chatModel));
+    messageBloc.add(InitMessageEvent(currentChat: widget.chatModel));
+    chatBloc.add(GetMembersOfChatEvent(chatModel: widget.chatModel));
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -50,7 +71,7 @@ class PersonalChatView extends StatelessWidget {
                           color: Colors.amber,
                         ),
                         child: Text(
-                          chatModel.title,
+                          widget.chatModel.title,
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w600),
                         ),
@@ -60,8 +81,8 @@ class PersonalChatView extends StatelessWidget {
                 ),
                 TextButton(
                     onPressed: () {
-                      messageBloc.add(
-                          NavigateToChatSettingsEvent(currentChat: chatModel));
+                      messageBloc.add(NavigateToChatSettingsEvent(
+                          currentChat: widget.chatModel));
                     },
                     child: const Icon(
                       Icons.settings,
@@ -82,30 +103,28 @@ class PersonalChatView extends StatelessWidget {
                   padding: const EdgeInsets.all(8),
                   itemCount: state.listOfMessageModel.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      padding: const EdgeInsets.only(
-                          left: 14, right: 14, bottom: 10),
-                      child: Align(
-                        alignment: (state.currentUser.id ==
-                                state.listOfMessageModel[index].senderId
-                            ? Alignment.topLeft
-                            : Alignment.topRight),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: (state.currentUser.id ==
-                                    state.listOfMessageModel[index].senderId
-                                ? Colors.grey.shade200
-                                : Colors.blue[200]),
-                          ),
-                          padding: const EdgeInsets.all(16),
-                          child: Text(
-                            state.listOfMessageModel[index].message,
-                            style: const TextStyle(fontSize: 15),
-                          ),
-                        ),
-                      ),
-                    );
+                    return state.currentUser.id ==
+                            state.listOfMessageModel[index].senderId
+                        ? ChatOwnerMessage(
+                            message: state.listOfMessageModel[index].message)
+                        : ChatMemberMessage(
+                            username: (chatBloc.state.membersOfChat != null)
+                                ? chatBloc.state.membersOfChat!
+                                    .firstWhere((member) =>
+                                        member.uid ==
+                                        state
+                                            .listOfMessageModel[index].senderId)
+                                    .username
+                                : null,
+                            message: state.listOfMessageModel[index].message,
+                            image:
+                                null /*chatBloc.state.membersOfChat!
+                                .firstWhere((member) =>
+                                    member.uid ==
+                                    state.listOfMessageModel[index].senderId)
+                                .image!*/
+                            ,
+                          );
                   },
                 ));
               } else {
@@ -127,19 +146,38 @@ class PersonalChatView extends StatelessWidget {
                     color: Colors.white,
                     child: Row(
                       children: <Widget>[
-                        const Expanded(
+                        Expanded(
                           child: TextField(
-                            decoration: InputDecoration(
-                                hintText: "Write message...",
-                                hintStyle: TextStyle(color: Colors.black54),
-                                border: InputBorder.none),
+                            controller: _messageTextController,
+                            decoration: const InputDecoration(
+                              hintText: "Write message...",
+                              hintStyle: TextStyle(color: Colors.black54),
+                              border: InputBorder.none,
+                            ),
                           ),
                         ),
                         const SizedBox(
                           width: 15,
                         ),
                         FloatingActionButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (messageBloc.state is MessageLoadedState) {
+                              MessageModel messageModel = MessageModel(
+                                id: "0",
+                                chatId: widget.chatModel.id,
+                                senderId:
+                                    (messageBloc.state as MessageLoadedState)
+                                        .currentUser
+                                        .id,
+                                message: _messageTextController.text,
+                                timeStamp:
+                                    DateTime.now().millisecondsSinceEpoch,
+                              );
+                              messageBloc.add(PostMessageToDBEvent(
+                                  messageModel: messageModel));
+                            }
+                            _messageTextController.text = "";
+                          },
                           backgroundColor: lightTheme.colorScheme.onBackground,
                           elevation: 1,
                           child: const Icon(
@@ -159,39 +197,3 @@ class PersonalChatView extends StatelessWidget {
     );
   }
 }
-
-/*Expanded(
-              child: SingleChildScrollView(
-            child: Align(
-              child: ListView.builder(
-                itemCount: 10,
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(top: 10, bottom: 10),
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Container(
-                    padding: const EdgeInsets.only(
-                        left: 14, right: 14, top: 10, bottom: 10),
-                    child: Align(
-                      alignment: (messages[index].messageType == "receiver"
-                          ? Alignment.topLeft
-                          : Alignment.topRight),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: (messages[index].messageType == "receiver"
-                              ? Colors.grey.shade200
-                              : Colors.blue[200]),
-                        ),
-                        padding: const EdgeInsets.all(16),
-                        child: Text(
-                          messages[index].messageContent,
-                          style: const TextStyle(fontSize: 15),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          )),*/

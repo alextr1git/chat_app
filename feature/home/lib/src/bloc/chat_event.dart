@@ -32,3 +32,13 @@ class GetMembersOfChatEvent extends ChatEvent {
 
   GetMembersOfChatEvent({required this.chatModel});
 }
+
+class RemoveUserFromChatEvent extends ChatEvent {
+  final String userID;
+  final String chatID;
+
+  RemoveUserFromChatEvent({
+    required this.userID,
+    required this.chatID,
+  });
+}
