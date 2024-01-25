@@ -18,7 +18,6 @@ class ChatSettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
     ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
-    AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -148,6 +147,12 @@ class ChatSettingsView extends StatelessWidget {
                         chatBloc.add(RemoveUserFromChatEvent(
                           userID: "self",
                           chat: chatBloc.state.currentChat!,
+                        ));
+
+                        messageBloc.add(PostServiceMessageToDBEvent(
+                          username: null,
+                          chatID: chatBloc.state.currentChat!.id,
+                          timestamp: DateTime.now().millisecondsSinceEpoch,
                         ));
                       } else {}
                     },

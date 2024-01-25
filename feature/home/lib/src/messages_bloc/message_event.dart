@@ -18,6 +18,18 @@ class PostMessageToDBEvent extends MessageEvent {
   });
 }
 
+class PostServiceMessageToDBEvent extends MessageEvent {
+  final String chatID;
+  final String? username;
+  final num timestamp;
+
+  PostServiceMessageToDBEvent({
+    required this.chatID,
+    required this.timestamp,
+    required this.username,
+  });
+}
+
 class NavigateToChatSettingsEvent extends MessageEvent {
   final ChatModel currentChat;
 

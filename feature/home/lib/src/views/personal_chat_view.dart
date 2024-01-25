@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/home.dart';
 import 'package:home/src/messages_bloc/message_bloc.dart';
+import 'package:home/src/widgets/service_message_ui.dart';
 import 'package:navigation/navigation.dart';
 
 import '../widgets/chat_member_message_ui.dart';
@@ -116,25 +117,33 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                               state.listOfMessageModel[index].senderId
                           ? ChatOwnerMessage(
                               message: state.listOfMessageModel[index].message)
-                          : ChatMemberMessage(
-                              username:
-                                  (chatBloc.state.allMembersOfChat != null)
-                                      ? chatBloc.state.allMembersOfChat!
-                                          .firstWhere((member) =>
-                                              member.uid ==
-                                              state.listOfMessageModel[index]
-                                                  .senderId)
-                                          .username
-                                      : null,
-                              message: state.listOfMessageModel[index].message,
-                              image:
-                                  null /*chatBloc.state.membersOfChat!
+                          : (state.listOfMessageModel[index].senderId ==
+                                  "service"
+                              ? ServiceMessage(
+                                  message:
+                                      state.listOfMessageModel[index].message,
+                                )
+                              : (ChatMemberMessage(
+                                  username:
+                                      (chatBloc.state.allMembersOfChat != null)
+                                          ? chatBloc.state.allMembersOfChat!
+                                              .firstWhere((member) =>
+                                                  member.uid ==
+                                                  state
+                                                      .listOfMessageModel[index]
+                                                      .senderId)
+                                              .username
+                                          : null,
+                                  message:
+                                      state.listOfMessageModel[index].message,
+                                  image:
+                                      null /*chatBloc.state.membersOfChat!
                                 .firstWhere((member) =>
                                     member.uid ==
                                     state.listOfMessageModel[index].senderId)
                                 .image!*/
-                              ,
-                            );
+                                  ,
+                                )));
                     },
                   ));
                 }

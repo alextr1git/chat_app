@@ -14,19 +14,23 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   final GetMessagesForChatUseCase _getMessagesForChatUseCase;
   final PostMessageUseCase _postMessageUseCase;
   final GetUserUseCase _getUserUseCase;
+  final GetUsernameByIDUseCase _getUsernameByIDUseCase;
   final AppRouter _router;
   MessageBloc(
       {required GetMessagesForChatUseCase getMessagesForChatUseCase,
       required PostMessageUseCase postMessageUseCase,
       required AppRouter router,
-      required GetUserUseCase getUserUseCase})
+      required GetUserUseCase getUserUseCase,
+      required GetUsernameByIDUseCase getUsernameByIDUseCase})
       : _getMessagesForChatUseCase = getMessagesForChatUseCase,
         _postMessageUseCase = postMessageUseCase,
         _router = router,
         _getUserUseCase = getUserUseCase,
+        _getUsernameByIDUseCase = getUsernameByIDUseCase,
         super(MessageLoadingState()) {
     on<InitMessageEvent>(_init);
     on<PostMessageToDBEvent>(_postMessage);
+    on<PostServiceMessageToDBEvent>(_postServiceMessage);
     on<NavigateToChatSettingsEvent>(_navigateToSettingsView);
     on<PopChatSettingsViewEvent>(_popChatSettingsView);
     on<MessagesHasBeenUpdatedEvent>(_updateListOfMessages);
@@ -60,6 +64,31 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     Emitter<MessageState> emit,
   ) async {
     await _postMessageUseCase.execute(event.messageModel);
+  }
+
+  Future<void> _postServiceMessage(
+    PostServiceMessageToDBEvent event,
+    Emitter<MessageState> emit,
+  ) async {
+    final UserModel userModel = await _getUserUseCase.execute(NoParams());
+    String username = "";
+    String message = "";
+    if (event.username == null) {
+      username = await _getUsernameByIDUseCase.execute(userModel.id);
+      message = "$username has left the chat";
+    } else {
+      username = event.username!;
+      message = "$username has been kicked by the creator";
+    }
+
+    MessageModel messageModel = MessageModel(
+      id: "0",
+      chatId: event.chatID,
+      senderId: "service",
+      message: message,
+      timeStamp: event.timestamp,
+    );
+    await _postMessageUseCase.execute(messageModel);
   }
 
   void _updateListOfMessages(

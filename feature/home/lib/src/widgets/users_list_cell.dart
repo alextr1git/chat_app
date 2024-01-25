@@ -20,6 +20,7 @@ class UserInListCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
+    MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
       child: Row(
@@ -78,6 +79,11 @@ class UserInListCell extends StatelessWidget {
                   chatBloc.add(RemoveUserFromChatEvent(
                     userID: chatMemberModel.uid,
                     chat: chatBloc.state.currentChat!,
+                  ));
+                  messageBloc.add(PostServiceMessageToDBEvent(
+                    username: chatMemberModel.username,
+                    chatID: chatBloc.state.currentChat!.id,
+                    timestamp: DateTime.now().millisecondsSinceEpoch,
                   ));
                 } else {}
               },

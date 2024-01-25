@@ -50,6 +50,8 @@ class GlobalBlocProvider extends StatelessWidget {
                       appLocator.get<GetMessagesForChatUseCase>(),
                   postMessageUseCase: appLocator.get<PostMessageUseCase>(),
                   getUserUseCase: appLocator.get<GetUserUseCase>(),
+                  getUsernameByIDUseCase:
+                      appLocator.get<GetUsernameByIDUseCase>(),
                   router: appLocator.get<AppRouter>(),
                 )),
       ],
