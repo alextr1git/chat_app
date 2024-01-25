@@ -5,6 +5,7 @@ import 'package:core_ui/core_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:home/home.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:settings/settings.dart';
 import 'package:core/core.dart';
@@ -35,6 +36,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
   @override
   Widget build(BuildContext context) {
     final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
+    final ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
     final ImageHelper imageHelper = appLocator.get<ImageHelper>();
     return BlocProvider(
       create: (BuildContext context) => AccountSettingsBloc(
@@ -54,6 +56,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                   final shouldLogout = await showLogoutDialog(context);
                   if (shouldLogout) {
                     authBloc.add(LogoutUserEvent());
+                    chatBloc.add(DisposeChatBlocEvent());
                   } else {}
               }
             }, itemBuilder: (context) {

@@ -25,9 +25,15 @@ class PersonalChatView extends StatefulWidget {
 
 class _PersonalChatViewState extends State<PersonalChatView> {
   late final TextEditingController _messageTextController;
+  late final ChatBloc chatBloc;
+  late final MessageBloc messageBloc;
   @override
   void initState() {
     _messageTextController = TextEditingController();
+    chatBloc = BlocProvider.of<ChatBloc>(context);
+    messageBloc = BlocProvider.of<MessageBloc>(context);
+    chatBloc.add(GetMembersOfChatEvent(chatModel: chatBloc.state.currentChat!));
+    messageBloc.add(InitMessageEvent(currentChat: chatBloc.state.currentChat!));
     super.initState();
   }
 
@@ -39,8 +45,6 @@ class _PersonalChatViewState extends State<PersonalChatView> {
 
   @override
   Widget build(BuildContext context) {
-    ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
-    MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -56,6 +60,7 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                 TextButton(
                     onPressed: () {
                       chatBloc.add(PopChatRouteEvent());
+                      messageBloc.add(DisposeMessagesBlocEvent());
                     },
                     child: const Icon(Icons.arrow_back_ios_sharp)),
                 Expanded(
@@ -79,6 +84,8 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                 ),
                 TextButton(
                     onPressed: () {
+                      chatBloc.add(
+                          GetMembersOfChatEvent(chatModel: widget.chatModel));
                       messageBloc.add(NavigateToChatSettingsEvent(
                           currentChat: widget.chatModel));
                     },
@@ -96,38 +103,46 @@ class _PersonalChatViewState extends State<PersonalChatView> {
           BlocBuilder<MessageBloc, MessageState>(
             builder: (context, state) {
               if (state is MessageLoadedState) {
-                return Expanded(
-                    child: ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: state.listOfMessageModel.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return state.currentUser.id ==
-                            state.listOfMessageModel[index].senderId
-                        ? ChatOwnerMessage(
-                            message: state.listOfMessageModel[index].message)
-                        : ChatMemberMessage(
-                            username: (chatBloc.state.allMembersOfChat != null)
-                                ? chatBloc.state.allMembersOfChat!
-                                    .firstWhere((member) =>
-                                        member.uid ==
-                                        state
-                                            .listOfMessageModel[index].senderId)
-                                    .username
-                                : null,
-                            message: state.listOfMessageModel[index].message,
-                            image:
-                                null /*chatBloc.state.membersOfChat!
+                if (state.listOfMessageModel.length == 0) {
+                  return Expanded(
+                      child: Center(child: Text("There are no messages yet")));
+                } else {
+                  return Expanded(
+                      child: ListView.builder(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: state.listOfMessageModel.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return state.currentUser.id ==
+                              state.listOfMessageModel[index].senderId
+                          ? ChatOwnerMessage(
+                              message: state.listOfMessageModel[index].message)
+                          : ChatMemberMessage(
+                              username:
+                                  (chatBloc.state.allMembersOfChat != null)
+                                      ? chatBloc.state.allMembersOfChat!
+                                          .firstWhere((member) =>
+                                              member.uid ==
+                                              state.listOfMessageModel[index]
+                                                  .senderId)
+                                          .username
+                                      : null,
+                              message: state.listOfMessageModel[index].message,
+                              image:
+                                  null /*chatBloc.state.membersOfChat!
                                 .firstWhere((member) =>
                                     member.uid ==
                                     state.listOfMessageModel[index].senderId)
                                 .image!*/
-                            ,
-                          );
-                  },
-                ));
+                              ,
+                            );
+                    },
+                  ));
+                }
               } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return const Expanded(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
               }
             },

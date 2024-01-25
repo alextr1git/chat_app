@@ -27,7 +27,7 @@ abstract class _$HomeModuleRouter extends AutoRouterModule {
     ChatsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ChatsView(),
+        child: ChatsView(),
       );
     },
     PersonalChatRoute.name: (routeData) {

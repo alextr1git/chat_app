@@ -1,3 +1,4 @@
+import 'package:core_ui/core_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,11 +72,14 @@ class UserInListCell extends StatelessWidget {
                 ? isShowingToCreator
                 : false, // to be sure that we do not showing remove user from chat icon for user themself
             child: TextButton(
-              onPressed: () {
-                chatBloc.add(RemoveUserFromChatEvent(
-                  userID: chatMemberModel.uid,
-                  chatID: chatBloc.state!.currentChat!.id,
-                ));
+              onPressed: () async {
+                final shouldLogout = await showRemoveMemberDialog(context);
+                if (shouldLogout) {
+                  chatBloc.add(RemoveUserFromChatEvent(
+                    userID: chatMemberModel.uid,
+                    chat: chatBloc.state.currentChat!,
+                  ));
+                } else {}
               },
               child: const Icon(Icons.delete),
             ),

@@ -27,6 +27,8 @@ class GetChatsForUser extends ChatEvent {}
 
 class PopChatRouteEvent extends ChatEvent {}
 
+class NavigateToChatsViewEvent extends ChatEvent {}
+
 class GetMembersOfChatEvent extends ChatEvent {
   final ChatModel chatModel;
 
@@ -35,10 +37,12 @@ class GetMembersOfChatEvent extends ChatEvent {
 
 class RemoveUserFromChatEvent extends ChatEvent {
   final String userID;
-  final String chatID;
+  final ChatModel chat;
 
   RemoveUserFromChatEvent({
     required this.userID,
-    required this.chatID,
+    required this.chat,
   });
 }
+
+class DisposeChatBlocEvent extends ChatEvent {}

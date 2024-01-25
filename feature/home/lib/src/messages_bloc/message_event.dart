@@ -34,3 +34,5 @@ class MessagesHasBeenUpdatedEvent extends MessageEvent {
     required this.currentUser,
   });
 }
+
+class DisposeMessagesBlocEvent extends MessageEvent {}

@@ -1,3 +1,5 @@
+import 'package:auth/auth.dart';
+import 'package:core_ui/core_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +18,8 @@ class ChatSettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
     ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
+    AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -138,7 +142,15 @@ class ChatSettingsView extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.redAccent[700],
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      final shouldLogout = await showLeaveChatDialog(context);
+                      if (shouldLogout) {
+                        chatBloc.add(RemoveUserFromChatEvent(
+                          userID: "self",
+                          chat: chatBloc.state.currentChat!,
+                        ));
+                      } else {}
+                    },
                     child: const Text("Leave chat"),
                   ),
                 ),

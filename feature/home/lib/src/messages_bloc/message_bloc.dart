@@ -30,6 +30,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     on<NavigateToChatSettingsEvent>(_navigateToSettingsView);
     on<PopChatSettingsViewEvent>(_popChatSettingsView);
     on<MessagesHasBeenUpdatedEvent>(_updateListOfMessages);
+    on<DisposeMessagesBlocEvent>(_dispose);
   }
 
   void _init(
@@ -37,6 +38,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     Emitter<MessageState> emit,
   ) async {
     UserModel currentUser = await _getUserUseCase.execute(NoParams());
+
     StreamSubscription<List<MessageModel>> subscriptionOfMessageModels =
         _getMessagesForChatUseCase
             .execute(event.currentChat)
@@ -46,14 +48,12 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
         currentUser: currentUser,
       ));
     });
+    emit(MessageLoadedState(
+      subscription: subscriptionOfMessageModels,
+      listOfMessageModel: [],
+      currentUser: currentUser,
+    ));
   }
-  /*
-  void _dispose( InitMessageEvent event,
-      Emitter<MessageState> emit,){
-    subscriptionOfMessageModels.cancel;
-
-  }
-*/
 
   Future<void> _postMessage(
     PostMessageToDBEvent event,
@@ -66,12 +66,14 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     MessagesHasBeenUpdatedEvent event,
     Emitter<MessageState> emit,
   ) {
-    emit(
-      MessageLoadedState(
-        listOfMessageModel: event.updatedListOfMessages,
-        currentUser: event.currentUser,
-      ),
-    );
+    if (state is MessageLoadedState) {
+      emit(
+        (state as MessageLoadedState).copyWith(
+          listOfMessageModel: event.updatedListOfMessages,
+          currentUser: event.currentUser,
+        ),
+      );
+    }
   }
 
   void _navigateToSettingsView(
@@ -86,5 +88,15 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     Emitter<MessageState> emit,
   ) {
     _router.pop();
+  }
+
+  void _dispose(
+    _,
+    Emitter<MessageState> emit,
+  ) {
+    if (state is MessageLoadedState) {
+      (state as MessageLoadedState).subscription.cancel();
+    }
+    emit(MessageInitState());
   }
 }

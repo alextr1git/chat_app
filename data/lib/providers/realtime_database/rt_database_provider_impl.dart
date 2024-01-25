@@ -121,17 +121,20 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     List<String> listOfChatIds = [];
     List<ChatEntity> listOfChats = [];
 
-    final DatabaseReference finalRef =
+    final DatabaseReference userChatsUserIDRef =
         _databaseReference.child(" user-chats/$userId");
 
-    final DataSnapshot snapshot = await finalRef.get();
+    final DataSnapshot snapshot = await userChatsUserIDRef.get();
     if (snapshot.exists) {
-      Object data = snapshot.value!;
+      Object listOfChatsForUserData = snapshot.value!;
 
-      if (data != null && data is Map<Object?, Object?>) {
-        data.forEach((key, value) {
+      if (listOfChatsForUserData != null &&
+          listOfChatsForUserData is Map<Object?, Object?>) {
+        listOfChatsForUserData.forEach((chatID, chatBool) {
           try {
-            listOfChatIds.add(key.toString());
+            if (chatBool == true) {
+              listOfChatIds.add(chatID.toString());
+            }
           } catch (e) {
             print("Error converting message: $e");
           }
@@ -154,7 +157,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
             }
           }
         }
-
+        print("$listOfChats sdfsd");
         return listOfChats;
       } else {
         print('No data available.');
@@ -280,15 +283,54 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     required String userID,
     required String chatID,
   }) async {
+    final DatabaseReference chatsRef =
+        _databaseReference.child("chats").child(chatID);
     final DatabaseReference userChatsRef =
-        _databaseReference.child(" user-chats").child(userID).child(chatID);
+        _databaseReference.child(" user-chats").child(userID);
     final DatabaseReference chatUsersRef =
-        _databaseReference.child("chat-users").child(chatID).child(userID);
+        _databaseReference.child("chat-users").child(chatID);
     try {
-      await userChatsRef.remove();
-      await chatUsersRef.remove();
+      final DataSnapshot snapshot = await chatsRef.get();
+      if (snapshot.exists) {
+        Object chatData = snapshot.value!;
+        if (chatData != null && chatData is Map<Object?, Object?>) {
+          if (chatData["creator-id"] == userID) {
+            await deleteChat(chatID: chatID);
+          }
+        }
+      }
+      await userChatsRef.update({chatID: false});
+      await chatUsersRef.update({userID: false});
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Future<void> deleteChat({required String chatID}) async {
+    final DatabaseReference chatsRef =
+        _databaseReference.child("chats").child(chatID);
+    final DatabaseReference chatUsersRef =
+        _databaseReference.child("chat-users").child(chatID);
+    final DatabaseReference userChatsRef =
+        _databaseReference.child(" user-chats");
+    final DataSnapshot snapshot = await userChatsRef.get();
+    if (snapshot.exists) {
+      Object usersChatsData = snapshot.value!;
+      if (usersChatsData != null && usersChatsData is Map<Object?, Object?>) {
+        usersChatsData.forEach((userID, userData) {
+          if (userData != null && userData is Map<Object?, Object?>) {
+            userData.forEach((chatId, chatBool) async {
+              if (chatId == chatID) {
+                await userChatsRef
+                    .child(userID.toString())
+                    .update({chatID: false});
+              }
+            });
+          }
+        });
+      }
+    }
+    await chatsRef.remove();
+    await chatUsersRef.remove();
   }
 }

@@ -11,13 +11,30 @@ import '../widgets/chats_list_cell.dart';
 import '../widgets/users_list_cell.dart';
 
 @RoutePage()
-class ChatsView extends StatelessWidget {
-  const ChatsView({super.key});
+class ChatsView extends StatefulWidget {
+  ChatsView({super.key});
+
+  @override
+  State<ChatsView> createState() => _ChatsViewState();
+}
+
+class _ChatsViewState extends State<ChatsView> {
+  late final ChatBloc chatBloc;
+  @override
+  void initState() {
+    chatBloc = BlocProvider.of<ChatBloc>(context);
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    chatBloc.add(GetChatsForUser());
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
-    ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
-    chatBloc.add(GetChatsForUser());
     return Scaffold(
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),

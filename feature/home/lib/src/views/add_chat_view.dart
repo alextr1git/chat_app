@@ -13,6 +13,7 @@ class AddChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
+    MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
     return DefaultTabController(
       initialIndex: 0,
       length: 2,

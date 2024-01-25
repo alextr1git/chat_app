@@ -17,10 +17,10 @@ class SharedNavbarView extends StatefulWidget {
 class _SharedNavbarViewState extends State<SharedNavbarView> {
   int selectedView = 1;
 
-  final List<Widget> _views = const [
-    AccountSettingsView(),
+  final List<Widget> _views = [
+    const AccountSettingsView(),
     ChatsView(),
-    SettingsView(),
+    const SettingsView(),
   ];
   @override
   Widget build(BuildContext context) {
