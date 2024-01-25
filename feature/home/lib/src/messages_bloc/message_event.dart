@@ -22,12 +22,13 @@ class PostServiceMessageToDBEvent extends MessageEvent {
   final String chatID;
   final String? username;
   final num timestamp;
+  final String serviceType;
 
-  PostServiceMessageToDBEvent({
-    required this.chatID,
-    required this.timestamp,
-    required this.username,
-  });
+  PostServiceMessageToDBEvent(
+      {required this.chatID,
+      required this.timestamp,
+      required this.username,
+      required this.serviceType});
 }
 
 class NavigateToChatSettingsEvent extends MessageEvent {

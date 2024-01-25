@@ -81,6 +81,7 @@ class UserInListCell extends StatelessWidget {
                     chat: chatBloc.state.currentChat!,
                   ));
                   messageBloc.add(PostServiceMessageToDBEvent(
+                    serviceType: "remove",
                     username: chatMemberModel.username,
                     chatID: chatBloc.state.currentChat!.id,
                     timestamp: DateTime.now().millisecondsSinceEpoch,

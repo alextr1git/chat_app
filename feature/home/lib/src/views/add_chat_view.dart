@@ -50,6 +50,14 @@ class AddChatView extends StatelessWidget {
               buttonText: 'Connect',
               onPressed: (String text) {
                 chatBloc.add(JoinChatEvent(chatID: text));
+                if (chatBloc.state.error == null) {
+                  messageBloc.add(PostServiceMessageToDBEvent(
+                    serviceType: "join",
+                    username: null,
+                    chatID: chatBloc.state.currentChat!.id,
+                    timestamp: DateTime.now().millisecondsSinceEpoch,
+                  ));
+                }
               },
               icon: const Icon(Icons.link),
             ),

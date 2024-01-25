@@ -71,16 +71,23 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     Emitter<MessageState> emit,
   ) async {
     final UserModel userModel = await _getUserUseCase.execute(NoParams());
-    String username = "";
+    final String username = event.username == null
+        ? await _getUsernameByIDUseCase.execute(userModel.id)
+        : event.username!;
     String message = "";
-    if (event.username == null) {
-      username = await _getUsernameByIDUseCase.execute(userModel.id);
-      message = "$username has left the chat";
-    } else {
-      username = event.username!;
-      message = "$username has been kicked by the creator";
+    switch (event.serviceType) {
+      case "remove":
+        message = "$username has been kicked by the creator";
+        break;
+      case "leave":
+        message = "$username has left the chat";
+        break;
+      case "join":
+        message = "$username joined the chat via link";
+        break;
+      default:
+        break;
     }
-
     MessageModel messageModel = MessageModel(
       id: "0",
       chatId: event.chatID,

@@ -150,6 +150,7 @@ class ChatSettingsView extends StatelessWidget {
                         ));
 
                         messageBloc.add(PostServiceMessageToDBEvent(
+                          serviceType: "leave",
                           username: null,
                           chatID: chatBloc.state.currentChat!.id,
                           timestamp: DateTime.now().millisecondsSinceEpoch,

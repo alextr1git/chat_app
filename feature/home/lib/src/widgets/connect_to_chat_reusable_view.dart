@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../home.dart';
 
 class ConnectToChat extends StatefulWidget {
   final String _textFieldHint;
@@ -6,6 +9,7 @@ class ConnectToChat extends StatefulWidget {
   final String _buttonText;
   final Function(String text) _onPressed;
   final Icon _icon;
+
   ConnectToChat({
     required String textFieldHint,
     required String textFieldLabel,
@@ -63,7 +67,20 @@ class _ConnectToChatState extends State<ConnectToChat> {
                 ),
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 10),
+            BlocBuilder<ChatBloc, ChatState>(
+              builder: (context, state) {
+                return Visibility(
+                    visible: state.error != null,
+                    child: Text(
+                      state.error ?? "",
+                      style: TextStyle(
+                        color: Colors.redAccent[400],
+                      ),
+                    ));
+              },
+            ),
+            const SizedBox(height: 20),
             ElevatedButton(
               style: ButtonStyle(
                   padding: MaterialStateProperty.all<EdgeInsets>(
@@ -72,7 +89,7 @@ class _ConnectToChatState extends State<ConnectToChat> {
                 widget._onPressed(_textEditingController.text);
               },
               child: Text(widget._buttonText),
-            )
+            ),
           ],
         ),
       ),

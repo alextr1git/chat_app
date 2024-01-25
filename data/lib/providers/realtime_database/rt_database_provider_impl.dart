@@ -157,7 +157,6 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
             }
           }
         }
-        print("$listOfChats sdfsd");
         return listOfChats;
       } else {
         print('No data available.');

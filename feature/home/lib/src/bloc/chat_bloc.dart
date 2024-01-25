@@ -39,6 +39,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         _removeUserFromChatUseCase = removeUserFromChatUseCase,
         _getUserUseCase = getUserUseCase,
         super(const ChatState(
+          error: null,
           currentChat: null,
           chatsOfUser: [],
           activeMembersOfChat: [],
@@ -75,10 +76,17 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     Emitter<ChatState> emit,
   ) async {
     final ChatModel? chatModel = await _joinChatUseCase.execute(event.chatID);
+    emit(state.copyWith(
+      error: null,
+    ));
     if (chatModel != null) {
       add(PopChatRouteEvent());
       add(NavigateToPersonalChatViewEvent(selectedChat: chatModel));
       add(GetChatsForUser()); // cause when we join chat and then pop view we should see updated list
+    } else {
+      emit(state.copyWith(
+        error: "Cannot find chat by provided link",
+      ));
     }
   }
 
