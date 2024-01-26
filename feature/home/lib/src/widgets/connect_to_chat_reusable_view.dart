@@ -9,7 +9,7 @@ class ConnectToChat extends StatefulWidget {
   final String _textFieldLabel;
   final String _buttonText;
   final bool _showColorPicker;
-  final Function(String text) _onPressed;
+  final Function(String text, int? color) _onPressed;
 
   final Icon _icon;
 
@@ -19,7 +19,7 @@ class ConnectToChat extends StatefulWidget {
     required String buttonText,
     required Icon icon,
     required bool showColorPicker,
-    required Function(String text) onPressed,
+    required Function(String text, int? color) onPressed,
     super.key,
   })  : _textFieldHint = textFieldHint,
         _textFieldLabel = textFieldLabel,
@@ -103,8 +103,8 @@ class _ConnectToChatState extends State<ConnectToChat> {
                   padding: MaterialStateProperty.all<EdgeInsets>(
                       const EdgeInsets.fromLTRB(64, 12, 64, 12))),
               onPressed: () {
-                // widget._onPressed(_textEditingController.text);
-                print(selectedColor);
+                widget._onPressed(
+                    _textEditingController.text, selectedColor.value);
               },
               child: Text(widget._buttonText),
             ),

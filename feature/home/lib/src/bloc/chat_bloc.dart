@@ -62,7 +62,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     Emitter<ChatState> emit,
   ) async {
     final ChatModel? createdChatModel =
-        await _createNewChatUseCase.execute(event.chatTitle);
+        await _createNewChatUseCase.execute(event.chatModel);
     if (createdChatModel != null) {
       add(PopChatRouteEvent());
       add(GetMembersOfChatEvent(chatModel: createdChatModel));

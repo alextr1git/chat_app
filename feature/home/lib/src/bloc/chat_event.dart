@@ -12,9 +12,9 @@ class NavigateToPersonalChatViewEvent extends ChatEvent {
 class NavigateToAddChatViewEvent extends ChatEvent {}
 
 class CreateNewChatEvent extends ChatEvent {
-  final String chatTitle;
+  final ChatModel chatModel;
 
-  CreateNewChatEvent({required this.chatTitle});
+  CreateNewChatEvent({required this.chatModel});
 }
 
 class JoinChatEvent extends ChatEvent {

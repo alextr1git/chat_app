@@ -12,7 +12,7 @@ abstract class RealTimeDatabaseProvider {
   );
 
   Future<ChatEntity?> createNewChat(
-    String chatTitle,
+    ChatEntity chatEntity,
     String userId,
   );
 

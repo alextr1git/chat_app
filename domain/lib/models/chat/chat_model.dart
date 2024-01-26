@@ -8,6 +8,7 @@ class ChatModel {
   final num timestamp;
   final int messageCount;
   final String creatorId;
+  final int color;
 
   const ChatModel({
     required this.id,
@@ -16,6 +17,7 @@ class ChatModel {
     required this.timestamp,
     required this.messageCount,
     required this.creatorId,
+    required this.color,
   });
 
   ChatModel copyWith({
@@ -25,6 +27,7 @@ class ChatModel {
     num? timestamp,
     int? messageCount,
     String? creatorId,
+    int? color,
   }) =>
       ChatModel(
         id: id ?? this.id,
@@ -33,5 +36,6 @@ class ChatModel {
         timestamp: timestamp ?? this.timestamp,
         messageCount: messageCount ?? this.messageCount,
         creatorId: creatorId ?? this.creatorId,
+        color: color ?? this.color,
       );
 }

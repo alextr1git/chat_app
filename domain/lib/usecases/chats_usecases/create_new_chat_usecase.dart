@@ -1,7 +1,7 @@
 import 'package:domain/domain.dart';
 import 'package:domain/usecases/usecase.dart';
 
-class CreateNewChatUseCase implements FutureUseCase<String, ChatModel?> {
+class CreateNewChatUseCase implements FutureUseCase<ChatModel, ChatModel?> {
   final ChatRepository _chatRepository;
 
   CreateNewChatUseCase({
@@ -9,7 +9,7 @@ class CreateNewChatUseCase implements FutureUseCase<String, ChatModel?> {
   }) : _chatRepository = chatRepository;
 
   @override
-  Future<ChatModel?> execute(String chatTitle) async {
-    return _chatRepository.createNewChat(chatTitle);
+  Future<ChatModel?> execute(ChatModel chatModel) async {
+    return _chatRepository.createNewChat(chatModel);
   }
 }

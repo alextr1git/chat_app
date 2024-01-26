@@ -10,11 +10,11 @@
 		</data>
 		<key>flutter_assets/AssetManifest.bin</key>
 		<data>
-		fRkvPgpPyblWch2P53mZsQamM9o=
+		O2aDyUynOeY56iTdfMc/65XjhQ4=
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		aSb/OSV0U0loinjWSu+r6WX30TU=
+		ZQw4dJoVmGs0Zlg3LafzGrLsQAo=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -22,7 +22,7 @@
 		</data>
 		<key>flutter_assets/NOTICES.Z</key>
 		<data>
-		kc6mj0+ljZDOnOxFS0s3wEUpuXQ=
+		v+0RNzqNKqK8T6atsh/JQw9JyT4=
 		</data>
 		<key>flutter_assets/core_ui/assets/images/eng_flag.png</key>
 		<data>
@@ -42,7 +42,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		SpD7pkD22dK42Xo86qZgHZ2bg6E=
+		N9z9vbI7g5/cTXVsDVjdcp9ukVg=
 		</data>
 		<key>flutter_assets/packages/core/resources/langs/en-US.json</key>
 		<data>
@@ -55,6 +55,10 @@
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
 		P7bb/oR3EhwqCIH1M6LyTuBIWYU=
+		</data>
+		<key>flutter_assets/packages/flex_color_picker/assets/opacity.png</key>
+		<data>
+		VB0zjVgf3N+RFolghQ1p++MH3ik=
 		</data>
 		<key>flutter_assets/shaders/ink_sparkle.frag</key>
 		<data>
@@ -71,14 +75,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			X9+XEgOl4e4gt1/VRyutDiUnvxcNditheFH0O2YKZ/I=
+			gjW/AcCsyq3LGfKbTY/7o8sxS8YaKTZsEXbiQBW/IQs=
 			</data>
 		</dict>
 		<key>flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			xb7QMQsOsgitpNanbv942/utO6lOF/QC13k3RvGAk8Y=
+			p6kkBjY9gHIyExLAvegb5ifbiyp5AgM9dNGf4wejg9w=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -92,7 +96,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			UQYFRpIxvR39+sOpddXp3TkJ66Mvn8ulq8ilqr1nwwc=
+			9R3q1PxJ8d9RAvUCnlWRlhDnJTqXWpYOY+X4C8YDJEs=
 			</data>
 		</dict>
 		<key>flutter_assets/core_ui/assets/images/eng_flag.png</key>
@@ -127,7 +131,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			2wcGnDQvXbwFHriLdstO+sKVyGyJH8KHZXXVjzWVf5Y=
+			5DziVUilDSvDDP5mxT1O33yxC/Hd7bCZCA+wAd8pwLQ=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/core/resources/langs/en-US.json</key>
@@ -149,6 +153,13 @@
 			<key>hash2</key>
 			<data>
 			x6NX+tjyECiQtyzbbjyY8U2zoZ7GDbJtE+T+k/dzgI0=
+			</data>
+		</dict>
+		<key>flutter_assets/packages/flex_color_picker/assets/opacity.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			j0DbMUoKfqs+vBgXt4VHSW++2SIgN4OhqKStsq/aCXY=
 			</data>
 		</dict>
 		<key>flutter_assets/shaders/ink_sparkle.frag</key>

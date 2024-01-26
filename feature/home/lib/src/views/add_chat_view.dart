@@ -40,8 +40,20 @@ class AddChatView extends StatelessWidget {
               textFieldLabel: 'Name',
               buttonText: 'Create',
               showColorPicker: true,
-              onPressed: (String text) {
-                chatBloc.add(CreateNewChatEvent(chatTitle: text));
+              onPressed: (
+                String text,
+                int? color,
+              ) {
+                ChatModel chatModel = ChatModel(
+                  id: "0",
+                  title: text,
+                  lastMessageId: "0",
+                  timestamp: DateTime.now().millisecondsSinceEpoch,
+                  messageCount: 0,
+                  creatorId: "0",
+                  color: color!,
+                );
+                chatBloc.add(CreateNewChatEvent(chatModel: chatModel));
               },
               icon: const Icon(Icons.abc_rounded),
             ),
@@ -50,7 +62,10 @@ class AddChatView extends StatelessWidget {
               textFieldLabel: 'Link',
               buttonText: 'Connect',
               showColorPicker: false,
-              onPressed: (String text) {
+              onPressed: (
+                String text,
+                int? color,
+              ) {
                 chatBloc.add(JoinChatEvent(chatID: text));
                 if (chatBloc.state.error == null) {
                   messageBloc.add(PostServiceMessageToDBEvent(

@@ -28,12 +28,19 @@ class ChatsInListCell extends StatelessWidget {
             Expanded(
               child: Row(
                 children: <Widget>[
-                  CircleAvatar(
-                    backgroundImage: /*widget._image != null
-                          ? FileImage(widget._image!)
-                          :*/
-                        null,
-                    maxRadius: 30,
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Color(chat.color),
+                        borderRadius: BorderRadius.all(Radius.circular(24))),
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: const BoxDecoration(
+                          color: Colors.white10,
+                          borderRadius: BorderRadius.all(Radius.circular(24))),
+                    ),
                   ),
                   const SizedBox(
                     width: 16,

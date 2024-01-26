@@ -33,10 +33,10 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<ChatModel?> createNewChat(String chatTitle) async {
+  Future<ChatModel?> createNewChat(ChatModel chatModel) async {
     UserEntity userEntity = _authProvider.currentUser!;
-    final ChatEntity? chatEntity =
-        await _databaseProvider.createNewChat(chatTitle, userEntity.id);
+    final ChatEntity? chatEntity = await _databaseProvider.createNewChat(
+        ChatMapper.toEntity(chatModel), userEntity.id);
     if (chatEntity != null) {
       return ChatMapper.toModel(chatEntity);
     }

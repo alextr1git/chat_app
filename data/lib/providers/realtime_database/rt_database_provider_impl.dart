@@ -13,17 +13,14 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
       : _databaseReference = databaseReference;
 
   @override
-  Future<ChatEntity?> createNewChat(String chatTitle, String userId) async {
+  Future<ChatEntity?> createNewChat(
+      ChatEntity chatEntity, String userId) async {
     final DatabaseReference chatsRef = _databaseReference.child("chats");
 
     try {
       final String chatKey = (await chatsRef.push().key).toString();
-      final ChatEntity newChatEntity = ChatEntity(
+      ChatEntity newChatEntity = chatEntity.copyWith(
         id: chatKey,
-        title: chatTitle,
-        lastMessageId: "",
-        timestamp: 0,
-        messageCount: 0,
         creatorId: userId,
       );
       final chatData = {
@@ -33,6 +30,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
         "timestamp": newChatEntity.timestamp,
         "message-count": newChatEntity.messageCount,
         "creator-id": newChatEntity.creatorId,
+        "color": newChatEntity.color,
       };
       await chatsRef.child(chatKey).update(chatData);
       await addChatToChatUsersAndUserChats(

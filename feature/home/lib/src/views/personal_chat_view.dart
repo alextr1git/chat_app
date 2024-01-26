@@ -68,17 +68,10 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: EdgeInsets.all(5.0),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          color: Colors.amber,
-                        ),
-                        child: Text(
-                          widget.chatModel.title,
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        widget.chatModel.title,
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -116,6 +109,7 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                       return state.currentUser.id ==
                               state.listOfMessageModel[index].senderId
                           ? ChatOwnerMessage(
+                              colorOfMessage: Color(widget.chatModel.color),
                               message: state.listOfMessageModel[index].message)
                           : (state.listOfMessageModel[index].senderId ==
                                   "service"
