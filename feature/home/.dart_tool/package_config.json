@@ -332,6 +332,18 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "flex_color_picker",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/flex_color_picker-3.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "flex_seed_scheme",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/flex_seed_scheme-1.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///Users/alextr1/dev/tooling/flutter/packages/flutter",
       "packageUri": "lib/",
@@ -860,7 +872,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-01-17T08:20:21.473576Z",
+  "generated": "2024-01-26T08:23:28.766383Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

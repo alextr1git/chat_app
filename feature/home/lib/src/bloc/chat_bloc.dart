@@ -76,12 +76,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     Emitter<ChatState> emit,
   ) async {
     final ChatModel? chatModel = await _joinChatUseCase.execute(event.chatID);
-    emit(state.copyWith(
-      error: null,
-    ));
+
     if (chatModel != null) {
-      add(PopChatRouteEvent());
-      add(NavigateToPersonalChatViewEvent(selectedChat: chatModel));
+      emit(state.copyWith(
+        error: null,
+      ));
       add(GetChatsForUser()); // cause when we join chat and then pop view we should see updated list
     } else {
       emit(state.copyWith(

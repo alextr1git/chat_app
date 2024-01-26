@@ -257,14 +257,40 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     if (snapshot.exists) {
       Object data = snapshot.value!;
       if (data != null && data is Map<Object?, Object?>) {
-        ChatEntity returnedChat = ChatEntity.fromJson(data, chatID);
-        await addChatToChatUsersAndUserChats(
-          userID: userID,
-          chatID: chatID,
-        );
-        return returnedChat;
+        if (await checkIfUserAlreadyInChat(userID: userID, chatID: chatID) ==
+            false) {
+          ChatEntity returnedChat = ChatEntity.fromJson(data, chatID);
+          await addChatToChatUsersAndUserChats(
+            userID: userID,
+            chatID: chatID,
+          );
+          return returnedChat;
+        } else {
+          return null;
+        }
       }
     }
+  }
+
+  Future<bool> checkIfUserAlreadyInChat({
+    required String userID,
+    required String chatID,
+  }) async {
+    bool isUserAlreadyInChat = false;
+    final DatabaseReference chatUsersRef =
+        _databaseReference.child(" user-chats/$userID");
+    final DataSnapshot snapshot = await chatUsersRef.get();
+    if (snapshot.exists) {
+      Object data = snapshot.value!;
+      if (data != null && data is Map<Object?, Object?>) {
+        data.forEach((dbChatID, dbChatBool) {
+          if (dbChatID == chatID && dbChatBool == true) {
+            isUserAlreadyInChat = true;
+          }
+        });
+      }
+    }
+    return isUserAlreadyInChat;
   }
 
   @override

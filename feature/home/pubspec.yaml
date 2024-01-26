@@ -24,6 +24,7 @@ dependencies:
     path: ../settings
   equatable: ^2.0.5
   flutter_bloc: ^8.1.3
+  flex_color_picker: ^3.3.1
 
 dev_dependencies:
   flutter_test:

@@ -39,6 +39,7 @@ class AddChatView extends StatelessWidget {
               textFieldHint: 'Enter new chat name',
               textFieldLabel: 'Name',
               buttonText: 'Create',
+              showColorPicker: true,
               onPressed: (String text) {
                 chatBloc.add(CreateNewChatEvent(chatTitle: text));
               },
@@ -48,6 +49,7 @@ class AddChatView extends StatelessWidget {
               textFieldHint: 'Enter link to chat',
               textFieldLabel: 'Link',
               buttonText: 'Connect',
+              showColorPicker: false,
               onPressed: (String text) {
                 chatBloc.add(JoinChatEvent(chatID: text));
                 if (chatBloc.state.error == null) {
@@ -57,6 +59,9 @@ class AddChatView extends StatelessWidget {
                     chatID: chatBloc.state.currentChat!.id,
                     timestamp: DateTime.now().millisecondsSinceEpoch,
                   ));
+                  chatBloc.add(PopChatRouteEvent());
+                  chatBloc.add(NavigateToPersonalChatViewEvent(
+                      selectedChat: chatBloc.state.currentChat!));
                 }
               },
               icon: const Icon(Icons.link),
