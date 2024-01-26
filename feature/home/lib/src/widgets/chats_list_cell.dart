@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,7 +6,7 @@ import 'package:home/src/messages_bloc/message_bloc.dart';
 
 import '../../home.dart';
 
-class ChatsInListCell extends StatelessWidget {
+class ChatsInListCell extends StatefulWidget {
   final ChatModel chat;
 
   const ChatsInListCell({
@@ -14,11 +15,25 @@ class ChatsInListCell extends StatelessWidget {
   });
 
   @override
+  State<ChatsInListCell> createState() => _ChatsInListCellState();
+}
+
+class _ChatsInListCellState extends State<ChatsInListCell> {
+  late final ChatBloc chatBloc;
+
+  @override
+  void initState() {
+    chatBloc = BlocProvider.of<ChatBloc>(context);
+    chatBloc.add(GetLastMessageOfChatEvent(chatModel: widget.chat));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
     return GestureDetector(
       onTap: () {
-        chatBloc.add(NavigateToPersonalChatViewEvent(selectedChat: chat));
+        chatBloc
+            .add(NavigateToPersonalChatViewEvent(selectedChat: widget.chat));
       },
       child: Container(
         padding:
@@ -32,7 +47,7 @@ class ChatsInListCell extends StatelessWidget {
                     width: 50,
                     height: 50,
                     decoration: BoxDecoration(
-                        color: Color(chat.color),
+                        color: Color(widget.chat.color) ?? Colors.white10,
                         borderRadius: BorderRadius.all(Radius.circular(24))),
                     child: Container(
                       width: 50,
@@ -52,14 +67,16 @@ class ChatsInListCell extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            chat.title,
+                            widget.chat.title,
                             style: const TextStyle(fontSize: 16),
                           ),
                           const SizedBox(
                             height: 6,
                           ),
                           Text(
-                            chat.lastMessageId,
+                            (chatBloc.state.lastMessageModel != null)
+                                ? chatBloc.state.lastMessageModel!.message
+                                : "No messages yet",
                             style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey.shade600,
@@ -73,7 +90,12 @@ class ChatsInListCell extends StatelessWidget {
               ),
             ),
             Text(
-              chat.timestamp.toString(),
+              (chatBloc.state.lastMessageModel != null)
+                  ? DateFormat('MM/dd hh:mm a')
+                      .format(DateTime.fromMillisecondsSinceEpoch(
+                          chatBloc.state.lastMessageModel!.timeStamp))
+                      .toString()
+                  : "",
               style:
                   const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
             ),

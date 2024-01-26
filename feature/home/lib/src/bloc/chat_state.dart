@@ -6,14 +6,17 @@ class ChatState {
   final List<ChatModel>? chatsOfUser;
   final List<ChatMemberModel>? activeMembersOfChat;
   final List<ChatMemberModel>? allMembersOfChat;
+  final MessageModel? lastMessageModel;
   final String? error;
 
-  const ChatState(
-      {required this.currentChat,
-      required this.chatsOfUser,
-      required this.activeMembersOfChat,
-      required this.allMembersOfChat,
-      required this.error});
+  const ChatState({
+    required this.currentChat,
+    required this.chatsOfUser,
+    required this.activeMembersOfChat,
+    required this.allMembersOfChat,
+    required this.error,
+    required this.lastMessageModel,
+  });
 
   ChatState copyWith({
     ChatModel? currentChat,
@@ -21,6 +24,7 @@ class ChatState {
     List<ChatMemberModel>? activeMembersOfChat,
     List<ChatMemberModel>? allMembersOfChat,
     String? error,
+    MessageModel? lastMessageModel,
   }) =>
       ChatState(
         currentChat: currentChat ?? this.currentChat,
@@ -28,5 +32,6 @@ class ChatState {
         activeMembersOfChat: activeMembersOfChat ?? this.activeMembersOfChat,
         allMembersOfChat: allMembersOfChat ?? this.allMembersOfChat,
         error: error ?? this.error,
+        lastMessageModel: lastMessageModel ?? this.lastMessageModel,
       );
 }

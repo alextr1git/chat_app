@@ -35,6 +35,12 @@ class GetMembersOfChatEvent extends ChatEvent {
   GetMembersOfChatEvent({required this.chatModel});
 }
 
+class GetLastMessageOfChatEvent extends ChatEvent {
+  final ChatModel chatModel;
+
+  GetLastMessageOfChatEvent({required this.chatModel});
+}
+
 class RemoveUserFromChatEvent extends ChatEvent {
   final String userID;
   final ChatModel chat;

@@ -3,7 +3,7 @@ class MessageEntity {
   final String chatId;
   final String senderId;
   final String message;
-  final num timeStamp;
+  final int timeStamp;
 
   MessageEntity({
     required this.id,
@@ -29,6 +29,6 @@ class MessageEntity {
         chatId: chatId ?? "",
         senderId: json['sender-id'].toString() ?? "",
         message: json['message'].toString() ?? "",
-        timeStamp: json['timestamp'] as num ?? 0,
+        timeStamp: json['timestamp'] as int ?? 0,
       );
 }

@@ -6,7 +6,7 @@ class MessageModel {
   final String chatId;
   final String senderId;
   final String message;
-  final num timeStamp;
+  final int timeStamp;
 
   const MessageModel({
     required this.id,
@@ -21,7 +21,7 @@ class MessageModel {
     String? chatId,
     String? senderId,
     String? message,
-    num? timeStamp,
+    int? timeStamp,
   }) =>
       MessageModel(
         id: id ?? this.id,

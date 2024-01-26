@@ -4,7 +4,7 @@ class ChatEntity {
   final String id;
   final String title;
   final String lastMessageId;
-  final num timestamp;
+  final int timestamp;
   final int messageCount;
   final String creatorId;
   final int color;
@@ -23,7 +23,7 @@ class ChatEntity {
     String? id,
     String? title,
     String? lastMessageId,
-    num? timestamp,
+    int? timestamp,
     int? messageCount,
     String? creatorId,
     int? color,
@@ -43,7 +43,7 @@ class ChatEntity {
         id: chatId ?? "",
         title: json['title'] as String ?? "",
         lastMessageId: json['last-message-id'] as String ?? "",
-        timestamp: json['timestamp'] as num ?? 0,
+        timestamp: json['timestamp'] as int ?? 0,
         messageCount: json['message-count'] as int ?? 0,
         creatorId: json['creator-id'] as String ?? "",
         color: json['color'] as int ?? 0,

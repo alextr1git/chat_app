@@ -20,6 +20,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final JoinChatUseCase _joinChatUseCase;
   final RemoveUserFromChatUseCase _removeUserFromChatUseCase;
   final GetUserUseCase _getUserUseCase;
+  final GetLastMessageOfChatUseCase _getLastMessageOfChatUseCase;
 
   ChatBloc({
     required AppRouter router,
@@ -31,6 +32,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     required JoinChatUseCase joinChatUseCase,
     required RemoveUserFromChatUseCase removeUserFromChatUseCase,
     required GetUserUseCase getUserUseCase,
+    required GetLastMessageOfChatUseCase getLastMessageOfChatUseCase,
   })  : _router = router,
         _createNewChatUseCase = createNewChatUseCase,
         _getChatsForUserUseCase = getChatsForUserUseCase,
@@ -38,12 +40,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         _joinChatUseCase = joinChatUseCase,
         _removeUserFromChatUseCase = removeUserFromChatUseCase,
         _getUserUseCase = getUserUseCase,
+        _getLastMessageOfChatUseCase = getLastMessageOfChatUseCase,
         super(const ChatState(
           error: null,
           currentChat: null,
           chatsOfUser: [],
           activeMembersOfChat: [],
           allMembersOfChat: [],
+          lastMessageModel: null,
         )) {
     on<CreateNewChatEvent>(_createNewChat);
     on<NavigateToPersonalChatViewEvent>(_navigateToPersonalChatView);
@@ -55,6 +59,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<GetMembersOfChatEvent>(_getMembersOfChat);
     on<DisposeChatBlocEvent>(_dispose);
     on<NavigateToChatsViewEvent>(_navigateToChatsView);
+    on<GetLastMessageOfChatEvent>(_getLastMessageOfChat);
   }
 
   Future<void> _createNewChat(
@@ -86,6 +91,19 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       emit(state.copyWith(
         error: "Cannot find chat by provided link",
       ));
+    }
+  }
+
+  Future<void> _getLastMessageOfChat(
+    GetLastMessageOfChatEvent event,
+    Emitter<ChatState> emit,
+  ) async {
+    MessageModel? lastMessageModel =
+        await _getLastMessageOfChatUseCase.execute(event.chatModel);
+    if (lastMessageModel != null) {
+      emit(
+        state.copyWith(lastMessageModel: lastMessageModel),
+      );
     }
   }
 

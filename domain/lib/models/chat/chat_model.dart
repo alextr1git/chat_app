@@ -5,7 +5,7 @@ class ChatModel {
   final String id;
   final String title;
   final String lastMessageId;
-  final num timestamp;
+  final int timestamp;
   final int messageCount;
   final String creatorId;
   final int color;
@@ -24,7 +24,7 @@ class ChatModel {
     String? id,
     String? title,
     String? lastMessageId,
-    num? timestamp,
+    int? timestamp,
     int? messageCount,
     String? creatorId,
     int? color,

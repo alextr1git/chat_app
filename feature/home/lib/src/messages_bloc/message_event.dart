@@ -21,7 +21,7 @@ class PostMessageToDBEvent extends MessageEvent {
 class PostServiceMessageToDBEvent extends MessageEvent {
   final String chatID;
   final String? username;
-  final num timestamp;
+  final int timestamp;
   final String serviceType;
 
   PostServiceMessageToDBEvent(

@@ -80,6 +80,11 @@ class DataDI {
         chatRepository: appLocator.get<ChatRepository>(),
       ),
     );
+    appLocator.registerLazySingleton<GetLastMessageOfChatUseCase>(
+      () => GetLastMessageOfChatUseCase(
+        chatRepository: appLocator.get<ChatRepository>(),
+      ),
+    );
 
     appLocator.registerLazySingleton<JoinChatUseCase>(
       () => JoinChatUseCase(

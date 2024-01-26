@@ -115,4 +115,14 @@ class ChatRepositoryImpl implements ChatRepository {
       chatID: chatID,
     );
   }
+
+  @override
+  Future<MessageModel?> getModelOfLastMessageOfChat(ChatModel chatModel) async {
+    MessageEntity? messageEntity = await _databaseProvider
+        .getLastMessageOfChat(ChatMapper.toEntity(chatModel));
+    if (messageEntity != null) {
+      return MessageMapper.toModel(messageEntity);
+    }
+    return null;
+  }
 }

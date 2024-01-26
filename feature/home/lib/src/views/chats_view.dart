@@ -30,6 +30,7 @@ class _ChatsViewState extends State<ChatsView> {
   @override
   void didChangeDependencies() {
     chatBloc.add(GetChatsForUser());
+
     super.didChangeDependencies();
   }
 
@@ -124,7 +125,9 @@ class _ChatsViewState extends State<ChatsView> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     final chat = state.chatsOfUser![index];
-                    return ChatsInListCell(chat: chat);
+                    return ChatsInListCell(
+                      chat: chat,
+                    );
                   },
                 );
               },

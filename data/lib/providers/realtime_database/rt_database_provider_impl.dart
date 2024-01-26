@@ -32,6 +32,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
         "creator-id": newChatEntity.creatorId,
         "color": newChatEntity.color,
       };
+
       await chatsRef.child(chatKey).update(chatData);
       await addChatToChatUsersAndUserChats(
         userID: userId,
@@ -68,9 +69,10 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
         _databaseReference.child("messages").child(chatId);
 
     final DatabaseReference messageRef = await finalRef.push();
+    final messageDBID = messageRef.key;
     final String senderId = messageEntity.senderId;
     final String message = messageEntity.message;
-    final num timestamp = messageEntity.timeStamp;
+    final int timestamp = messageEntity.timeStamp;
 
     final Map<String, dynamic> data = {
       "message": message,
@@ -79,7 +81,20 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     };
     try {
       await messageRef.update(data);
+      await updateLastMessageIDOfChat(
+        chatId,
+        messageDBID!,
+      );
     } catch (e) {}
+  }
+
+  Future<void> updateLastMessageIDOfChat(
+      String chatID, String messageID) async {
+    if (messageID != null && chatID != null) {
+      final DatabaseReference chatRef =
+          _databaseReference.child("chats").child(chatID);
+      await chatRef.update({"last-message-id": messageID});
+    }
   }
 
   @override
@@ -355,5 +370,22 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     }
     await chatsRef.remove();
     await chatUsersRef.remove();
+  }
+
+  @override
+  Future<MessageEntity?> getLastMessageOfChat(ChatEntity chatEntity) async {
+    final DatabaseReference messageRef = _databaseReference
+        .child("messages")
+        .child(chatEntity.id)
+        .child(chatEntity.lastMessageId);
+    final DataSnapshot snapshot = await messageRef.get();
+    if (snapshot.exists) {
+      Object messageData = snapshot.value!;
+      if (messageData != null && messageData is Map<Object?, Object?>) {
+        return MessageEntity.fromJson(
+            messageData, chatEntity.id, chatEntity.lastMessageId);
+      }
+    }
+    return null;
   }
 }
