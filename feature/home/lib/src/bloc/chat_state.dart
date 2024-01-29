@@ -3,7 +3,8 @@ part of 'chat_bloc.dart';
 @immutable
 class ChatState {
   final ChatModel? currentChat;
-  final List<ChatModel>? chatsOfUser;
+  final List<ChatModel>? listOfAllChatsOfUser;
+  final List<ChatModel>? listOfFilteredChatsOfUser;
   final List<ChatMemberModel>? activeMembersOfChat;
   final List<ChatMemberModel>? allMembersOfChat;
   final Map<String, MessageModel> lastMessagesForChats;
@@ -11,7 +12,8 @@ class ChatState {
 
   const ChatState({
     required this.currentChat,
-    required this.chatsOfUser,
+    required this.listOfAllChatsOfUser,
+    required this.listOfFilteredChatsOfUser,
     required this.activeMembersOfChat,
     required this.allMembersOfChat,
     required this.error,
@@ -20,7 +22,8 @@ class ChatState {
 
   ChatState copyWith({
     ChatModel? currentChat,
-    List<ChatModel>? chatsOfUser,
+    List<ChatModel>? listOfAllChatsOfUser,
+    List<ChatModel>? listOfFilteredChatsOfUser,
     List<ChatMemberModel>? activeMembersOfChat,
     List<ChatMemberModel>? allMembersOfChat,
     String? error,
@@ -28,7 +31,9 @@ class ChatState {
   }) =>
       ChatState(
         currentChat: currentChat ?? this.currentChat,
-        chatsOfUser: chatsOfUser ?? this.chatsOfUser,
+        listOfAllChatsOfUser: listOfAllChatsOfUser ?? this.listOfAllChatsOfUser,
+        listOfFilteredChatsOfUser:
+            listOfFilteredChatsOfUser ?? this.listOfFilteredChatsOfUser,
         activeMembersOfChat: activeMembersOfChat ?? this.activeMembersOfChat,
         allMembersOfChat: allMembersOfChat ?? this.allMembersOfChat,
         error: error ?? this.error,

@@ -38,7 +38,8 @@
         "name_form_label" : "Name",
         "save_changes" : "Save changes",
         "title" : "Account settings",
-        "select_photo" : "Select photo"
+        "select_photo" : "Select photo",
+        "logout" : "Log out"
     },
     "settings" : {
         "view_title" : "Settings",
@@ -54,7 +55,36 @@
     "chats" : {
         "title" : "Chats",
         "search" : "Search"
+    },
+
+    "chat_members" : {
+        "no_name" : "No name"
+    },
+
+    "personal_chat_view" : {
+        "no_messages_yet" : "There are no messages yet",
+        "write_message" : "Write message..."
+    },
+
+    "add_chat_view": {
+        "add_chat_title" : "Add chat",
+        "create_title" : "Create",
+        "connect_title" : "Connect",
+        "select_color" : "Select color",
+        "name_label" : "Name",
+        "name_hint" : "Enter new chat name",
+        "link_label" : "Link",
+        "link_hint" : "Enter link to chat",
+        "connect_button" : "Connect",
+        "create_button" : "Create"
+    },
+    "chat_settings_view": {
+        "leave_chat" : "Leave chat",
+        "title":      "Chat settings",
+        "inviting_link" : "Inviting link for this chat",
+        "copied_to_clipboard" : "Copied to your clipboard!"
     }
+
 
 
 

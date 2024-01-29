@@ -1,14 +1,10 @@
-import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/src/bloc/chat_bloc.dart';
 import 'package:navigation/navigation.dart';
-
-import '../messages_bloc/message_bloc.dart';
 import '../widgets/chats_list_cell.dart';
-import '../widgets/users_list_cell.dart';
 
 @RoutePage()
 class ChatsView extends StatefulWidget {
@@ -20,9 +16,11 @@ class ChatsView extends StatefulWidget {
 
 class _ChatsViewState extends State<ChatsView> {
   late final ChatBloc chatBloc;
+  late final TextEditingController _searchTextController;
   @override
   void initState() {
     chatBloc = BlocProvider.of<ChatBloc>(context);
+    _searchTextController = TextEditingController();
     super.initState();
   }
 
@@ -30,6 +28,12 @@ class _ChatsViewState extends State<ChatsView> {
   void didChangeDependencies() {
     chatBloc.add(GetChatsForUser());
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _searchTextController.dispose();
+    super.dispose();
   }
 
   @override
@@ -63,23 +67,6 @@ class _ChatsViewState extends State<ChatsView> {
                           TextButton(
                             onPressed: () async {
                               chatBloc.add(NavigateToAddChatViewEvent());
-
-                              /* MessageModel messageModel = const MessageModel(
-                                  id: "jknkj1234",
-                                  chatId: "jkjkjkl2134",
-                                  senderId: "kjnkjjk2134",
-                                  message: "Hello my friend!",
-                                  timeStamp: 124124124124124,
-                                );
-                                try {
-                                  context
-                                      .read<ChatBloc>()
-                                      .add(PostMessageToDBEvent(
-                                        messageModel: messageModel,
-                                      ));
-                                } catch (e) {
-                                  print(e.toString());
-                                }*/
                             },
                             child: Icon(
                               Icons.add,
@@ -97,6 +84,9 @@ class _ChatsViewState extends State<ChatsView> {
             Padding(
               padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
               child: TextField(
+                controller: _searchTextController,
+                onChanged: (text) => chatBloc
+                    .add(SearchInChatEvent(query: _searchTextController.text)),
                 decoration: InputDecoration(
                   hintText: LocaleKeys.chats_search.tr(),
                   hintStyle: TextStyle(color: Colors.grey.shade600),
@@ -117,12 +107,12 @@ class _ChatsViewState extends State<ChatsView> {
             BlocBuilder<ChatBloc, ChatState>(
               builder: (context, state) {
                 return ListView.builder(
-                  itemCount: state.chatsOfUser!.length,
+                  itemCount: state.listOfFilteredChatsOfUser!.length,
                   shrinkWrap: true,
                   padding: const EdgeInsets.only(top: 16),
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    final chat = state.chatsOfUser![index];
+                    final chat = state.listOfFilteredChatsOfUser![index];
                     final message = state.lastMessagesForChats[chat.id];
                     return ChatsInListCell(
                       chat: chat,

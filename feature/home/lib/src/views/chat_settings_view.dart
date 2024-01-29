@@ -1,4 +1,5 @@
 import 'package:auth/auth.dart';
+import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +23,9 @@ class ChatSettingsView extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: const Text(
-          "Chat settings",
-          style: TextStyle(fontSize: 24),
+        title: Text(
+          LocaleKeys.chat_settings_view_title.tr(),
+          style: const TextStyle(fontSize: 24),
         ),
         automaticallyImplyLeading: false,
         flexibleSpace: SafeArea(
@@ -53,9 +54,9 @@ class ChatSettingsView extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Inviting link for this chat",
-                    style: TextStyle(
+                  Text(
+                    LocaleKeys.chat_settings_view_inviting_link.tr(),
+                    style: const TextStyle(
                       fontSize: 20,
                     ),
                   ),
@@ -75,9 +76,10 @@ class ChatSettingsView extends StatelessWidget {
                                     text: chatBloc.state.currentChat!.id))
                                 .then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content:
-                                          Text('Copied to your clipboard!')));
+                                  SnackBar(
+                                      content: Text(LocaleKeys
+                                          .chat_settings_view_copied_to_clipboard
+                                          .tr())));
                             });
                           },
                           child: const Icon(
@@ -87,7 +89,7 @@ class ChatSettingsView extends StatelessWidget {
                         ),
                         Text(
                           chatBloc.state.currentChat!.id,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -157,7 +159,7 @@ class ChatSettingsView extends StatelessWidget {
                         ));
                       } else {}
                     },
-                    child: const Text("Leave chat"),
+                    child: Text(LocaleKeys.chat_settings_view_leave_chat.tr()),
                   ),
                 ),
               ),

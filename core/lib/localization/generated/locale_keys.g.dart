@@ -35,6 +35,7 @@ abstract class  LocaleKeys {
   static const account_settings_save_changes = 'account_settings.save_changes';
   static const account_settings_title = 'account_settings.title';
   static const account_settings_select_photo = 'account_settings.select_photo';
+  static const account_settings_logout = 'account_settings.logout';
   static const account_settings = 'account_settings';
   static const settings_view_title = 'settings.view_title';
   static const settings_choose_language_text = 'settings.choose_language_text';
@@ -46,5 +47,26 @@ abstract class  LocaleKeys {
   static const chats_title = 'chats.title';
   static const chats_search = 'chats.search';
   static const chats = 'chats';
+  static const chat_members_no_name = 'chat_members.no_name';
+  static const chat_members = 'chat_members';
+  static const personal_chat_view_no_messages_yet = 'personal_chat_view.no_messages_yet';
+  static const personal_chat_view_write_message = 'personal_chat_view.write_message';
+  static const personal_chat_view = 'personal_chat_view';
+  static const add_chat_view_add_chat_title = 'add_chat_view.add_chat_title';
+  static const add_chat_view_create_title = 'add_chat_view.create_title';
+  static const add_chat_view_connect_title = 'add_chat_view.connect_title';
+  static const add_chat_view_select_color = 'add_chat_view.select_color';
+  static const add_chat_view_name_label = 'add_chat_view.name_label';
+  static const add_chat_view_name_hint = 'add_chat_view.name_hint';
+  static const add_chat_view_link_label = 'add_chat_view.link_label';
+  static const add_chat_view_link_hint = 'add_chat_view.link_hint';
+  static const add_chat_view_connect_button = 'add_chat_view.connect_button';
+  static const add_chat_view_create_button = 'add_chat_view.create_button';
+  static const add_chat_view = 'add_chat_view';
+  static const chat_settings_view_leave_chat = 'chat_settings_view.leave_chat';
+  static const chat_settings_view_title = 'chat_settings_view.title';
+  static const chat_settings_view_inviting_link = 'chat_settings_view.inviting_link';
+  static const chat_settings_view_copied_to_clipboard = 'chat_settings_view.copied_to_clipboard';
+  static const chat_settings_view = 'chat_settings_view';
 
 }

@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
@@ -151,7 +152,7 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
               child: Card(
                 elevation: 2,
                 child: ColorPicker(
-                  pickersEnabled: <ColorPickerType, bool>{
+                  pickersEnabled: const <ColorPickerType, bool>{
                     ColorPickerType.accent: false,
                   },
                   enableShadesSelection: false,
@@ -167,7 +168,7 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
                   height: 44,
                   borderRadius: 22,
                   heading: Text(
-                    'Select color',
+                    LocaleKeys.add_chat_view_select_color.tr(),
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),

@@ -44,7 +44,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         super(const ChatState(
           error: null,
           currentChat: null,
-          chatsOfUser: [],
+          listOfFilteredChatsOfUser: [],
+          listOfAllChatsOfUser: [],
           activeMembersOfChat: [],
           allMembersOfChat: [],
           lastMessagesForChats: {},
@@ -59,6 +60,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<GetMembersOfChatEvent>(_getMembersOfChat);
     on<DisposeChatBlocEvent>(_dispose);
     on<NavigateToChatsViewEvent>(_navigateToChatsView);
+    on<SearchInChatEvent>(_searchChat);
     //on<GetLastMessagesOfChatEvent>(_getLastMessageOfChat);
   }
 
@@ -93,23 +95,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       ));
     }
   }
-/*
-  Future<void> _getLastMessageOfChat(
-    GetLastMessagesOfChatEvent event,
-    Emitter<ChatState> emit,
-  ) async {
-    Map<ChatModel, MessageModel> mapOfChatModelsToMessageModels = {};
-    if (state.chatsOfUser != null && state.chatsOfUser!.isNotEmpty) {
-      mapOfChatModelsToMessageModels =
-          await _getLastMessageOfChatUseCase.execute(state.chatsOfUser!);
-    }
-
-    if (mapOfChatModelsToMessageModels != null) {
-      emit(state.copyWith(
-        lastMessagesForChats: mapOfChatModelsToMessageModels,
-      ));
-    }
-  }*/
 
   void _getChatsForUser(
     GetChatsForUser event,
@@ -126,9 +111,29 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       if (mapOfChatModelsToMessageModels != null) {
         emit(state.copyWith(
           lastMessagesForChats: mapOfChatModelsToMessageModels,
-          chatsOfUser: chatModels,
+          listOfAllChatsOfUser: chatModels,
+          listOfFilteredChatsOfUser: chatModels,
         ));
       }
+    }
+  }
+
+  void _searchChat(
+    SearchInChatEvent event,
+    Emitter<ChatState> emit,
+  ) {
+    String query = event.query;
+
+    if (state.listOfAllChatsOfUser != null &&
+        state.listOfAllChatsOfUser!.length != 0) {
+      final listOfFoundedElements = state.listOfAllChatsOfUser!.where((chat) {
+        final chatTitle = chat.title.toLowerCase();
+        final searchQuery = query.toLowerCase();
+        return chatTitle.contains(searchQuery);
+      }).toList();
+      emit(state.copyWith(
+        listOfFilteredChatsOfUser: listOfFoundedElements,
+      ));
     }
   }
 
@@ -212,7 +217,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     Emitter<ChatState> emit,
   ) async {
     emit(state.copyWith(
-      chatsOfUser: [],
+      listOfAllChatsOfUser: [],
       activeMembersOfChat: [],
       allMembersOfChat: [],
       currentChat: null,

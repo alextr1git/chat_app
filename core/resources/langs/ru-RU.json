@@ -38,7 +38,8 @@
         "name_form_label" : "Имя",
         "save_changes" : "Сохранить",
         "title" : "Настройки аккаунта",
-        "select_photo" : "Выбрать фото"
+        "select_photo" : "Выбрать фото",
+        "logout" : "Выйти"
     },
 
     "settings" : {
@@ -55,7 +56,40 @@
     "chats" : {
         "title" : "Чаты",
         "search" : "Поиск"
+    },
+
+    "chat_members" : {
+        "no_name" : "Нет имени"
+    },
+
+    "personal_chat_view" : {
+        "no_messages_yet" : "Список сообщений пуст",
+        "write_message" : "Напишите сообщение..."
+    },
+
+    "add_chat_view": {
+        "add_chat_title" : "Добавить чат",
+        "create_title" : "Создать",
+        "connect_title" : "Присоединиться",
+        "select_color" : "Выберить цвет",
+        "name_label" : "Название",
+        "name_hint" : "Введите название вашего чата",
+        "link_label" : "Сссылка",
+        "link_hint" : "Введите ссылку чата",
+        "connect_button" : "Присоединиться",
+        "create_button" : "Создать"
+    },
+    "chat_settings_view": {
+        "leave_chat" : "Покинуть чат",
+        "title":      "Настройки чата",
+        "inviting_link" : "Ссылка на этот чат",
+        "copied_to_clipboard" : "Ссылка скопирована!"
     }
 
+
+
+
 }
+
+
 

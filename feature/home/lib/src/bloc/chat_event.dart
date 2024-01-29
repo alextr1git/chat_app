@@ -41,6 +41,12 @@ class GetLastMessagesOfChatEvent extends ChatEvent {
   GetLastMessagesOfChatEvent({required this.listOfChatModels});
 }
 
+class SearchInChatEvent extends ChatEvent {
+  final String query;
+
+  SearchInChatEvent({required this.query});
+}
+
 class RemoveUserFromChatEvent extends ChatEvent {
   final String userID;
   final ChatModel chat;

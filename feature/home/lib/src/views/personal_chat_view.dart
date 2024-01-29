@@ -97,9 +97,12 @@ class _PersonalChatViewState extends State<PersonalChatView> {
           BlocBuilder<MessageBloc, MessageState>(
             builder: (context, state) {
               if (state is MessageLoadedState) {
-                if (state.listOfMessageModel.length == 0) {
+                if (state.listOfMessageModel.isEmpty) {
                   return Expanded(
-                      child: Center(child: Text("There are no messages yet")));
+                      child: Center(
+                          child: Text(LocaleKeys
+                              .personal_chat_view_no_messages_yet
+                              .tr())));
                 } else {
                   return Expanded(
                       child: ListView.builder(
@@ -130,13 +133,7 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                                           : null,
                                   message:
                                       state.listOfMessageModel[index].message,
-                                  image:
-                                      null /*chatBloc.state.membersOfChat!
-                                .firstWhere((member) =>
-                                    member.uid ==
-                                    state.listOfMessageModel[index].senderId)
-                                .image!*/
-                                  ,
+                                  image: null,
                                 )));
                     },
                   ));
@@ -165,9 +162,11 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                         Expanded(
                           child: TextField(
                             controller: _messageTextController,
-                            decoration: const InputDecoration(
-                              hintText: "Write message...",
-                              hintStyle: TextStyle(color: Colors.black54),
+                            decoration: InputDecoration(
+                              hintText: LocaleKeys
+                                  .personal_chat_view_write_message
+                                  .tr(),
+                              hintStyle: const TextStyle(color: Colors.black54),
                               border: InputBorder.none,
                             ),
                           ),
