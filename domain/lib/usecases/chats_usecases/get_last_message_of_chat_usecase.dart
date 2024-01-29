@@ -1,16 +1,17 @@
 import 'package:domain/domain.dart';
 import 'package:domain/usecases/usecase.dart';
 
-class GetLastMessageOfChatUseCase
-    implements FutureUseCase<ChatModel, MessageModel?> {
+class GetLastsMessagesOfChatUseCase
+    implements FutureUseCase<List<ChatModel>, Map<String, MessageModel>> {
   final ChatRepository _chatRepository;
 
-  GetLastMessageOfChatUseCase({
+  GetLastsMessagesOfChatUseCase({
     required ChatRepository chatRepository,
   }) : _chatRepository = chatRepository;
 
   @override
-  Future<MessageModel?> execute(ChatModel chatModel) async {
-    return _chatRepository.getModelOfLastMessageOfChat(chatModel);
+  Future<Map<String, MessageModel>> execute(
+      List<ChatModel> listOfChatModels) async {
+    return _chatRepository.getModelsOfLastMessagesOfChat(listOfChatModels);
   }
 }

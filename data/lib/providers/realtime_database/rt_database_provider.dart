@@ -34,7 +34,8 @@ abstract class RealTimeDatabaseProvider {
 
   Future<String> getUsernameByID(String userID);
 
-  Future<MessageEntity?> getLastMessageOfChat(ChatEntity chatEntity);
+  Future<Map<String, MessageEntity>> getLastMessagesOfChat(
+      List<ChatEntity> listOfChatEntities);
 
   Future<ChatEntity?> joinChat(String chatID, String userID);
 

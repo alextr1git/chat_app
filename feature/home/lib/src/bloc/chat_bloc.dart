@@ -20,7 +20,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final JoinChatUseCase _joinChatUseCase;
   final RemoveUserFromChatUseCase _removeUserFromChatUseCase;
   final GetUserUseCase _getUserUseCase;
-  final GetLastMessageOfChatUseCase _getLastMessageOfChatUseCase;
+  final GetLastsMessagesOfChatUseCase _getLastMessageOfChatUseCase;
 
   ChatBloc({
     required AppRouter router,
@@ -32,7 +32,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     required JoinChatUseCase joinChatUseCase,
     required RemoveUserFromChatUseCase removeUserFromChatUseCase,
     required GetUserUseCase getUserUseCase,
-    required GetLastMessageOfChatUseCase getLastMessageOfChatUseCase,
+    required GetLastsMessagesOfChatUseCase getLastMessageOfChatUseCase,
   })  : _router = router,
         _createNewChatUseCase = createNewChatUseCase,
         _getChatsForUserUseCase = getChatsForUserUseCase,
@@ -47,7 +47,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           chatsOfUser: [],
           activeMembersOfChat: [],
           allMembersOfChat: [],
-          lastMessageModel: null,
+          lastMessagesForChats: {},
         )) {
     on<CreateNewChatEvent>(_createNewChat);
     on<NavigateToPersonalChatViewEvent>(_navigateToPersonalChatView);
@@ -59,7 +59,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<GetMembersOfChatEvent>(_getMembersOfChat);
     on<DisposeChatBlocEvent>(_dispose);
     on<NavigateToChatsViewEvent>(_navigateToChatsView);
-    on<GetLastMessageOfChatEvent>(_getLastMessageOfChat);
+    //on<GetLastMessagesOfChatEvent>(_getLastMessageOfChat);
   }
 
   Future<void> _createNewChat(
@@ -93,19 +93,23 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       ));
     }
   }
-
+/*
   Future<void> _getLastMessageOfChat(
-    GetLastMessageOfChatEvent event,
+    GetLastMessagesOfChatEvent event,
     Emitter<ChatState> emit,
   ) async {
-    MessageModel? lastMessageModel =
-        await _getLastMessageOfChatUseCase.execute(event.chatModel);
-    if (lastMessageModel != null) {
-      emit(
-        state.copyWith(lastMessageModel: lastMessageModel),
-      );
+    Map<ChatModel, MessageModel> mapOfChatModelsToMessageModels = {};
+    if (state.chatsOfUser != null && state.chatsOfUser!.isNotEmpty) {
+      mapOfChatModelsToMessageModels =
+          await _getLastMessageOfChatUseCase.execute(state.chatsOfUser!);
     }
-  }
+
+    if (mapOfChatModelsToMessageModels != null) {
+      emit(state.copyWith(
+        lastMessagesForChats: mapOfChatModelsToMessageModels,
+      ));
+    }
+  }*/
 
   void _getChatsForUser(
     GetChatsForUser event,
@@ -114,9 +118,18 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     List<ChatModel> chatModels =
         await _getChatsForUserUseCase.execute(const NoParams());
 
-    emit(
-      state.copyWith(chatsOfUser: chatModels),
-    );
+    Map<String, MessageModel> mapOfChatModelsToMessageModels = {};
+    if (chatModels != null && chatModels.isNotEmpty) {
+      mapOfChatModelsToMessageModels =
+          await _getLastMessageOfChatUseCase.execute(chatModels);
+
+      if (mapOfChatModelsToMessageModels != null) {
+        emit(state.copyWith(
+          lastMessagesForChats: mapOfChatModelsToMessageModels,
+          chatsOfUser: chatModels,
+        ));
+      }
+    }
   }
 
   Future<void> _removeUserFromChat(

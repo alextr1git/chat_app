@@ -8,10 +8,12 @@ import '../../home.dart';
 
 class ChatsInListCell extends StatefulWidget {
   final ChatModel chat;
+  final MessageModel? message;
 
   const ChatsInListCell({
     super.key,
     required this.chat,
+    required this.message,
   });
 
   @override
@@ -24,8 +26,12 @@ class _ChatsInListCellState extends State<ChatsInListCell> {
   @override
   void initState() {
     chatBloc = BlocProvider.of<ChatBloc>(context);
-    chatBloc.add(GetLastMessageOfChatEvent(chatModel: widget.chat));
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
@@ -74,9 +80,9 @@ class _ChatsInListCellState extends State<ChatsInListCell> {
                             height: 6,
                           ),
                           Text(
-                            (chatBloc.state.lastMessageModel != null)
-                                ? chatBloc.state.lastMessageModel!.message
-                                : "No messages yet",
+                            (widget.message != null
+                                ? widget.message!.message
+                                : "No messages yet"),
                             style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey.shade600,
@@ -90,12 +96,12 @@ class _ChatsInListCellState extends State<ChatsInListCell> {
               ),
             ),
             Text(
-              (chatBloc.state.lastMessageModel != null)
+              (widget.message != null
                   ? DateFormat('MM/dd hh:mm a')
                       .format(DateTime.fromMillisecondsSinceEpoch(
-                          chatBloc.state.lastMessageModel!.timeStamp))
+                          widget.message!.timeStamp))
                       .toString()
-                  : "",
+                  : ""),
               style:
                   const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
             ),

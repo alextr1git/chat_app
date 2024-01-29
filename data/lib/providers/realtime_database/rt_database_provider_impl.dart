@@ -373,19 +373,24 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
   }
 
   @override
-  Future<MessageEntity?> getLastMessageOfChat(ChatEntity chatEntity) async {
-    final DatabaseReference messageRef = _databaseReference
-        .child("messages")
-        .child(chatEntity.id)
-        .child(chatEntity.lastMessageId);
-    final DataSnapshot snapshot = await messageRef.get();
-    if (snapshot.exists) {
-      Object messageData = snapshot.value!;
-      if (messageData != null && messageData is Map<Object?, Object?>) {
-        return MessageEntity.fromJson(
-            messageData, chatEntity.id, chatEntity.lastMessageId);
+  Future<Map<String, MessageEntity>> getLastMessagesOfChat(
+      List<ChatEntity> listOfChatEntities) async {
+    Map<String, MessageEntity> mapOfMessageEntitiesToChatEntities = {};
+    for (ChatEntity chatEntity in listOfChatEntities) {
+      final DatabaseReference messageRef = _databaseReference
+          .child("messages")
+          .child(chatEntity.id)
+          .child(chatEntity.lastMessageId);
+      final DataSnapshot snapshot = await messageRef.get();
+      if (snapshot.exists) {
+        Object messageData = snapshot.value!;
+        if (messageData != null && messageData is Map<Object?, Object?>) {
+          mapOfMessageEntitiesToChatEntities[chatEntity.id] =
+              MessageEntity.fromJson(
+                  messageData, chatEntity.id, chatEntity.lastMessageId);
+        }
       }
     }
-    return null;
+    return mapOfMessageEntitiesToChatEntities;
   }
 }
