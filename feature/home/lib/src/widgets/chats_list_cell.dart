@@ -38,6 +38,7 @@ class _ChatsInListCellState extends State<ChatsInListCell> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        chatBloc.add(GetMembersOfChatEvent(chatModel: widget.chat));
         chatBloc
             .add(NavigateToPersonalChatViewEvent(selectedChat: widget.chat));
       },
@@ -82,7 +83,7 @@ class _ChatsInListCellState extends State<ChatsInListCell> {
                           Text(
                             (widget.message != null
                                 ? widget.message!.message
-                                : "No messages yet"),
+                                : LocaleKeys.chats_no_messages.tr()),
                             style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey.shade600,

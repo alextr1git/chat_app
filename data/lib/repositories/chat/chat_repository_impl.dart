@@ -82,12 +82,15 @@ class ChatRepositoryImpl implements ChatRepository {
       final String image = await _storageProvider.downloadImage(
         userId: chatMemberEntity.uid,
       );
+
       if (image != null) {
-        chatMemberEntity.copyWith(
+        final ChatMemberEntity newChatMemberEntity = chatMemberEntity.copyWith(
           image: image,
         );
+        chatMembersModels.add(ChatMemberMapper.toModel(newChatMemberEntity));
+      } else {
+        chatMembersModels.add(ChatMemberMapper.toModel(chatMemberEntity));
       }
-      chatMembersModels.add(ChatMemberMapper.toModel(chatMemberEntity));
     }
     return chatMembersModels;
   }

@@ -88,14 +88,16 @@ class _ConnectToChatState extends State<ConnectToChat> {
             const SizedBox(height: 10),
             BlocBuilder<ChatBloc, ChatState>(
               builder: (context, state) {
-                return Visibility(
-                    visible: state.error != null,
-                    child: Text(
-                      state.error ?? "",
-                      style: TextStyle(
-                        color: Colors.redAccent[400],
-                      ),
-                    ));
+                if (state is ChatsErrorState) {
+                  return Text(
+                    state.error ?? "",
+                    style: TextStyle(
+                      color: Colors.redAccent[400],
+                    ),
+                  );
+                } else {
+                  return const Text("");
+                }
               },
             ),
             const SizedBox(height: 20),

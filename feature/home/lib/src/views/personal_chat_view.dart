@@ -10,7 +10,7 @@ import 'package:home/home.dart';
 import 'package:home/src/messages_bloc/message_bloc.dart';
 import 'package:home/src/widgets/service_message_ui.dart';
 import 'package:navigation/navigation.dart';
-
+import 'package:collection/collection.dart';
 import '../widgets/chat_member_message_ui.dart';
 import '../widgets/chat_owner_message_ui.dart';
 
@@ -33,8 +33,8 @@ class _PersonalChatViewState extends State<PersonalChatView> {
     _messageTextController = TextEditingController();
     chatBloc = BlocProvider.of<ChatBloc>(context);
     messageBloc = BlocProvider.of<MessageBloc>(context);
-    chatBloc.add(GetMembersOfChatEvent(chatModel: chatBloc.state.currentChat!));
-    messageBloc.add(InitMessageEvent(currentChat: chatBloc.state.currentChat!));
+    chatBloc.add(GetMembersOfChatEvent(chatModel: widget.chatModel));
+    messageBloc.add(InitMessageEvent(currentChat: widget.chatModel));
     super.initState();
   }
 
@@ -60,7 +60,7 @@ class _PersonalChatViewState extends State<PersonalChatView> {
               children: <Widget>[
                 TextButton(
                     onPressed: () {
-                      chatBloc.add(PopChatRouteEvent());
+                      chatBloc.add(NavigateToChatsViewEvent());
                       messageBloc.add(DisposeMessagesBlocEvent());
                     },
                     child: const Icon(Icons.arrow_back_ios_sharp)),
@@ -78,8 +78,6 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                 ),
                 TextButton(
                     onPressed: () {
-                      chatBloc.add(
-                          GetMembersOfChatEvent(chatModel: widget.chatModel));
                       messageBloc.add(NavigateToChatSettingsEvent(
                           currentChat: widget.chatModel));
                     },
@@ -94,10 +92,13 @@ class _PersonalChatViewState extends State<PersonalChatView> {
       ),
       body: Column(
         children: [
-          BlocBuilder<MessageBloc, MessageState>(
-            builder: (context, state) {
-              if (state is MessageLoadedState) {
-                if (state.listOfMessageModel.isEmpty) {
+          Builder(
+            builder: (context) {
+              final messageState = context.watch<MessageBloc>().state;
+              final chatState = context.watch<ChatBloc>().state;
+              if (messageState is MessageLoadedState &&
+                  chatState is ChatsSingleChatDataFetchedState) {
+                if (messageState.listOfMessageModel.isEmpty) {
                   return Expanded(
                       child: Center(
                           child: Text(LocaleKeys
@@ -107,34 +108,45 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                   return Expanded(
                       child: ListView.builder(
                     padding: const EdgeInsets.all(8),
-                    itemCount: state.listOfMessageModel.length,
+                    itemCount: messageState.listOfMessageModel.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return state.currentUser.id ==
-                              state.listOfMessageModel[index].senderId
+                      ChatMemberModel? chatMember =
+                          (chatState.allMembersOfChat != null &&
+                                  chatState.allMembersOfChat!.isNotEmpty)
+                              ? chatState
+                                  .allMembersOfChat!
+                                  .firstWhereOrNull((member) =>
+                                      member.uid ==
+                                      messageState
+                                          .listOfMessageModel[index].senderId)
+                              : null;
+                      String? username;
+                      FileImage? image;
+                      if (chatMember != null) {
+                        if (chatMember.username != null) {
+                          username = chatMember.username;
+                        }
+                        if (chatMember.image != null) {
+                          image = FileImage(File(chatMember.image!));
+                        }
+                      }
+                      return messageState.currentUser.id ==
+                              messageState.listOfMessageModel[index].senderId
                           ? ChatOwnerMessage(
                               colorOfMessage: Color(widget.chatModel.color),
-                              message: state.listOfMessageModel[index].message)
-                          : (state.listOfMessageModel[index].senderId ==
+                              message: messageState
+                                  .listOfMessageModel[index].message)
+                          : (messageState.listOfMessageModel[index].senderId ==
                                   "service"
                               ? ServiceMessage(
-                                  message:
-                                      state.listOfMessageModel[index].message,
+                                  message: messageState
+                                      .listOfMessageModel[index].message,
                                 )
                               : (ChatMemberMessage(
-                                  username:
-                                      (chatBloc.state.allMembersOfChat != null)
-                                          ? chatBloc.state.allMembersOfChat!
-                                              .firstWhere((member) =>
-                                                  member.uid ==
-                                                  state
-                                                      .listOfMessageModel[index]
-                                                      .senderId)
-                                              .username
-                                          : null,
-                                  message:
-                                      state.listOfMessageModel[index].message,
-                                  image: null,
-                                )));
+                                  username: username,
+                                  message: messageState
+                                      .listOfMessageModel[index].message,
+                                  image: image)));
                     },
                   ));
                 }

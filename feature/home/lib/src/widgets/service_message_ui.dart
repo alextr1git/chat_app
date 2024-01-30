@@ -24,7 +24,7 @@ class ServiceMessage extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Text(
               message,
-              style: const TextStyle(fontSize: 12),
+              style: const TextStyle(fontSize: 14),
             ),
           ),
         ),

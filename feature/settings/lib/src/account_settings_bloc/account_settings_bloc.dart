@@ -43,8 +43,6 @@ class AccountSettingsBloc
     if (userModel.photoURL != null && userModel.photoURL != '') {
       photoPath = await _downloadImageUseCase.execute(NoParams());
     }
-    print(photoPath);
-
     final String username = await _getUsernameByIDUsecase.execute(userModel.id);
 
     emit(

@@ -27,6 +27,8 @@ class GetChatsForUser extends ChatEvent {}
 
 class PopChatRouteEvent extends ChatEvent {}
 
+class PopAddChatRouteEvent extends ChatEvent {}
+
 class NavigateToChatsViewEvent extends ChatEvent {}
 
 class GetMembersOfChatEvent extends ChatEvent {

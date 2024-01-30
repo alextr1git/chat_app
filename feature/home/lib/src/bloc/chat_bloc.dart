@@ -41,15 +41,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         _removeUserFromChatUseCase = removeUserFromChatUseCase,
         _getUserUseCase = getUserUseCase,
         _getLastMessageOfChatUseCase = getLastMessageOfChatUseCase,
-        super(const ChatState(
-          error: null,
-          currentChat: null,
-          listOfFilteredChatsOfUser: [],
-          listOfAllChatsOfUser: [],
-          activeMembersOfChat: [],
-          allMembersOfChat: [],
-          lastMessagesForChats: {},
-        )) {
+        super(ChatsDataFetchingState()) {
     on<CreateNewChatEvent>(_createNewChat);
     on<NavigateToPersonalChatViewEvent>(_navigateToPersonalChatView);
     on<NavigateToAddChatViewEvent>(_navigateToAddChatView);
@@ -61,6 +53,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<DisposeChatBlocEvent>(_dispose);
     on<NavigateToChatsViewEvent>(_navigateToChatsView);
     on<SearchInChatEvent>(_searchChat);
+    on<PopAddChatRouteEvent>(_popAddChatRouteEvent);
     //on<GetLastMessagesOfChatEvent>(_getLastMessageOfChat);
   }
 
@@ -71,10 +64,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     final ChatModel? createdChatModel =
         await _createNewChatUseCase.execute(event.chatModel);
     if (createdChatModel != null) {
-      add(PopChatRouteEvent());
-      add(GetMembersOfChatEvent(chatModel: createdChatModel));
       add(NavigateToPersonalChatViewEvent(selectedChat: createdChatModel));
-      add(GetChatsForUser());
     }
   }
 
@@ -83,16 +73,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     Emitter<ChatState> emit,
   ) async {
     final ChatModel? chatModel = await _joinChatUseCase.execute(event.chatID);
-
     if (chatModel != null) {
-      emit(state.copyWith(
-        error: null,
-      ));
-      add(GetChatsForUser()); // cause when we join chat and then pop view we should see updated list
+      add(NavigateToPersonalChatViewEvent(selectedChat: chatModel));
     } else {
-      emit(state.copyWith(
-        error: "Cannot find chat by provided link",
-      ));
+      emit(ChatsErrorState(error: "Cannot find chat by provided link"));
     }
   }
 
@@ -100,21 +84,21 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     GetChatsForUser event,
     Emitter<ChatState> emit,
   ) async {
+    emit(ChatsDataFetchingState());
     List<ChatModel> chatModels =
         await _getChatsForUserUseCase.execute(const NoParams());
 
     Map<String, MessageModel> mapOfChatModelsToMessageModels = {};
-    if (chatModels != null && chatModels.isNotEmpty) {
+    if (chatModels != null) {
       mapOfChatModelsToMessageModels =
           await _getLastMessageOfChatUseCase.execute(chatModels);
-
-      if (mapOfChatModelsToMessageModels != null) {
-        emit(state.copyWith(
-          lastMessagesForChats: mapOfChatModelsToMessageModels,
-          listOfAllChatsOfUser: chatModels,
-          listOfFilteredChatsOfUser: chatModels,
-        ));
-      }
+      emit(ChatsAllDataFetchedState(
+        listOfAllChatsOfUser: chatModels,
+        listOfFilteredChatsOfUser: chatModels,
+        lastMessagesForChats: mapOfChatModelsToMessageModels,
+      ));
+    } else {
+      emit(ChatsErrorState(error: 'Cannot retrieve data from server'));
     }
   }
 
@@ -123,17 +107,22 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     Emitter<ChatState> emit,
   ) {
     String query = event.query;
-
-    if (state.listOfAllChatsOfUser != null &&
-        state.listOfAllChatsOfUser!.length != 0) {
-      final listOfFoundedElements = state.listOfAllChatsOfUser!.where((chat) {
-        final chatTitle = chat.title.toLowerCase();
-        final searchQuery = query.toLowerCase();
-        return chatTitle.contains(searchQuery);
-      }).toList();
-      emit(state.copyWith(
-        listOfFilteredChatsOfUser: listOfFoundedElements,
-      ));
+    if (state is ChatsAllDataFetchedState) {
+      if ((state as ChatsAllDataFetchedState).listOfAllChatsOfUser != null &&
+          (state as ChatsAllDataFetchedState)
+              .listOfAllChatsOfUser!
+              .isNotEmpty) {
+        final listOfFoundedElements = (state as ChatsAllDataFetchedState)
+            .listOfAllChatsOfUser!
+            .where((chat) {
+          final chatTitle = chat.title.toLowerCase();
+          final searchQuery = query.toLowerCase();
+          return chatTitle.contains(searchQuery);
+        }).toList();
+        emit((state as ChatsAllDataFetchedState).copyWith(
+          listOfFilteredChatsOfUser: listOfFoundedElements,
+        ));
+      }
     }
   }
 
@@ -156,6 +145,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       };
       await _removeUserFromChatUseCase.execute(mapOfRemoveUser);
 
+      // add(GetChatsForUser()); // this better be fixed - it doesn't fast enough to rebuild ui after deletion
       if (!isDeleteChat) {
         //if the member has been kicked out from chat
         add(PopChatRouteEvent());
@@ -170,6 +160,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     GetMembersOfChatEvent event,
     Emitter<ChatState> emit,
   ) async {
+    emit(ChatsDataFetchingState());
     List<ChatMemberModel> listOfActiveChatMemberModels = [];
     List<ChatMemberModel> listOfChatMemberModels =
         await _getMembersOfChatUsecase.execute(event.chatModel.id);
@@ -178,56 +169,55 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         listOfActiveChatMemberModels.add(member);
       }
     }
-    emit(
-      state.copyWith(
-        allMembersOfChat: listOfChatMemberModels,
-        activeMembersOfChat: listOfActiveChatMemberModels,
-      ),
-    );
+    emit(ChatsSingleChatDataFetchedState(
+      currentChat: event.chatModel,
+      activeMembersOfChat: listOfActiveChatMemberModels,
+      allMembersOfChat: listOfChatMemberModels,
+    ));
   }
 
   Future<void> _navigateToPersonalChatView(
     NavigateToPersonalChatViewEvent event,
     Emitter<ChatState> emit,
   ) async {
-    emit(
-      state.copyWith(
-        currentChat: event.selectedChat,
-      ),
-    );
-    _router.push(PersonalChatRoute(chatModel: event.selectedChat));
+    _router.replace(PersonalChatRoute(chatModel: event.selectedChat));
   }
 
   Future<void> _navigateToAddChatView(
     _,
     Emitter<ChatState> emit,
   ) async {
-    _router.push(const AddChatRoute());
+    _router.replace(const AddChatRoute());
   }
 
   Future<void> _popChatRouteEvent(
     _,
     Emitter<ChatState> emit,
   ) async {
+    add(GetChatsForUser());
     _router.pop();
+  }
+
+  Future<void> _popAddChatRouteEvent(
+    _,
+    Emitter<ChatState> emit,
+  ) async {
+    add(GetChatsForUser());
+    _router.replace(const SharedNavbarRoute());
   }
 
   Future<void> _dispose(
     _,
     Emitter<ChatState> emit,
   ) async {
-    emit(state.copyWith(
-      listOfAllChatsOfUser: [],
-      activeMembersOfChat: [],
-      allMembersOfChat: [],
-      currentChat: null,
-    ));
+    emit(ChatsDataFetchingState());
   }
 
   Future<void> _navigateToChatsView(
     _,
     Emitter<ChatState> emit,
   ) async {
+    add(GetChatsForUser());
     _router.replace(const SharedNavbarRoute());
   }
 }

@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		lkIARDWONTlYau9vU81FEK0hrkY=
+		HvJIirpQxR/BcmFYMmeBftTlVhE=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		BrfuUvR3lltUeowKZl5KpL6UGk4=
+		JPiUHa8CmtdsxalItET55SRcTvs=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<data>
@@ -90,15 +90,15 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		9+feKFDYr1UZiTrRVFfNLFCJaqg=
+		KBOB0DMN7qjGPXcbguHxTADygXk=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/core/resources/langs/en-US.json</key>
 		<data>
-		nBagP4Lbple16C+M8eHUEeVp+RM=
+		c74jieYBMEphL/m6soc9XcmQs1Y=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/core/resources/langs/ru-RU.json</key>
 		<data>
-		BvnEoUXlzWS3IeKrtyeD4woVfQk=
+		kzMCR6UEAJCl8jxb8wURlD4JQRI=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -806,7 +806,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			y3L/45+AnBMlYlRd9C955cYuUHaUewlDGenU2Z14oH4=
+			8N0LiyhHFkc9UbFRvjQMwMAXaf2Yiop2m2T5cH63dG8=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -820,7 +820,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			xnyNfcafRR0mUhEh2NrrauthY+IyTkyFTmNFdww1cQA=
+			k4OT7NjFoEKAt6FMtZKcfLBycmMS+pKrcjfxRMBEWik=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
@@ -883,21 +883,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			h3W8sLRWYLuzB4vKgKYXQ698/AqGuoy803Ai8zHqFGQ=
+			3H0QkaesU19IQZ7M0s00BtugD7G0FffoBv/XaXa3SOI=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/core/resources/langs/en-US.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			yDky5yr0ITBr9J6V9MaqrXvkgUB0mt6mVE12rhFmoKw=
+			9ds5huu1vMbOUtIKU3yUpKiLP+kx90xLrm7IT8RRObM=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/core/resources/langs/ru-RU.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			T2ra1aiqREaQdh+4FnGpHFG8vnmilJI1IqR6s5zPknY=
+			gq4jvh0MFrSWR+u0wQjHhKK+sCanfCN0zGtyZ54KFvg=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>

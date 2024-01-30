@@ -61,9 +61,9 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
               }
             }, itemBuilder: (context) {
               return [
-                const PopupMenuItem<MenuAction>(
+                PopupMenuItem<MenuAction>(
                   value: MenuAction.logout,
-                  child: Text('Log out'),
+                  child: Text(LocaleKeys.account_settings_logout.tr()),
                 ),
               ];
             })
@@ -152,10 +152,24 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      accountSettingsBloc.add(UpdateNameAndImageEvent(
-                        userName: _nameController.text,
-                        image: _image,
-                      ));
+                      if (_nameController.text.length >= 4 &&
+                          _nameController.text.length <= 20) {
+                        accountSettingsBloc.add(UpdateNameAndImageEvent(
+                          userName: _nameController.text,
+                          image: _image,
+                        ));
+                        SnackBar snackBar = SnackBar(
+                          content: Text(
+                              LocaleKeys.account_settings_changes_applied.tr()),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        SnackBar snackBar = SnackBar(
+                          content: Text(
+                              LocaleKeys.account_settings_changes_applied.tr()),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                     },
                     child: Text(LocaleKeys.account_settings_save_changes.tr())),
               ]);

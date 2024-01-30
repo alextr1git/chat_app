@@ -116,7 +116,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     NavigateToChatSettingsEvent event,
     Emitter<MessageState> emit,
   ) {
-    _router.push(const ChatSettingsRoute());
+    _router.push(ChatSettingsRoute(chatModel: event.currentChat));
   }
 
   void _popChatSettingsView(

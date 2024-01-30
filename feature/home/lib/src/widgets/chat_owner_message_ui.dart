@@ -17,6 +17,7 @@ class ChatOwnerMessage extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(left: 14, right: 14, bottom: 10),
           child: Container(
+            constraints: BoxConstraints(maxWidth: 300),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: colorOfMessage,
@@ -25,6 +26,7 @@ class ChatOwnerMessage extends StatelessWidget {
             child: Text(
               message,
               style: const TextStyle(fontSize: 15),
+              textAlign: TextAlign.left,
             ),
           ),
         ),

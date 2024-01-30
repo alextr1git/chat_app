@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:core_ui/core_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:home/src/messages_bloc/message_bloc.dart';
 import '../../home.dart';
 
 class UserInListCell extends StatelessWidget {
+  final ChatModel chatModel;
   final ChatMemberModel chatMemberModel;
   final bool isShowingToCreator;
   final bool isCreator;
@@ -15,10 +18,17 @@ class UserInListCell extends StatelessWidget {
     required this.chatMemberModel,
     required this.isShowingToCreator,
     required this.isCreator,
+    required this.chatModel,
   });
 
   @override
   Widget build(BuildContext context) {
+    final FileImage? image;
+    if (chatMemberModel.image != null) {
+      image = FileImage(File(chatMemberModel.image!));
+    } else {
+      image = null;
+    }
     ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
     MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
     return Container(
@@ -29,10 +39,7 @@ class UserInListCell extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 CircleAvatar(
-                  backgroundImage: /*widget._image != null
-                          ? FileImage(widget._image!)
-                          :*/
-                      null,
+                  backgroundImage: image,
                   maxRadius: 30,
                 ),
                 const SizedBox(
@@ -78,12 +85,12 @@ class UserInListCell extends StatelessWidget {
                 if (shouldLogout) {
                   chatBloc.add(RemoveUserFromChatEvent(
                     userID: chatMemberModel.uid,
-                    chat: chatBloc.state.currentChat!,
+                    chat: chatModel,
                   ));
                   messageBloc.add(PostServiceMessageToDBEvent(
                     serviceType: "remove",
                     username: chatMemberModel.username,
-                    chatID: chatBloc.state.currentChat!.id,
+                    chatID: chatModel.id,
                     timestamp: DateTime.now().millisecondsSinceEpoch,
                   ));
                 } else {}

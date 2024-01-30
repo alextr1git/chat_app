@@ -17,17 +17,13 @@ class ChatsView extends StatefulWidget {
 class _ChatsViewState extends State<ChatsView> {
   late final ChatBloc chatBloc;
   late final TextEditingController _searchTextController;
+
   @override
   void initState() {
     chatBloc = BlocProvider.of<ChatBloc>(context);
     _searchTextController = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
     chatBloc.add(GetChatsForUser());
-    super.didChangeDependencies();
+    super.initState();
   }
 
   @override
@@ -106,20 +102,36 @@ class _ChatsViewState extends State<ChatsView> {
             ),
             BlocBuilder<ChatBloc, ChatState>(
               builder: (context, state) {
-                return ListView.builder(
-                  itemCount: state.listOfFilteredChatsOfUser!.length,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 16),
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final chat = state.listOfFilteredChatsOfUser![index];
-                    final message = state.lastMessagesForChats[chat.id];
-                    return ChatsInListCell(
-                      chat: chat,
-                      message: message,
+                switch (state) {
+                  case ChatsAllDataFetchedState _:
+                    return ListView.builder(
+                      itemCount: state.listOfFilteredChatsOfUser!.length,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(top: 16),
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final chat = state.listOfFilteredChatsOfUser![index];
+                        final message = state.lastMessagesForChats[chat.id];
+                        return ChatsInListCell(
+                          chat: chat,
+                          message: message,
+                        );
+                      },
                     );
-                  },
-                );
+                  case ChatsDataFetchingState _:
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+
+                  case ChatsErrorState _:
+                    return Center(
+                      child: Text(state.error!),
+                    );
+                  default:
+                    return const Center(
+                      child: Text("Something went wrong :("),
+                    );
+                }
               },
             ),
           ],

@@ -39,6 +39,8 @@
         "save_changes" : "Save changes",
         "title" : "Account settings",
         "select_photo" : "Select photo",
+        "changes_applied" : "Changes saved!\nIt may take some time to apply them",
+        "changes_cant_be_applied" : "Invalid data!\nPlease make sure that image and name are valid data",
         "logout" : "Log out"
     },
     "settings" : {
@@ -54,7 +56,8 @@
 
     "chats" : {
         "title" : "Chats",
-        "search" : "Search"
+        "search" : "Search",
+        "no_messages" : "No messages yet"
     },
 
     "chat_members" : {
@@ -84,6 +87,7 @@
         "inviting_link" : "Inviting link for this chat",
         "copied_to_clipboard" : "Copied to your clipboard!"
     }
+
 
 
 

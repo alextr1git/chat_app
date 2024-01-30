@@ -20,6 +20,12 @@ class AddChatView extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          leading: TextButton(
+            onPressed: () {
+              chatBloc.add(PopAddChatRouteEvent());
+            },
+            child: const Icon(Icons.arrow_back_ios_sharp),
+          ),
           title: Text(LocaleKeys.add_chat_view_add_chat_title.tr()),
           bottom: TabBar(
             tabs: <Widget>[
@@ -67,17 +73,18 @@ class AddChatView extends StatelessWidget {
                 String text,
                 int? color,
               ) {
-                chatBloc.add(JoinChatEvent(chatID: text));
-                if (chatBloc.state.error == null) {
-                  messageBloc.add(PostServiceMessageToDBEvent(
-                    serviceType: "join",
-                    username: null,
-                    chatID: chatBloc.state.currentChat!.id,
-                    timestamp: DateTime.now().millisecondsSinceEpoch,
-                  ));
-                  chatBloc.add(PopChatRouteEvent());
-                  chatBloc.add(NavigateToPersonalChatViewEvent(
-                      selectedChat: chatBloc.state.currentChat!));
+                if (text.length == 20) {
+                  chatBloc.add(JoinChatEvent(chatID: text));
+                  if (chatBloc.state is ChatsDataFetchingState) {
+                    messageBloc.add(PostServiceMessageToDBEvent(
+                      serviceType: "join",
+                      username: null,
+                      chatID: text,
+                      timestamp: DateTime.now().millisecondsSinceEpoch,
+                    ));
+                  }
+                } else {
+                  chatBloc.emit(ChatsErrorState(error: "Link is invalid"));
                 }
               },
               icon: const Icon(Icons.link),

@@ -19,9 +19,13 @@ abstract class _$HomeModuleRouter extends AutoRouterModule {
       );
     },
     ChatSettingsRoute.name: (routeData) {
+      final args = routeData.argsAs<ChatSettingsRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ChatSettingsView(),
+        child: ChatSettingsView(
+          key: args.key,
+          chatModel: args.chatModel,
+        ),
       );
     },
     ChatsRoute.name: (routeData) {
@@ -65,16 +69,24 @@ class AddChatRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [ChatSettingsView]
-class ChatSettingsRoute extends PageRouteInfo<void> {
-  const ChatSettingsRoute({List<PageRouteInfo>? children})
-      : super(
+class ChatSettingsRoute extends PageRouteInfo<ChatSettingsRouteArgs> {
+  ChatSettingsRoute({
+    Key? key,
+    required ChatModel chatModel,
+    List<PageRouteInfo>? children,
+  }) : super(
           ChatSettingsRoute.name,
+          args: ChatSettingsRouteArgs(
+            key: key,
+            chatModel: chatModel,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'ChatSettingsRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<ChatSettingsRouteArgs> page =
+      PageInfo<ChatSettingsRouteArgs>(name);
 }
 
 /// generated route for
@@ -126,6 +138,22 @@ class PersonalChatRouteArgs {
   @override
   String toString() {
     return 'PersonalChatRouteArgs{key: $key, chatModel: $chatModel}';
+  }
+}
+
+class ChatSettingsRouteArgs {
+  const ChatSettingsRouteArgs({
+    this.key,
+    required this.chatModel,
+  });
+
+  final Key? key;
+
+  final ChatModel chatModel;
+
+  @override
+  String toString() {
+    return 'ChatSettingsRouteArgs{key: $key, chatModel: $chatModel}';
   }
 }
 

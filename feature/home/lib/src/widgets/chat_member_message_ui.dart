@@ -32,6 +32,7 @@ class ChatMemberMessage extends StatelessWidget {
                 width: 10,
               ),
               Container(
+                constraints: const BoxConstraints(maxWidth: 300),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.grey.shade200),

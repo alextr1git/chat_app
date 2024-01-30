@@ -11,8 +11,10 @@ import 'package:navigation/navigation.dart';
 
 @RoutePage()
 class ChatSettingsView extends StatelessWidget {
+  final ChatModel chatModel;
   const ChatSettingsView({
     super.key,
+    required this.chatModel,
   });
 
   @override
@@ -72,8 +74,7 @@ class ChatSettingsView extends StatelessWidget {
                       children: [
                         TextButton(
                           onPressed: () {
-                            Clipboard.setData(ClipboardData(
-                                    text: chatBloc.state.currentChat!.id))
+                            Clipboard.setData(ClipboardData(text: chatModel.id))
                                 .then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -88,7 +89,7 @@ class ChatSettingsView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          chatBloc.state.currentChat!.id,
+                          chatModel.id,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -105,30 +106,36 @@ class ChatSettingsView extends StatelessWidget {
             ),
             BlocBuilder<ChatBloc, ChatState>(
               builder: (context, state) {
-                return Expanded(
-                  flex: 3,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white70,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: ListView.builder(
-                        itemCount: chatBloc.state.activeMembersOfChat!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final chatMemberModel =
-                              chatBloc.state.activeMembersOfChat![index];
-                          return UserInListCell(
-                            chatMemberModel: chatMemberModel,
-                            isCreator: chatMemberModel.uid ==
-                                chatBloc.state.currentChat!.creatorId,
-                            isShowingToCreator:
-                                (messageBloc.state as MessageLoadedState)
-                                        .currentUser
-                                        .id ==
-                                    chatBloc.state.currentChat!.creatorId,
-                          );
-                        }),
-                  ),
-                );
+                if (state is ChatsSingleChatDataFetchedState &&
+                    messageBloc.state is MessageLoadedState) {
+                  return Expanded(
+                    flex: 3,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: ListView.builder(
+                          itemCount: state.activeMembersOfChat.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final chatMemberModel =
+                                state.activeMembersOfChat[index];
+                            return UserInListCell(
+                              chatModel: chatModel,
+                              chatMemberModel: chatMemberModel,
+                              isCreator: chatMemberModel.uid ==
+                                  state.currentChat.creatorId,
+                              isShowingToCreator:
+                                  (messageBloc.state as MessageLoadedState)
+                                          .currentUser
+                                          .id ==
+                                      state.currentChat.creatorId,
+                            );
+                          }),
+                    ),
+                  );
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
               },
             ),
             Expanded(
@@ -148,13 +155,13 @@ class ChatSettingsView extends StatelessWidget {
                       if (shouldLogout) {
                         chatBloc.add(RemoveUserFromChatEvent(
                           userID: "self",
-                          chat: chatBloc.state.currentChat!,
+                          chat: chatModel,
                         ));
 
                         messageBloc.add(PostServiceMessageToDBEvent(
                           serviceType: "leave",
                           username: null,
-                          chatID: chatBloc.state.currentChat!.id,
+                          chatID: chatModel.id,
                           timestamp: DateTime.now().millisecondsSinceEpoch,
                         ));
                       } else {}
