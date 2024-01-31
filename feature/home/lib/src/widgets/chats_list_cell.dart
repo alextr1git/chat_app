@@ -2,8 +2,6 @@ import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:home/src/messages_bloc/message_bloc.dart';
-
 import '../../home.dart';
 
 class ChatsInListCell extends StatefulWidget {
@@ -54,8 +52,9 @@ class _ChatsInListCellState extends State<ChatsInListCell> {
                     width: 50,
                     height: 50,
                     decoration: BoxDecoration(
-                        color: Color(widget.chat.color) ?? Colors.white10,
-                        borderRadius: BorderRadius.all(Radius.circular(24))),
+                        color: Color(widget.chat.color),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(24))),
                     child: Container(
                       width: 50,
                       height: 50,

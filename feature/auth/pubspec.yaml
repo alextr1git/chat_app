@@ -12,10 +12,14 @@ dependencies:
     sdk: flutter
   core:
     path: ../../core
+  data:
+    path: ../../data
   domain:
     path: ../../domain
   core_ui:
     path: ../../core_ui
+  home:
+    path: ../../feature/home
   navigation:
     path: ../../navigation
   equatable: ^2.0.5

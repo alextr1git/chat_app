@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:domain/usecases/usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +40,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     InitMessageEvent event,
     Emitter<MessageState> emit,
   ) async {
-    UserModel currentUser = await _getUserUseCase.execute(NoParams());
+    UserModel currentUser = await _getUserUseCase.execute(const NoParams());
 
     StreamSubscription<List<MessageModel>> subscriptionOfMessageModels =
         _getMessagesForChatUseCase
@@ -54,7 +53,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     });
     emit(MessageLoadedState(
       subscription: subscriptionOfMessageModels,
-      listOfMessageModel: [],
+      listOfMessageModel: const [],
       currentUser: currentUser,
     ));
   }
@@ -70,7 +69,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     PostServiceMessageToDBEvent event,
     Emitter<MessageState> emit,
   ) async {
-    final UserModel userModel = await _getUserUseCase.execute(NoParams());
+    final UserModel userModel = await _getUserUseCase.execute(const NoParams());
     final String username = event.username == null
         ? await _getUsernameByIDUseCase.execute(userModel.id)
         : event.username!;

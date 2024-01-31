@@ -15,6 +15,8 @@
         "title" : "Sign up",
         "second_title" : "We've never met before!",
         "call_to_action":"Create your account!",
+        "form_name_hint" : "Enter your username",
+        "form_name_label" : "Username",
         "form_email_hint" : "Enter your email",
         "form_email_label" : "Email",
         "form_password_hint" : "Enter your password",

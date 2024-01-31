@@ -1,11 +1,11 @@
 import 'package:domain/domain.dart';
 import 'package:domain/usecases/usecase.dart';
 
-class GetMembersOfChatUsecase
+class GetMembersOfChatUseCase
     implements FutureUseCase<String, List<ChatMemberModel>> {
   final ChatRepository _chatRepository;
 
-  GetMembersOfChatUsecase({
+  GetMembersOfChatUseCase({
     required ChatRepository chatRepository,
   }) : _chatRepository = chatRepository;
 

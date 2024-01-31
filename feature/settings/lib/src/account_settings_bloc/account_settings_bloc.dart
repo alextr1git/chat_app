@@ -14,19 +14,19 @@ class AccountSettingsBloc
   final SetUsernameUseCase _setUsernameUseCase;
   final UploadImageUseCase _uploadImageUseCase;
   final DownloadImageUseCase _downloadImageUseCase;
-  final GetUsernameByIDUseCase _getUsernameByIDUsecase;
+  final GetUsernameByIDUseCase _getUsernameByIDUseCase;
 
   AccountSettingsBloc({
     required getUserUseCase,
     required setUsernameUseCase,
     required uploadImageUseCase,
     required downloadImageUseCase,
-    required getUsernameByIDUsecase,
+    required getUsernameByIDUseCase,
   })  : _getUserUseCase = getUserUseCase,
         _setUsernameUseCase = setUsernameUseCase,
         _uploadImageUseCase = uploadImageUseCase,
         _downloadImageUseCase = downloadImageUseCase,
-        _getUsernameByIDUsecase = getUsernameByIDUsecase,
+        _getUsernameByIDUseCase = getUsernameByIDUseCase,
         super(AccountSettingsState.init) {
     on<InitSettingsEvent>(_initSettings);
     on<UpdateNameAndImageEvent>(_updateNameAndImage);
@@ -38,12 +38,12 @@ class AccountSettingsBloc
   ) async {
     String photoPath = '';
 
-    final UserModel userModel = await _getUserUseCase.execute(NoParams());
+    final UserModel userModel = await _getUserUseCase.execute(const NoParams());
 
     if (userModel.photoURL != null && userModel.photoURL != '') {
-      photoPath = await _downloadImageUseCase.execute(NoParams());
+      photoPath = await _downloadImageUseCase.execute(const NoParams());
     }
-    final String username = await _getUsernameByIDUsecase.execute(userModel.id);
+    final String username = await _getUsernameByIDUseCase.execute(userModel.id);
 
     emit(
       state.copyWith(
@@ -60,6 +60,6 @@ class AccountSettingsBloc
   ) async {
     await _setUsernameUseCase.execute(event.userName);
     await _uploadImageUseCase.execute(event.image);
-    await _downloadImageUseCase.execute(NoParams());
+    await _downloadImageUseCase.execute(const NoParams());
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:domain/usecases/usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,11 +11,9 @@ part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final AppRouter _router;
-
   final CreateNewChatUseCase _createNewChatUseCase;
-
   final GetChatsForUserUseCase _getChatsForUserUseCase;
-  final GetMembersOfChatUsecase _getMembersOfChatUsecase;
+  final GetMembersOfChatUseCase _getMembersOfChatUseCase;
   final JoinChatUseCase _joinChatUseCase;
   final RemoveUserFromChatUseCase _removeUserFromChatUseCase;
   final GetUserUseCase _getUserUseCase;
@@ -28,7 +25,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     required CreateNewChatUseCase createNewChatUseCase,
     required GetMessagesForChatUseCase getMessagesForChatUseCase,
     required GetChatsForUserUseCase getChatsForUserUseCase,
-    required GetMembersOfChatUsecase getMembersOfChatUsecase,
+    required GetMembersOfChatUseCase getMembersOfChatUsecase,
     required JoinChatUseCase joinChatUseCase,
     required RemoveUserFromChatUseCase removeUserFromChatUseCase,
     required GetUserUseCase getUserUseCase,
@@ -36,7 +33,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   })  : _router = router,
         _createNewChatUseCase = createNewChatUseCase,
         _getChatsForUserUseCase = getChatsForUserUseCase,
-        _getMembersOfChatUsecase = getMembersOfChatUsecase,
+        _getMembersOfChatUseCase = getMembersOfChatUsecase,
         _joinChatUseCase = joinChatUseCase,
         _removeUserFromChatUseCase = removeUserFromChatUseCase,
         _getUserUseCase = getUserUseCase,
@@ -54,7 +51,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<NavigateToChatsViewEvent>(_navigateToChatsView);
     on<SearchInChatEvent>(_searchChat);
     on<PopAddChatRouteEvent>(_popAddChatRouteEvent);
-    //on<GetLastMessagesOfChatEvent>(_getLastMessageOfChat);
   }
 
   Future<void> _createNewChat(
@@ -136,7 +132,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (userID != null && chatID != null) {
       if (userID == "self") {
         isDeleteChat = true;
-        UserModel userModel = await _getUserUseCase.execute(NoParams());
+        UserModel userModel = await _getUserUseCase.execute(const NoParams());
         userID = userModel.id;
       }
       Map<String, String> mapOfRemoveUser = {
@@ -163,7 +159,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     emit(ChatsDataFetchingState());
     List<ChatMemberModel> listOfActiveChatMemberModels = [];
     List<ChatMemberModel> listOfChatMemberModels =
-        await _getMembersOfChatUsecase.execute(event.chatModel.id);
+        await _getMembersOfChatUseCase.execute(event.chatModel.id);
     for (var member in listOfChatMemberModels) {
       if (member.isMember) {
         listOfActiveChatMemberModels.add(member);
@@ -174,6 +170,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       activeMembersOfChat: listOfActiveChatMemberModels,
       allMembersOfChat: listOfChatMemberModels,
     ));
+  }
+
+  Future<void> _navigateToChatsView(
+    _,
+    Emitter<ChatState> emit,
+  ) async {
+    add(GetChatsForUser());
+    _router.replace(const SharedNavbarRoute());
   }
 
   Future<void> _navigateToPersonalChatView(
@@ -211,13 +215,5 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     Emitter<ChatState> emit,
   ) async {
     emit(ChatsDataFetchingState());
-  }
-
-  Future<void> _navigateToChatsView(
-    _,
-    Emitter<ChatState> emit,
-  ) async {
-    add(GetChatsForUser());
-    _router.replace(const SharedNavbarRoute());
   }
 }

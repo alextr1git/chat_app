@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ChatMemberMessage extends StatelessWidget {
-  final String? username;
+  final String username;
   final String message;
   final FileImage? image;
 

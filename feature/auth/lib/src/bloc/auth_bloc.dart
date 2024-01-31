@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:auth/src/navigation/router.dart';
-import 'package:home/src/navigation/router.dart';
+import 'package:home/home.dart';
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:domain/usecases/usecase.dart';
@@ -162,7 +162,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _,
     Emitter<AuthState> emit,
   ) async {
-    _logoutUserUseCase.execute(NoParams());
+    _logoutUserUseCase.execute(const NoParams());
     _router.replace(const LoginRoute());
   }
 
@@ -184,7 +184,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _,
     Emitter<AuthState> emit,
   ) async {
-    await _sendVerificationEmailUseCase.execute(NoParams());
+    await _sendVerificationEmailUseCase.execute(const NoParams());
   }
 
   Future<void> _setUsername(
@@ -201,10 +201,3 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await _setUserPhotoURLUseCase.execute(event.userPhotoURL);
   }
 }
-
-// //generic exceptions
-//     class NetworkRequestFailedAuthException implements Exception {}
-//
-//     class GenericAuthException implements Exception {}
-//
-//     class UserNotLoggedInAuthException implements Exception {}

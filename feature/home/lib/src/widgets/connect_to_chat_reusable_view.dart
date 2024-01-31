@@ -14,7 +14,7 @@ class ConnectToChat extends StatefulWidget {
 
   final Icon _icon;
 
-  ConnectToChat({
+  const ConnectToChat({
     required String textFieldHint,
     required String textFieldLabel,
     required String buttonText,
@@ -53,65 +53,67 @@ class _ConnectToChatState extends State<ConnectToChat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisAlignment: (widget._showColorPicker)
-              ? MainAxisAlignment.start
-              : MainAxisAlignment.center,
-          children: [
-            if (widget._showColorPicker)
-              ColorPickerWidget(
-                onColorSelected: (Color color) {
-                  setState(() {
-                    selectedColor = color;
-                  });
+      resizeToAvoidBottomInset: false,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisAlignment: (widget._showColorPicker)
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: _textEditingController,
+                keyboardType: TextInputType.emailAddress,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration: InputDecoration(
+                  hintText: widget._textFieldHint,
+                  labelText: widget._textFieldLabel,
+                  prefixIcon: widget._icon,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              BlocBuilder<ChatBloc, ChatState>(
+                builder: (context, state) {
+                  if (state is ChatsErrorState) {
+                    return Text(
+                      state.error ?? "",
+                      style: TextStyle(
+                        color: Colors.redAccent[400],
+                      ),
+                    );
+                  } else {
+                    return const Text("");
+                  }
                 },
               ),
-            TextField(
-              controller: _textEditingController,
-              keyboardType: TextInputType.emailAddress,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: InputDecoration(
-                hintText: widget._textFieldHint,
-                labelText: widget._textFieldLabel,
-                prefixIcon: widget._icon,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+              if (widget._showColorPicker)
+                ColorPickerWidget(
+                  onColorSelected: (Color color) {
+                    setState(() {
+                      selectedColor = color;
+                    });
+                  },
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.fromLTRB(64, 12, 64, 12))),
+                onPressed: () {
+                  widget._onPressed(
+                      _textEditingController.text, selectedColor.value);
+                },
+                child: Text(widget._buttonText),
               ),
-            ),
-            const SizedBox(height: 10),
-            BlocBuilder<ChatBloc, ChatState>(
-              builder: (context, state) {
-                if (state is ChatsErrorState) {
-                  return Text(
-                    state.error ?? "",
-                    style: TextStyle(
-                      color: Colors.redAccent[400],
-                    ),
-                  );
-                } else {
-                  return const Text("");
-                }
-              },
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              style: ButtonStyle(
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.fromLTRB(64, 12, 64, 12))),
-              onPressed: () {
-                widget._onPressed(
-                    _textEditingController.text, selectedColor.value);
-              },
-              child: Text(widget._buttonText),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -144,53 +146,51 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: EdgeInsets.all(6),
-              child: Card(
-                elevation: 2,
-                child: ColorPicker(
-                  pickersEnabled: const <ColorPickerType, bool>{
-                    ColorPickerType.accent: false,
-                  },
-                  enableShadesSelection: false,
-                  // Use the screenPickerColor as start color.
-                  color: screenPickerColor,
-                  // Update the screenPickerColor using the callback.
-                  onColorChanged: (Color color) {
-                    setState(() => screenPickerColor = color);
-                    widget.onColorSelected(color);
-                  },
+    return Column(
+      children: [
+        ColorIndicator(
+          width: 500,
+          height: 50,
+          borderRadius: 22,
+          color: screenPickerColor,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            child: Card(
+              elevation: 2,
+              child: ColorPicker(
+                pickersEnabled: const <ColorPickerType, bool>{
+                  ColorPickerType.accent: false,
+                },
+                enableShadesSelection: false,
+                // Use the screenPickerColor as start color.
+                color: screenPickerColor,
+                // Update the screenPickerColor using the callback.
+                onColorChanged: (Color color) {
+                  setState(() => screenPickerColor = color);
+                  widget.onColorSelected(color);
+                },
 
-                  width: 44,
-                  height: 44,
-                  borderRadius: 22,
-                  heading: Text(
-                    LocaleKeys.add_chat_view_select_color.tr(),
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
+                width: 44,
+                height: 44,
+                borderRadius: 22,
+                heading: Text(
+                  LocaleKeys.add_chat_view_select_color.tr(),
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          ColorIndicator(
-            width: 500,
-            height: 50,
-            borderRadius: 22,
-            color: screenPickerColor,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-        ],
-      ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
     );
   }
 }

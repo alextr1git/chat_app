@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class ChatMemberModel {
   final String uid;
   final bool isMember;
-  final String? username;
+  final String username;
   final String? image;
 
   ChatMemberModel({
     required this.uid,
     required this.isMember,
     required this.username,
-    required this.image,
+    this.image,
   });
 
   ChatMemberModel copyWith({

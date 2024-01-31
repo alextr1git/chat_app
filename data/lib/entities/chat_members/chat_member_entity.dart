@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class ChatMemberEntity {
   final String uid;
-  final String? username;
+  final String username;
   final String? image;
   final bool isMember;
 
   ChatMemberEntity({
     required this.uid,
     required this.isMember,
-    this.username,
+    required this.username,
     this.image,
   });
 

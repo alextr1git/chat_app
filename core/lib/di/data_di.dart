@@ -85,8 +85,8 @@ class DataDI {
       ),
     );
 
-    appLocator.registerLazySingleton<GetMembersOfChatUsecase>(
-        () => GetMembersOfChatUsecase(
+    appLocator.registerLazySingleton<GetMembersOfChatUseCase>(
+        () => GetMembersOfChatUseCase(
               chatRepository: appLocator.get<ChatRepository>(),
             ));
 
