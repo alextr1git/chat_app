@@ -6,6 +6,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenticationProviderImpl implements AuthenticationProvider {
   @override
+  UserEntity? get currentUser {
+    final User? firebaseUser = dataDI.firebaseAuth.currentUser;
+    return (firebaseUser != null)
+        ? UserEntity.fromFirebase(firebaseUser)
+        : null;
+  }
+
+  @override
   Future<UserEntity> createUser({
     required String email,
     required String password,
@@ -36,14 +44,6 @@ class AuthenticationProviderImpl implements AuthenticationProvider {
     } catch (_) {
       throw GenericAuthException();
     }
-  }
-
-  @override
-  UserEntity? get currentUser {
-    final User? firebaseUser = dataDI.firebaseAuth.currentUser;
-    return (firebaseUser != null)
-        ? UserEntity.fromFirebase(firebaseUser)
-        : null;
   }
 
   @override
@@ -86,22 +86,22 @@ class AuthenticationProviderImpl implements AuthenticationProvider {
   }
 
   @override
-  Future<void> sendVerification() async {
-    final user = dataDI.firebaseAuth.currentUser;
-    if (user != null) {
-      await user.sendEmailVerification();
-    } else {
-      throw UserNotLoggedInAuthException();
-    }
-  }
-
-  @override
   Future<UserEntity> checkUserAuthStatus() async {
     final User? user = dataDI.firebaseAuth.currentUser;
     if (user != null) {
       return currentUser!;
     } else {
       return UserEntity.empty;
+    }
+  }
+
+  @override
+  Future<void> sendVerification() async {
+    final user = dataDI.firebaseAuth.currentUser;
+    if (user != null) {
+      await user.sendEmailVerification();
+    } else {
+      throw UserNotLoggedInAuthException();
     }
   }
 
@@ -118,7 +118,6 @@ class AuthenticationProviderImpl implements AuthenticationProvider {
     final User? user = dataDI.firebaseAuth.currentUser;
     if (user != null) {
       user.updateDisplayName(username);
-      print(username);
     }
   }
 }

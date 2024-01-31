@@ -3,14 +3,12 @@ import 'package:data/providers/auth/authentication_provider.dart';
 import 'package:data/providers/storage/storage_provider.dart';
 import 'package:data/providers/storage/storage_provider_impl.dart';
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/settings_usecases/upload_image_usecase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:core/config/firebase_options.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:settings/settings.dart';
-
 import 'app_di.dart';
 
 final DataDI dataDI = DataDI();
@@ -20,6 +18,10 @@ class DataDI {
   late final FirebaseAuth _firebaseAuth;
   late final FirebaseDatabase _firebaseDatabase;
   late final FirebaseStorage _firebaseStorage;
+
+  FirebaseAuth get firebaseAuth => _firebaseAuth;
+  DatabaseReference get firebaseDatabaseRef => _firebaseDatabase.ref();
+  Reference get firebaseStorageRef => _firebaseStorage.ref();
 
   Future<void> initDependencies() async {
     await _initFirebase();
@@ -34,6 +36,9 @@ class DataDI {
       bucket: "gs://chatapp-a0b76.appspot.com/",
     );
     _initAuthResources();
+    _initFirebaseStorageAndDatabaseResources();
+    _initChatResources();
+    _initSettingsResources();
   }
 
   Future<void> _initFirebase() async {
@@ -42,36 +47,29 @@ class DataDI {
     );
   }
 
-  FirebaseAuth get firebaseAuth => _firebaseAuth;
-  DatabaseReference get firebaseDatabaseRef => _firebaseDatabase.ref();
-  Reference get firebaseStorageRef => _firebaseStorage.ref();
-
-  void _initAuthResources() {
-    appLocator.registerLazySingleton<AuthenticationProvider>(
-        () => AuthenticationProviderImpl());
-
+  void _initFirebaseStorageAndDatabaseResources() {
     appLocator
         .registerLazySingleton<StorageProvider>(() => StorageProviderImpl());
 
     appLocator.registerLazySingleton<RealTimeDatabaseProvider>(() =>
         RealTimeDatabaseProviderImpl(databaseReference: firebaseDatabaseRef));
+  }
 
-    appLocator
-        .registerLazySingleton<UserRepository>(() => UserAuthRepositoryImpl(
-              authProvider: appLocator.get<AuthenticationProvider>(),
-              storageProvider: appLocator.get<StorageProvider>(),
-              databaseProvider: appLocator.get<RealTimeDatabaseProvider>(),
-            ));
-
+  void _initChatResources() {
     appLocator.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(
           databaseProvider: appLocator.get<RealTimeDatabaseProvider>(),
           authProvider: appLocator.get<AuthenticationProvider>(),
           storageProvider: appLocator.get<StorageProvider>(),
         ));
 
-    appLocator.registerLazySingleton<RegisterUsecase>(
-      () => RegisterUsecase(
-        userRepository: appLocator.get<UserRepository>(),
+    appLocator.registerLazySingleton<CreateNewChatUseCase>(
+      () => CreateNewChatUseCase(
+        chatRepository: appLocator.get<ChatRepository>(),
+      ),
+    );
+    appLocator.registerLazySingleton<JoinChatUseCase>(
+      () => JoinChatUseCase(
+        chatRepository: appLocator.get<ChatRepository>(),
       ),
     );
 
@@ -80,26 +78,20 @@ class DataDI {
         chatRepository: appLocator.get<ChatRepository>(),
       ),
     );
+
+    appLocator.registerLazySingleton<GetChatsForUserUseCase>(
+      () => GetChatsForUserUseCase(
+        chatRepository: appLocator.get<ChatRepository>(),
+      ),
+    );
+
+    appLocator.registerLazySingleton<GetMembersOfChatUsecase>(
+        () => GetMembersOfChatUsecase(
+              chatRepository: appLocator.get<ChatRepository>(),
+            ));
+
     appLocator.registerLazySingleton<GetLastsMessagesOfChatUseCase>(
       () => GetLastsMessagesOfChatUseCase(
-        chatRepository: appLocator.get<ChatRepository>(),
-      ),
-    );
-
-    appLocator.registerLazySingleton<JoinChatUseCase>(
-      () => JoinChatUseCase(
-        chatRepository: appLocator.get<ChatRepository>(),
-      ),
-    );
-
-    appLocator.registerLazySingleton<GetUsernameByIDUseCase>(
-      () => GetUsernameByIDUseCase(
-        userRepository: appLocator.get<UserRepository>(),
-      ),
-    );
-
-    appLocator.registerLazySingleton<CreateNewChatUseCase>(
-      () => CreateNewChatUseCase(
         chatRepository: appLocator.get<ChatRepository>(),
       ),
     );
@@ -110,36 +102,15 @@ class DataDI {
       ),
     );
 
-    appLocator.registerLazySingleton<GetChatsForUserUseCase>(
-      () => GetChatsForUserUseCase(
-        chatRepository: appLocator.get<ChatRepository>(),
-      ),
-    );
     appLocator.registerLazySingleton<PostMessageUseCase>(
       () =>
           PostMessageUseCase(chatRepository: appLocator.get<ChatRepository>()),
     );
+  }
 
-    appLocator.registerLazySingleton<LoginUseCase>(
-      () => LoginUseCase(
-        userRepository: appLocator.get<UserRepository>(),
-      ),
-    );
-
-    appLocator.registerLazySingleton<CheckUserAuthenticationUseCase>(
-      () => CheckUserAuthenticationUseCase(
-        userRepository: appLocator.get<UserRepository>(),
-      ),
-    );
-
-    appLocator.registerLazySingleton<SendVerificationEmailUseCase>(
-      () => SendVerificationEmailUseCase(
-        userRepository: appLocator.get<UserRepository>(),
-      ),
-    );
-
-    appLocator.registerLazySingleton<LogoutUserUseCase>(
-      () => LogoutUserUseCase(
+  void _initSettingsResources() {
+    appLocator.registerLazySingleton<GetUsernameByIDUseCase>(
+      () => GetUsernameByIDUseCase(
         userRepository: appLocator.get<UserRepository>(),
       ),
     );
@@ -167,13 +138,51 @@ class DataDI {
               userRepository: appLocator.get<UserRepository>(),
             ));
 
-    appLocator.registerLazySingleton<GetMembersOfChatUsecase>(
-        () => GetMembersOfChatUsecase(
-              chatRepository: appLocator.get<ChatRepository>(),
-            ));
     appLocator.registerLazySingleton<DownloadImageUseCase>(() =>
         DownloadImageUseCase(userRepository: appLocator.get<UserRepository>()));
 
     appLocator.registerLazySingleton<ImageHelper>(() => ImageHelper());
+  }
+
+  void _initAuthResources() {
+    appLocator.registerLazySingleton<AuthenticationProvider>(
+        () => AuthenticationProviderImpl());
+
+    appLocator
+        .registerLazySingleton<UserRepository>(() => UserAuthRepositoryImpl(
+              authProvider: appLocator.get<AuthenticationProvider>(),
+              storageProvider: appLocator.get<StorageProvider>(),
+              databaseProvider: appLocator.get<RealTimeDatabaseProvider>(),
+            ));
+
+    appLocator.registerLazySingleton<RegisterUsecase>(
+      () => RegisterUsecase(
+        userRepository: appLocator.get<UserRepository>(),
+      ),
+    );
+
+    appLocator.registerLazySingleton<LoginUseCase>(
+      () => LoginUseCase(
+        userRepository: appLocator.get<UserRepository>(),
+      ),
+    );
+
+    appLocator.registerLazySingleton<CheckUserAuthenticationUseCase>(
+      () => CheckUserAuthenticationUseCase(
+        userRepository: appLocator.get<UserRepository>(),
+      ),
+    );
+
+    appLocator.registerLazySingleton<SendVerificationEmailUseCase>(
+      () => SendVerificationEmailUseCase(
+        userRepository: appLocator.get<UserRepository>(),
+      ),
+    );
+
+    appLocator.registerLazySingleton<LogoutUserUseCase>(
+      () => LogoutUserUseCase(
+        userRepository: appLocator.get<UserRepository>(),
+      ),
+    );
   }
 }

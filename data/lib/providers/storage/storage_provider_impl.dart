@@ -16,13 +16,9 @@ class StorageProviderImpl implements StorageProvider {
     try {
       Reference ref = dataDI.firebaseStorageRef.child("photos/$userId.jpg");
       ref.putFile(image);
-      /*
-      UploadTask uploadTask = ref.putFile(image);
-      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});*/
       return ("photos/$userId.jpg");
-    } on FirebaseException catch (e) {
-      print(e.toString());
-      throw GenericStorageException();
+    } catch (e) {
+      throw CannotUploadPhotoException();
     }
   }
 

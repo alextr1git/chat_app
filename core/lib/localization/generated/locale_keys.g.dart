@@ -17,6 +17,8 @@ abstract class LocaleKeys {
   static const register_call_to_action = 'register.call_to_action';
   static const register_form_email_hint = 'register.form_email_hint';
   static const register_form_email_label = 'register.form_email_label';
+  static const register_form_name_hint = 'register.form_name_hint';
+  static const register_form_name_label = 'register.form_name_label';
   static const register_form_password_hint = 'register.form_password_hint';
   static const register_form_password_label = 'register.form_password_label';
   static const register_register_button = 'register.register_button';

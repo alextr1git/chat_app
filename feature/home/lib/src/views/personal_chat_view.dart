@@ -26,11 +26,32 @@ class PersonalChatView extends StatefulWidget {
 
 class _PersonalChatViewState extends State<PersonalChatView> {
   late final TextEditingController _messageTextController;
+  late final ScrollController _listViewScrollController;
+  bool _firstAutoscrollExecuted = false;
+  bool _shouldAutoscroll = false;
   late final ChatBloc chatBloc;
   late final MessageBloc messageBloc;
+
+  void _scrollToBottom() {
+    _listViewScrollController
+        .jumpTo(_listViewScrollController.position.maxScrollExtent);
+  }
+
+  void _scrollListener() {
+    if (_listViewScrollController.hasClients &&
+        _listViewScrollController.position.pixels !=
+            _listViewScrollController.position.maxScrollExtent) {
+      _shouldAutoscroll = true;
+    } else {
+      _shouldAutoscroll = false;
+    }
+  }
+
   @override
   void initState() {
     _messageTextController = TextEditingController();
+    _listViewScrollController = ScrollController();
+    _listViewScrollController.addListener(_scrollListener);
     chatBloc = BlocProvider.of<ChatBloc>(context);
     messageBloc = BlocProvider.of<MessageBloc>(context);
     chatBloc.add(GetMembersOfChatEvent(chatModel: widget.chatModel));
@@ -41,6 +62,8 @@ class _PersonalChatViewState extends State<PersonalChatView> {
   @override
   void dispose() {
     _messageTextController.dispose();
+    _listViewScrollController.removeListener(_scrollListener);
+    _listViewScrollController.dispose();
     super.dispose();
   }
 
@@ -107,9 +130,19 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                 } else {
                   return Expanded(
                       child: ListView.builder(
+                    controller: _listViewScrollController,
                     padding: const EdgeInsets.all(8),
                     itemCount: messageState.listOfMessageModel.length,
                     itemBuilder: (BuildContext context, int index) {
+                      WidgetsBinding.instance?.addPostFrameCallback((_) {
+                        setState(() {
+                          if (!_firstAutoscrollExecuted &&
+                              _listViewScrollController.hasClients) {
+                            _firstAutoscrollExecuted = true;
+                            _scrollToBottom();
+                          }
+                        });
+                      });
                       ChatMemberModel? chatMember =
                           (chatState.allMembersOfChat != null &&
                                   chatState.allMembersOfChat!.isNotEmpty)
@@ -165,55 +198,80 @@ class _PersonalChatViewState extends State<PersonalChatView> {
               padding: const EdgeInsets.all(8.0),
               child: Stack(
                 children: [
-                  Container(
-                    height: 60,
-                    width: double.infinity,
-                    color: Colors.white,
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: TextField(
-                            controller: _messageTextController,
-                            decoration: InputDecoration(
-                              hintText: LocaleKeys
-                                  .personal_chat_view_write_message
-                                  .tr(),
-                              hintStyle: const TextStyle(color: Colors.black54),
-                              border: InputBorder.none,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Visibility(
+                          visible: _shouldAutoscroll,
+                          child: FloatingActionButton(
+                            heroTag: "Button 1",
+                            onPressed: () {
+                              setState(() {
+                                if (_listViewScrollController.hasClients &&
+                                    _shouldAutoscroll) {
+                                  _scrollToBottom();
+                                }
+                              });
+                            },
+                            child: const Icon(Icons.arrow_downward_outlined),
+                          )),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 60,
+                        width: double.infinity,
+                        color: Colors.white,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: TextField(
+                                controller: _messageTextController,
+                                decoration: InputDecoration(
+                                  hintText: LocaleKeys
+                                      .personal_chat_view_write_message
+                                      .tr(),
+                                  hintStyle:
+                                      const TextStyle(color: Colors.black54),
+                                  border: InputBorder.none,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        FloatingActionButton(
-                          onPressed: () {
-                            if (messageBloc.state is MessageLoadedState) {
-                              MessageModel messageModel = MessageModel(
-                                id: "0",
-                                chatId: widget.chatModel.id,
-                                senderId:
-                                    (messageBloc.state as MessageLoadedState)
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            FloatingActionButton(
+                              heroTag: "Button 2",
+                              onPressed: () {
+                                if (messageBloc.state is MessageLoadedState) {
+                                  MessageModel messageModel = MessageModel(
+                                    id: "0",
+                                    chatId: widget.chatModel.id,
+                                    senderId: (messageBloc.state
+                                            as MessageLoadedState)
                                         .currentUser
                                         .id,
-                                message: _messageTextController.text,
-                                timeStamp:
-                                    DateTime.now().millisecondsSinceEpoch,
-                              );
-                              messageBloc.add(PostMessageToDBEvent(
-                                  messageModel: messageModel));
-                            }
-                            _messageTextController.text = "";
-                          },
-                          backgroundColor: lightTheme.colorScheme.onBackground,
-                          elevation: 1,
-                          child: const Icon(
-                            Icons.send,
-                            size: 22,
-                          ),
+                                    message: _messageTextController.text,
+                                    timeStamp:
+                                        DateTime.now().millisecondsSinceEpoch,
+                                  );
+                                  messageBloc.add(PostMessageToDBEvent(
+                                      messageModel: messageModel));
+                                }
+                                _messageTextController.text = "";
+                              },
+                              backgroundColor:
+                                  lightTheme.colorScheme.onBackground,
+                              elevation: 1,
+                              child: const Icon(
+                                Icons.send,
+                                size: 22,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),

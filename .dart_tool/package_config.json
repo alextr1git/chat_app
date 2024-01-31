@@ -20,6 +20,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "archive",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/archive-3.4.10",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "args",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/args-2.4.2",
       "packageUri": "lib/",
@@ -60,6 +66,18 @@
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/characters-1.3.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "checked_yaml",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/checked_yaml-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "cli_util",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/cli_util-0.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "clock",
@@ -284,10 +302,10 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "flutter_lints",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3",
+      "name": "flutter_launcher_icons",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/flutter_launcher_icons-0.13.1",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "2.18"
     },
     {
       "name": "flutter_localizations",
@@ -348,6 +366,12 @@
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/http_parser-4.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "image",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/image-4.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
     },
     {
       "name": "image_cropper",
@@ -428,10 +452,10 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "lints",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/lints-2.1.1",
+      "name": "json_annotation",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/json_annotation-4.8.1",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.19"
     },
     {
       "name": "logger",
@@ -544,6 +568,12 @@
     {
       "name": "plugin_platform_interface",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "pointycastle",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/pointycastle-3.7.4",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -722,7 +752,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-01-26T08:23:35.486272Z",
+  "generated": "2024-01-31T09:17:53.583039Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }
