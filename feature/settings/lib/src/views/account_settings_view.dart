@@ -35,7 +35,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
   @override
   Widget build(BuildContext context) {
     final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
-    final ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
+    final ChatsBloc chatBloc = BlocProvider.of<ChatsBloc>(context);
     final ImageHelper imageHelper = appLocator.get<ImageHelper>();
     return BlocProvider(
       create: (BuildContext context) => AccountSettingsBloc(

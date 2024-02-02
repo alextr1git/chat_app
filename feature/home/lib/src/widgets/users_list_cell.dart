@@ -27,7 +27,7 @@ class UserInListCell extends StatelessWidget {
     } else {
       image = null;
     }
-    ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
+    SingleChatBloc singleChatBloc = BlocProvider.of<SingleChatBloc>(context);
     MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
@@ -81,7 +81,7 @@ class UserInListCell extends StatelessWidget {
               onPressed: () async {
                 final shouldLogout = await showRemoveMemberDialog(context);
                 if (shouldLogout) {
-                  chatBloc.add(RemoveUserFromChatEvent(
+                  singleChatBloc.add(RemoveUserFromChatEvent(
                     userID: chatMemberModel.uid,
                     chat: chatModel,
                   ));

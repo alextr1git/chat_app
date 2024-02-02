@@ -3,8 +3,6 @@ import 'package:domain/usecases/usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:domain/domain.dart';
-import 'package:home/src/navigation/router.dart';
-import 'package:navigation/app_router/app_router.dart';
 
 part 'message_event.dart';
 part 'message_state.dart';
@@ -14,24 +12,21 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   final PostMessageUseCase _postMessageUseCase;
   final GetUserUseCase _getUserUseCase;
   final GetUsernameByIDUseCase _getUsernameByIDUseCase;
-  final AppRouter _router;
+
   MessageBloc(
       {required GetMessagesForChatUseCase getMessagesForChatUseCase,
       required PostMessageUseCase postMessageUseCase,
-      required AppRouter router,
       required GetUserUseCase getUserUseCase,
       required GetUsernameByIDUseCase getUsernameByIDUseCase})
       : _getMessagesForChatUseCase = getMessagesForChatUseCase,
         _postMessageUseCase = postMessageUseCase,
-        _router = router,
         _getUserUseCase = getUserUseCase,
         _getUsernameByIDUseCase = getUsernameByIDUseCase,
         super(MessageLoadingState()) {
     on<InitMessageEvent>(_init);
     on<PostMessageToDBEvent>(_postMessage);
     on<PostServiceMessageToDBEvent>(_postServiceMessage);
-    on<NavigateToChatSettingsEvent>(_navigateToSettingsView);
-    on<PopChatSettingsViewEvent>(_popChatSettingsView);
+
     on<MessagesHasBeenUpdatedEvent>(_updateListOfMessages);
     on<DisposeMessagesBlocEvent>(_dispose);
   }
@@ -109,20 +104,6 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
         ),
       );
     }
-  }
-
-  void _navigateToSettingsView(
-    NavigateToChatSettingsEvent event,
-    Emitter<MessageState> emit,
-  ) {
-    _router.push(ChatSettingsRoute(chatModel: event.currentChat));
-  }
-
-  void _popChatSettingsView(
-    PopChatSettingsViewEvent event,
-    Emitter<MessageState> emit,
-  ) {
-    _router.pop();
   }
 
   void _dispose(

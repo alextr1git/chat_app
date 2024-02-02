@@ -28,34 +28,6 @@ class GlobalBlocProvider extends StatelessWidget {
                       appLocator.get<SetUserPhotoURLUseCase>(),
                   router: navigationGetIt.get<AppRouter>(),
                 )),
-        BlocProvider<ChatBloc>(
-            create: (BuildContext context) => ChatBloc(
-                  router: navigationGetIt.get<AppRouter>(),
-                  postMessageUseCase: appLocator.get<PostMessageUseCase>(),
-                  createNewChatUseCase: appLocator.get<CreateNewChatUseCase>(),
-                  getChatsForUserUseCase:
-                      appLocator.get<GetChatsForUserUseCase>(),
-                  getMessagesForChatUseCase:
-                      appLocator.get<GetMessagesForChatUseCase>(),
-                  getMembersOfChatUsecase:
-                      appLocator.get<GetMembersOfChatUseCase>(),
-                  joinChatUseCase: appLocator.get<JoinChatUseCase>(),
-                  getUserUseCase: appLocator.get<GetUserUseCase>(),
-                  removeUserFromChatUseCase:
-                      appLocator.get<RemoveUserFromChatUseCase>(),
-                  getLastMessageOfChatUseCase:
-                      appLocator.get<GetLastsMessagesOfChatUseCase>(),
-                )),
-        BlocProvider<MessageBloc>(
-            create: (BuildContext context) => MessageBloc(
-                  getMessagesForChatUseCase:
-                      appLocator.get<GetMessagesForChatUseCase>(),
-                  postMessageUseCase: appLocator.get<PostMessageUseCase>(),
-                  getUserUseCase: appLocator.get<GetUserUseCase>(),
-                  getUsernameByIDUseCase:
-                      appLocator.get<GetUsernameByIDUseCase>(),
-                  router: appLocator.get<AppRouter>(),
-                )),
       ],
       child: child,
     );

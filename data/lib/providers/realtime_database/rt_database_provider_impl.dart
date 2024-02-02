@@ -247,8 +247,77 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     return listOfMessageEntities;
   }
 
+  Future<ChatEntity?> getChatByID(String chatID) async {
+    final chatSnapshot = await _databaseReference.child("chats/$chatID").get();
+    if (chatSnapshot.exists && chatSnapshot.value != null) {
+      var chat = chatSnapshot.value!;
+      if (chat is Map<Object?, Object?>) {
+        return ChatEntity.fromJson(chat, chatID);
+      }
+      return null;
+    }
+  }
+
+  List<String?> getListOfChatIDs(var idsMapJSON) {
+    List<String> listOfChatIDs = [];
+    var idsMap = idsMapJSON.snapshot.value;
+    if (idsMap != null && idsMap is Map<Object?, Object?>) {
+      idsMap.forEach((chatID, chatBool) {
+        listOfChatIDs.add(chatID.toString());
+      });
+    }
+    return listOfChatIDs;
+  }
+
+  FutureOr<List<ChatEntity>> getListOfChatEntities(var listOfChatIDs) async {
+    List<ChatEntity> listOfChatEntities = [];
+
+    for (var chatID in listOfChatIDs) {
+      if (chatID != null) {
+        final DatabaseReference chatRef =
+            _databaseReference.child("chats/$chatID");
+
+        final DataSnapshot snapshot = await chatRef.get();
+        if (snapshot.exists && snapshot.value != null) {
+          Object chatMap = snapshot.value!;
+
+          if (chatMap is Map<Object?, Object?> && chatMap.length > 3) {
+            listOfChatEntities.add(ChatEntity.fromJson(chatMap, chatID));
+          }
+        }
+      }
+    }
+    return listOfChatEntities;
+  }
+
   @override
-  Future<List<ChatEntity>?> getChatsForUser(String userId) async {
+  Stream<List<ChatEntity>> getChatsForUser(String userId) {
+    final DatabaseReference userChatsUserIDRef =
+        _databaseReference.child(" user-chats/$userId");
+    Stream<List<String?>> userChatIDsStream = (userChatsUserIDRef.onValue)
+        .map((listOfChatIDsJSON) => getListOfChatIDs(listOfChatIDsJSON ?? ""));
+
+    Stream<List<ChatEntity>> streamOfChats = userChatIDsStream
+        .asyncMap((listOfChatIDs) => getListOfChatEntities(listOfChatIDs));
+
+    return streamOfChats;
+  }
+
+  /*ride
+  Stream<List<MessageEntity>> getMessagesForChat(ChatEntity chatEntity) {
+    final String chatId = chatEntity.id;
+    final DatabaseReference finalRef =
+        _databaseReference.child("messages").child(chatId);
+
+    Stream dbStream = finalRef.orderByChild('timestamp').onValue;
+
+    return dbStream.map((var messagesMapJSON) =>
+        transformMapToMessageEntity(messagesMapJSON, chatId));
+  }
+*/
+
+  /* @override
+  Stream<List<ChatEntity>?> getChatsForUser(String userId) async {
     List<String> listOfChatIds = [];
     List<ChatEntity> listOfChats = [];
 
@@ -292,7 +361,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
       }
     }
     return null;
-  }
+  }*/
 
   @override
   Future<List<ChatMemberEntity>> getMembersOfChat(String chatId) async {

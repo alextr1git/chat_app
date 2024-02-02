@@ -31,7 +31,7 @@ abstract class _$HomeModuleRouter extends AutoRouterModule {
     ChatsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: ChatsView(),
+        child: const ChatsView(),
       );
     },
     PersonalChatRoute.name: (routeData) {
@@ -48,6 +48,12 @@ abstract class _$HomeModuleRouter extends AutoRouterModule {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const SharedNavbarView(),
+      );
+    },
+    SingleChatWrapperRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SingleChatWrapperView(),
       );
     },
   };
@@ -87,6 +93,22 @@ class ChatSettingsRoute extends PageRouteInfo<ChatSettingsRouteArgs> {
 
   static const PageInfo<ChatSettingsRouteArgs> page =
       PageInfo<ChatSettingsRouteArgs>(name);
+}
+
+class ChatSettingsRouteArgs {
+  const ChatSettingsRouteArgs({
+    this.key,
+    required this.chatModel,
+  });
+
+  final Key? key;
+
+  final ChatModel chatModel;
+
+  @override
+  String toString() {
+    return 'ChatSettingsRouteArgs{key: $key, chatModel: $chatModel}';
+  }
 }
 
 /// generated route for
@@ -141,22 +163,6 @@ class PersonalChatRouteArgs {
   }
 }
 
-class ChatSettingsRouteArgs {
-  const ChatSettingsRouteArgs({
-    this.key,
-    required this.chatModel,
-  });
-
-  final Key? key;
-
-  final ChatModel chatModel;
-
-  @override
-  String toString() {
-    return 'ChatSettingsRouteArgs{key: $key, chatModel: $chatModel}';
-  }
-}
-
 /// generated route for
 /// [SharedNavbarView]
 class SharedNavbarRoute extends PageRouteInfo<void> {
@@ -167,6 +173,20 @@ class SharedNavbarRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SharedNavbarRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SingleChatWrapperView]
+class SingleChatWrapperRoute extends PageRouteInfo<void> {
+  const SingleChatWrapperRoute({List<PageRouteInfo>? children})
+      : super(
+          SingleChatWrapperRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SingleChatWrapperRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

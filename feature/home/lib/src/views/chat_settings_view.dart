@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/home.dart';
-import 'package:home/src/widgets/users_list_cell.dart';
 import 'package:navigation/navigation.dart';
 
 @RoutePage()
 class ChatSettingsView extends StatelessWidget {
   final ChatModel chatModel;
+
   const ChatSettingsView({
     super.key,
     required this.chatModel,
@@ -18,9 +18,8 @@ class ChatSettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
-    ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
-
+    final SingleChatBloc singleChatBloc =
+        BlocProvider.of<SingleChatBloc>(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -38,7 +37,7 @@ class ChatSettingsView extends StatelessWidget {
               children: <Widget>[
                 TextButton(
                     onPressed: () {
-                      messageBloc.add(PopChatSettingsViewEvent());
+                      singleChatBloc.add(PopChatSettingsViewEvent());
                     },
                     child: const Icon(Icons.arrow_back_ios_sharp)),
               ],
@@ -103,10 +102,9 @@ class ChatSettingsView extends StatelessWidget {
             const Divider(
               height: 10,
             ),
-            BlocBuilder<ChatBloc, ChatState>(
+            BlocBuilder<SingleChatBloc, SingleChatState>(
               builder: (context, state) {
-                if (state is ChatsSingleChatDataFetchedState &&
-                    messageBloc.state is MessageLoadedState) {
+                if (state is ChatsSingleChatDataFetchedState) {
                   return Expanded(
                     flex: 3,
                     child: Container(
@@ -123,11 +121,11 @@ class ChatSettingsView extends StatelessWidget {
                               chatMemberModel: chatMemberModel,
                               isCreator: chatMemberModel.uid ==
                                   state.currentChat.creatorId,
-                              isShowingToCreator:
-                                  (messageBloc.state as MessageLoadedState)
-                                          .currentUser
-                                          .id ==
-                                      state.currentChat.creatorId,
+                              isShowingToCreator: (singleChatBloc.state
+                                          as ChatsSingleChatDataFetchedState)
+                                      .currentUser
+                                      .id ==
+                                  state.currentChat.creatorId,
                             );
                           }),
                     ),
@@ -152,17 +150,17 @@ class ChatSettingsView extends StatelessWidget {
                     onPressed: () async {
                       final shouldLogout = await showLeaveChatDialog(context);
                       if (shouldLogout) {
-                        chatBloc.add(RemoveUserFromChatEvent(
+                        singleChatBloc.add(RemoveUserFromChatEvent(
                           userID: "self",
                           chat: chatModel,
                         ));
 
-                        messageBloc.add(PostServiceMessageToDBEvent(
+                        /*messageBloc.add(PostServiceMessageToDBEvent(
                           serviceType: "leave",
                           username: null,
                           chatID: chatModel.id,
                           timestamp: DateTime.now().millisecondsSinceEpoch,
-                        ));
+                        ));*/
                       } else {}
                     },
                     child: Text(LocaleKeys.chat_settings_view_leave_chat.tr()),

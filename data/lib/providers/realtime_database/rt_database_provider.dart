@@ -16,7 +16,7 @@ abstract class RealTimeDatabaseProvider {
     required String chatID,
   });
 
-  Future<List<ChatEntity>?> getChatsForUser(
+  Stream<List<ChatEntity>> getChatsForUser(
     String userId,
   );
   Future<List<ChatMemberEntity>> getMembersOfChat(

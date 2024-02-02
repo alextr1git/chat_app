@@ -12,7 +12,7 @@ class AddChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ChatBloc chatBloc = BlocProvider.of<ChatBloc>(context);
+    SingleChatBloc singleChatBloc = BlocProvider.of<SingleChatBloc>(context);
     MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
     return GestureDetector(
       onTap: () {
@@ -30,7 +30,7 @@ class AddChatView extends StatelessWidget {
           appBar: AppBar(
             leading: TextButton(
               onPressed: () {
-                chatBloc.add(PopAddChatRouteEvent());
+                singleChatBloc.add(PopAddChatRouteEvent());
               },
               child: const Icon(Icons.arrow_back_ios_sharp),
             ),
@@ -68,7 +68,7 @@ class AddChatView extends StatelessWidget {
                     creatorId: "0",
                     color: color!,
                   );
-                  chatBloc.add(CreateNewChatEvent(chatModel: chatModel));
+                  singleChatBloc.add(CreateNewChatEvent(chatModel: chatModel));
                 },
                 icon: const Icon(Icons.abc_rounded),
               ),
@@ -82,8 +82,8 @@ class AddChatView extends StatelessWidget {
                   int? color,
                 ) {
                   if (text.length == 20) {
-                    chatBloc.add(JoinChatEvent(chatID: text));
-                    if (chatBloc.state is ChatsDataFetchingState) {
+                    singleChatBloc.add(JoinChatEvent(chatID: text));
+                    if (singleChatBloc.state is ChatsDataFetchingState) {
                       messageBloc.add(PostServiceMessageToDBEvent(
                         serviceType: "join",
                         username: null,
@@ -91,8 +91,6 @@ class AddChatView extends StatelessWidget {
                         timestamp: DateTime.now().millisecondsSinceEpoch,
                       ));
                     }
-                  } else {
-                    chatBloc.emit(ChatsErrorState(error: "Link is invalid"));
                   }
                 },
                 icon: const Icon(Icons.link),

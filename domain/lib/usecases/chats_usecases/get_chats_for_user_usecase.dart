@@ -1,9 +1,8 @@
-import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:domain/usecases/usecase.dart';
 
 class GetChatsForUserUseCase
-    implements FutureUseCase<NoParams, List<ChatModel>> {
+    implements StreamUseCase<NoParams, List<ChatModel>> {
   final ChatRepository _chatRepository;
 
   GetChatsForUserUseCase({
@@ -11,7 +10,7 @@ class GetChatsForUserUseCase
   }) : _chatRepository = chatRepository;
 
   @override
-  Future<List<ChatModel>> execute(NoParams) async {
+  Stream<List<ChatModel>> execute(NoParams) {
     return _chatRepository.getChatsForUser();
   }
 }

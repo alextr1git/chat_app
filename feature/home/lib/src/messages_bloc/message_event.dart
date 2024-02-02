@@ -31,14 +31,6 @@ class PostServiceMessageToDBEvent extends MessageEvent {
       required this.serviceType});
 }
 
-class NavigateToChatSettingsEvent extends MessageEvent {
-  final ChatModel currentChat;
-
-  NavigateToChatSettingsEvent({required this.currentChat});
-}
-
-class PopChatSettingsViewEvent extends MessageEvent {}
-
 class MessagesHasBeenUpdatedEvent extends MessageEvent {
   final List<MessageModel> updatedListOfMessages;
   final UserModel currentUser;

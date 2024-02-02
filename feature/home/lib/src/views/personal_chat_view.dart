@@ -4,13 +4,16 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/home.dart';
+import 'package:home/src/widgets/personal_chat_content.dart';
 import 'package:navigation/navigation.dart';
 
 @RoutePage()
 class PersonalChatView extends StatefulWidget {
   final ChatModel chatModel;
-
-  const PersonalChatView({super.key, required this.chatModel});
+  const PersonalChatView({
+    super.key,
+    required this.chatModel,
+  });
 
   @override
   State<PersonalChatView> createState() => _PersonalChatViewState();
@@ -19,20 +22,19 @@ class PersonalChatView extends StatefulWidget {
 class _PersonalChatViewState extends State<PersonalChatView> {
   late final TextEditingController _messageTextController;
   late final ScrollController _listViewScrollController;
-//  bool _firstAutoscrollExecuted = false;
   bool _shouldAutoscroll = false;
-  late final ChatBloc chatBloc;
+  late final SingleChatBloc singleChatBloc;
   late final MessageBloc messageBloc;
 
   void _scrollToBottom() {
     _listViewScrollController
-        .jumpTo(_listViewScrollController.position.maxScrollExtent);
+        .jumpTo(_listViewScrollController.position.minScrollExtent);
   }
 
   void _scrollListener() {
     if (_listViewScrollController.hasClients &&
-        _listViewScrollController.position.pixels !=
-            _listViewScrollController.position.minScrollExtent) {
+        _listViewScrollController.position.pixels >
+            _listViewScrollController.position.minScrollExtent + 150) {
       if (!_shouldAutoscroll) {
         setState(() {
           _shouldAutoscroll = true;
@@ -49,14 +51,14 @@ class _PersonalChatViewState extends State<PersonalChatView> {
 
   @override
   void initState() {
+    super.initState();
     _messageTextController = TextEditingController();
     _listViewScrollController = ScrollController();
     _listViewScrollController.addListener(_scrollListener);
-    chatBloc = BlocProvider.of<ChatBloc>(context);
+    singleChatBloc = BlocProvider.of<SingleChatBloc>(context);
     messageBloc = BlocProvider.of<MessageBloc>(context);
-    chatBloc.add(GetMembersOfChatEvent(chatModel: widget.chatModel));
+    singleChatBloc.add(GetMembersOfChatEvent(chatModel: widget.chatModel));
     messageBloc.add(InitMessageEvent(currentChat: widget.chatModel));
-    super.initState();
   }
 
   @override
@@ -83,7 +85,7 @@ class _PersonalChatViewState extends State<PersonalChatView> {
               children: <Widget>[
                 TextButton(
                     onPressed: () {
-                      chatBloc.add(NavigateToChatsViewEvent());
+                      singleChatBloc.add(NavigateToChatsViewEvent());
                       messageBloc.add(DisposeMessagesBlocEvent());
                     },
                     child: const Icon(Icons.arrow_back_ios_sharp)),
@@ -101,7 +103,8 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                 ),
                 TextButton(
                     onPressed: () {
-                      messageBloc.add(NavigateToChatSettingsEvent(
+                      singleChatBloc.add(NavigateToChatSettingsEvent(
+                          singleChatBloc: singleChatBloc,
                           currentChat: widget.chatModel));
                     },
                     child: const Icon(
@@ -118,9 +121,9 @@ class _PersonalChatViewState extends State<PersonalChatView> {
           Builder(
             builder: (context) {
               final messageState = context.watch<MessageBloc>().state;
-              final chatState = context.watch<ChatBloc>().state;
+              final singleChatState = context.watch<SingleChatBloc>().state;
               if (messageState is MessageLoadedState &&
-                  chatState is ChatsSingleChatDataFetchedState) {
+                  singleChatState is ChatsSingleChatDataFetchedState) {
                 if (messageState.listOfMessageModel.isEmpty) {
                   return Expanded(
                       child: Center(
@@ -140,43 +143,32 @@ class _PersonalChatViewState extends State<PersonalChatView> {
                                 .listOfMessageModel.reversed
                                 .toList())
                               GeneralMessage(
-                                listOfChatMembers: chatState.allMembersOfChat,
+                                listOfChatMembers:
+                                    singleChatState.allMembersOfChat,
                                 messageModel: message,
                                 currentUserID: messageState.currentUser.id,
-                                chatModel: chatState.currentChat,
+                                chatModel: singleChatState.currentChat,
                               ),
                           ],
                         ),
-                        /*ListView.builder(
-                          reverse: true,
-                          controller: _listViewScrollController,
-                          padding: const EdgeInsets.all(8),
-                          itemCount: messageState.listOfMessageModel.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final MessageModel message =
-                                messageState.listOfMessageModel[index];
-                            return GeneralMessage(
-                              listOfChatMembers: chatState.allMembersOfChat,
-                              messageModel: message,
-                              currentUserID: messageState.currentUser.id,
-                              chatModel: chatState.currentChat,
-                            );
-                          },
-                        ),*/
                         if (_shouldAutoscroll)
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: FloatingActionButton(
-                              heroTag: "Button 1",
-                              onPressed: () {
-                                setState(() {
-                                  if (_listViewScrollController.hasClients &&
-                                      _shouldAutoscroll) {
-                                    _scrollToBottom();
-                                  }
-                                });
-                              },
-                              child: const Icon(Icons.arrow_downward_outlined),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: FloatingActionButton(
+                                heroTag: "Button 1",
+                                onPressed: () {
+                                  setState(() {
+                                    if (_listViewScrollController.hasClients &&
+                                        _shouldAutoscroll) {
+                                      _scrollToBottom();
+                                    }
+                                  });
+                                },
+                                child:
+                                    const Icon(Icons.arrow_downward_outlined),
+                              ),
                             ),
                           ),
                       ],

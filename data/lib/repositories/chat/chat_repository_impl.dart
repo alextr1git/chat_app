@@ -60,17 +60,22 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<List<ChatModel>> getChatsForUser() async {
-    List<ChatModel> listOfChatModels = [];
+  Stream<List<ChatModel>> getChatsForUser() {
     String userId = _authProvider.currentUser!.id;
-    List<ChatEntity>? listOfChatEntities =
-        await _databaseProvider.getChatsForUser(userId);
-    if (listOfChatEntities != null) {
-      for (var entity in listOfChatEntities) {
-        listOfChatModels.add(ChatMapper.toModel(entity));
-      }
+    Stream<List<ChatEntity>> streamOfListOfChatEntities =
+        _databaseProvider.getChatsForUser(userId);
+    streamOfListOfChatEntities.map((listOfChatEntities) =>
+        print(listOfChatEntities) /*getListOfChatModel(listOfChatEntities)*/);
+    return streamOfListOfChatEntities
+        .map((listOfChatEntities) => getListOfChatModel(listOfChatEntities));
+  }
+
+  List<ChatModel> getListOfChatModel(List<ChatEntity> listOfChatEntites) {
+    List<ChatModel> listOfChatModel = [];
+    for (ChatEntity chatEntity in listOfChatEntites) {
+      listOfChatModel.add(ChatMapper.toModel(chatEntity));
     }
-    return listOfChatModels;
+    return listOfChatModel;
   }
 
   @override

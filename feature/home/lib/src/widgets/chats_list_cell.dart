@@ -19,11 +19,11 @@ class ChatsInListCell extends StatefulWidget {
 }
 
 class _ChatsInListCellState extends State<ChatsInListCell> {
-  late final ChatBloc chatBloc;
+  late final ChatsBloc chatBloc;
 
   @override
   void initState() {
-    chatBloc = BlocProvider.of<ChatBloc>(context);
+    chatBloc = BlocProvider.of<ChatsBloc>(context);
     super.initState();
   }
 
@@ -36,7 +36,6 @@ class _ChatsInListCellState extends State<ChatsInListCell> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        chatBloc.add(GetMembersOfChatEvent(chatModel: widget.chat));
         chatBloc
             .add(NavigateToPersonalChatViewEvent(selectedChat: widget.chat));
       },

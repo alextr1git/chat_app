@@ -79,7 +79,7 @@ class _ConnectToChatState extends State<ConnectToChat> {
                   ),
                 ),
               ),
-              BlocBuilder<ChatBloc, ChatState>(
+              BlocBuilder<ChatsBloc, ChatsState>(
                 builder: (context, state) {
                   if (state is ChatsErrorState) {
                     return Text(
