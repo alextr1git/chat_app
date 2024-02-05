@@ -16,5 +16,6 @@ abstract class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     ...AuthModuleRouter().pagesMap,
+    ...HomeModuleRouter().pagesMap,
   };
 }

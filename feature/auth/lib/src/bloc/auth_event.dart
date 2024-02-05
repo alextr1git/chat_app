@@ -1,6 +1,5 @@
 part of 'auth_bloc.dart';
 
-@immutable
 abstract class AuthEvent {}
 
 class InitAuthEvent extends AuthEvent {}
@@ -25,10 +24,24 @@ class LoginInEvent extends AuthEvent {
   });
 }
 
+class LogoutUserEvent extends AuthEvent {}
+
 class NavigateToHomeEvent extends AuthEvent {}
 
 class NavigateToRegisterEvent extends AuthEvent {}
 
 class NavigateToLoginInEvent extends AuthEvent {}
 
-class CheckStartViewEvent extends AuthEvent {}
+class SendVerificationEmailEvent extends AuthEvent {}
+
+class SetUsernameEvent extends AuthEvent {
+  final String userName;
+
+  SetUsernameEvent({required this.userName});
+}
+
+class SetUserPhotoURLEvent extends AuthEvent {
+  final String userPhotoURL;
+
+  SetUserPhotoURLEvent({required this.userPhotoURL});
+}

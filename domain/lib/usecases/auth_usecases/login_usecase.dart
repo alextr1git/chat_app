@@ -1,10 +1,10 @@
 import 'package:domain/domain.dart';
 import 'package:domain/usecases/usecase.dart';
 
-class LoginUsecase implements FutureUseCase<Map<String, String>, UserModel> {
+class LoginUseCase implements FutureUseCase<Map<String, String>, UserModel> {
   final UserRepository _userRepository;
 
-  LoginUsecase({
+  LoginUseCase({
     required UserRepository userRepository,
   }) : _userRepository = userRepository;
 

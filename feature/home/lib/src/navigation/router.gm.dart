@@ -17,7 +17,13 @@ abstract class _$HomeModuleRouter extends AutoRouterModule {
         routeData: routeData,
         child: const ChatHomeView(),
       );
-    }
+    },
+    SharedNavbarRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SharedNavbarView(),
+      );
+    },
   };
 }
 
@@ -31,6 +37,20 @@ class ChatHomeRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ChatHomeRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SharedNavbarView]
+class SharedNavbarRoute extends PageRouteInfo<void> {
+  const SharedNavbarRoute({List<PageRouteInfo>? children})
+      : super(
+          SharedNavbarRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SharedNavbarRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

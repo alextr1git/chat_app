@@ -1,0 +1,55 @@
+{
+    "login": {
+        "title" : "Login",
+        "second_title" : "Welcome here!",
+        "call_to_action":"Login to your account",
+        "form_email_hint" : "Enter your email",
+        "form_email_label" : "Email",
+        "form_password_hint" : "Enter your password",
+        "form_password_label" : "Password",
+        "login_button" : "Login",
+        "dont_have_account" : "Don't have an account?",
+        "redirect_to_register" : "Create one!"
+    },
+    "register" : {
+        "title" : "Sign up",
+        "second_title" : "We've never met before!",
+        "call_to_action":"Create your account!",
+        "form_email_hint" : "Enter your email",
+        "form_email_label" : "Email",
+        "form_password_hint" : "Enter your password",
+        "form_password_label" : "Password",
+        "register_button" : "Sign up'",
+        "already_have_account" : "Already have an account?",
+        "redirect_to_login" : "Login into existing one"
+
+    },
+
+    "verify_email" : {
+        "title" : "Verify your email",
+        "link_has_been_sent" : "An email with verification link has been sent to your email address.",
+        "after_verification" : "After verification you will be able to log in to your account",
+        "resend_email_label" : "If you haven't received, please press on button below",
+        "resend_email_button" : "Resend email"
+    },
+    "account_settings" : {
+        "your_email_is" : "Your email is",
+        "name_form_hint" : "Enter your name",
+        "name_form_label" : "Name",
+        "save_changes" : "Save changes",
+        "title" : "Account settings",
+        "select_photo" : "Select photo"
+    },
+    "settings" : {
+        "view_title" : "Settings",
+        "choose_language_text" : "Change language"
+    },
+
+    "navbar" : {
+        "account" : "Account",
+        "chats" : "Chats",
+        "settings" : "Settings"
+    }
+
+}
+

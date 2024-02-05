@@ -1,5 +1,4 @@
 import 'package:data/entities/user/user_entity.dart';
-import 'package:domain/domain.dart';
 
 abstract class AuthenticationProvider {
   UserEntity? get currentUser;
@@ -17,4 +16,7 @@ abstract class AuthenticationProvider {
   Future<void> logOutUser();
   Future<void> sendVerification();
   Future<UserEntity> checkUserAuthStatus();
+
+  Future<void> setUsername(String username);
+  Future<void> setUserPhoto(String photoURL);
 }

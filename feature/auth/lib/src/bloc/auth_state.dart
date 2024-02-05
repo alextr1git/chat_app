@@ -13,7 +13,6 @@ class AuthState {
   AuthState copyWith({
     LoadingState? loadingState,
     UserModel? userModel,
-    AuthView? authView,
   }) =>
       AuthState(
         loadingState: loadingState ?? this.loadingState,

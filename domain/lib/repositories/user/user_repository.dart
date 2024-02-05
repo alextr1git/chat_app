@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:domain/domain.dart';
 
 abstract class UserRepository {
@@ -16,4 +18,11 @@ abstract class UserRepository {
   Future<void> sendVerification();
 
   Future<UserModel> checkUserAuthStatus();
+
+  Future<void> setUsername(String username);
+  Future<void> setUserPhoto(String photoURL);
+  Future<void> uploadImage(File image);
+  Future<String> downloadImage();
+
+  UserModel? get currentUser;
 }
