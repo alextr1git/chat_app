@@ -1,8 +1,6 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flex_color_picker/flex_color_picker.dart';
-
 import '../../home.dart';
 
 class ConnectToChat extends StatefulWidget {
@@ -10,6 +8,7 @@ class ConnectToChat extends StatefulWidget {
   final String _textFieldLabel;
   final String _buttonText;
   final bool _showColorPicker;
+  final bool _isCreateChatView;
   final Function(String text, int? color) _onPressed;
 
   final Icon _icon;
@@ -18,6 +17,7 @@ class ConnectToChat extends StatefulWidget {
     required String textFieldHint,
     required String textFieldLabel,
     required String buttonText,
+    required bool isCreateChatView,
     required Icon icon,
     required bool showColorPicker,
     required Function(String text, int? color) onPressed,
@@ -27,7 +27,8 @@ class ConnectToChat extends StatefulWidget {
         _buttonText = buttonText,
         _onPressed = onPressed,
         _icon = icon,
-        _showColorPicker = showColorPicker;
+        _showColorPicker = showColorPicker,
+        _isCreateChatView = isCreateChatView;
 
   @override
   State<ConnectToChat> createState() => _ConnectToChatState();
@@ -36,6 +37,7 @@ class ConnectToChat extends StatefulWidget {
 class _ConnectToChatState extends State<ConnectToChat> {
   late Color selectedColor;
   late final TextEditingController _textEditingController;
+  String errorMessage = '';
 
   @override
   void initState() {
@@ -52,6 +54,8 @@ class _ConnectToChatState extends State<ConnectToChat> {
 
   @override
   Widget build(BuildContext context) {
+    SingleChatBloc singleChatBloc = BlocProvider.of<SingleChatBloc>(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -63,6 +67,9 @@ class _ConnectToChatState extends State<ConnectToChat> {
                 : MainAxisAlignment.center,
             children: [
               TextField(
+                onTap: () => setState(() {
+                  errorMessage = '';
+                }),
                 controller: _textEditingController,
                 keyboardType: TextInputType.emailAddress,
                 enableSuggestions: false,
@@ -79,20 +86,30 @@ class _ConnectToChatState extends State<ConnectToChat> {
                   ),
                 ),
               ),
-              BlocBuilder<ChatsBloc, ChatsState>(
-                builder: (context, state) {
-                  if (state is ChatsErrorState) {
-                    return Text(
-                      state.error ?? "",
-                      style: TextStyle(
-                        color: Colors.redAccent[400],
-                      ),
-                    );
-                  } else {
-                    return const Text("");
+              const SizedBox(height: 10),
+              BlocListener<SingleChatBloc, SingleChatState>(
+                listener: (context, state) {
+                  if (singleChatBloc.state is ChatsSingleChatDataErrorState) {
+                    setState(() {
+                      errorMessage = (singleChatBloc.state
+                              as ChatsSingleChatDataErrorState)
+                          .errorMessage;
+                    });
                   }
                 },
+                child: const SizedBox(),
               ),
+              if (errorMessage.isNotEmpty)
+                Text(
+                  errorMessage.isNotEmpty
+                      ? errorMessage
+                      : (singleChatBloc.state as ChatsSingleChatDataErrorState)
+                          .errorMessage,
+                  style: TextStyle(
+                    color: Colors.redAccent[400],
+                  ),
+                ),
+              const SizedBox(height: 10),
               if (widget._showColorPicker)
                 ColorPickerWidget(
                   onColorSelected: (Color color) {
@@ -107,8 +124,25 @@ class _ConnectToChatState extends State<ConnectToChat> {
                     padding: MaterialStateProperty.all<EdgeInsets>(
                         const EdgeInsets.fromLTRB(64, 12, 64, 12))),
                 onPressed: () {
-                  widget._onPressed(
-                      _textEditingController.text, selectedColor.value);
+                  bool createChatCondition =
+                      _textEditingController.text.length >= 5 &&
+                          _textEditingController.text.length <= 20;
+                  bool connectToChatCondition =
+                      _textEditingController.text.length == 20;
+                  bool condition = (widget._isCreateChatView)
+                      ? createChatCondition
+                      : connectToChatCondition;
+                  if (condition) {
+                    widget._onPressed(
+                        _textEditingController.text, selectedColor.value);
+                  } else {
+                    setState(() {
+                      errorMessage = widget._isCreateChatView
+                          ? LocaleKeys.add_chat_view_name_error_message.tr()
+                          : LocaleKeys.add_chat_view_invalid_link_error_message
+                              .tr();
+                    });
+                  }
                 },
                 child: Text(widget._buttonText),
               ),
@@ -116,81 +150,6 @@ class _ConnectToChatState extends State<ConnectToChat> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ColorPickerWidget extends StatefulWidget {
-  final void Function(Color color) onColorSelected;
-
-  const ColorPickerWidget({super.key, required this.onColorSelected});
-
-  @override
-  State<ColorPickerWidget> createState() => _ColorPickerWidgetState();
-}
-
-class _ColorPickerWidgetState extends State<ColorPickerWidget> {
-  late Color screenPickerColor;
-  // Color for the picker in a dialog using onChanged.
-  late Color dialogPickerColor;
-  // Color for picker using the color select dialog.
-  late Color dialogSelectColor;
-
-  @override
-  void initState() {
-    screenPickerColor = Colors.blue; // Material blue.
-    dialogPickerColor = Colors.red; // Material red.
-    dialogSelectColor = const Color(0xFFA239CA); // A purple color
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ColorIndicator(
-          width: 500,
-          height: 50,
-          borderRadius: 22,
-          color: screenPickerColor,
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(6),
-            child: Card(
-              elevation: 2,
-              child: ColorPicker(
-                pickersEnabled: const <ColorPickerType, bool>{
-                  ColorPickerType.accent: false,
-                },
-                enableShadesSelection: false,
-                // Use the screenPickerColor as start color.
-                color: screenPickerColor,
-                // Update the screenPickerColor using the callback.
-                onColorChanged: (Color color) {
-                  setState(() => screenPickerColor = color);
-                  widget.onColorSelected(color);
-                },
-
-                width: 44,
-                height: 44,
-                borderRadius: 22,
-                heading: Text(
-                  LocaleKeys.add_chat_view_select_color.tr(),
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-      ],
     );
   }
 }

@@ -13,12 +13,14 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   final GetUserUseCase _getUserUseCase;
   final GetUsernameByIDUseCase _getUsernameByIDUseCase;
 
-  MessageBloc(
-      {required GetMessagesForChatUseCase getMessagesForChatUseCase,
-      required PostMessageUseCase postMessageUseCase,
-      required GetUserUseCase getUserUseCase,
-      required GetUsernameByIDUseCase getUsernameByIDUseCase})
-      : _getMessagesForChatUseCase = getMessagesForChatUseCase,
+  late final StreamSubscription<List<MessageModel>> _messageStreamSubscription;
+
+  MessageBloc({
+    required GetMessagesForChatUseCase getMessagesForChatUseCase,
+    required PostMessageUseCase postMessageUseCase,
+    required GetUserUseCase getUserUseCase,
+    required GetUsernameByIDUseCase getUsernameByIDUseCase,
+  })  : _getMessagesForChatUseCase = getMessagesForChatUseCase,
         _postMessageUseCase = postMessageUseCase,
         _getUserUseCase = getUserUseCase,
         _getUsernameByIDUseCase = getUsernameByIDUseCase,
@@ -36,18 +38,15 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     Emitter<MessageState> emit,
   ) async {
     UserModel currentUser = await _getUserUseCase.execute(const NoParams());
-
-    StreamSubscription<List<MessageModel>> subscriptionOfMessageModels =
-        _getMessagesForChatUseCase
-            .execute(event.currentChat)
-            .listen((listOfMessages) {
+    _messageStreamSubscription = _getMessagesForChatUseCase
+        .execute(event.currentChat)
+        .listen((listOfMessages) {
       add(MessagesHasBeenUpdatedEvent(
         updatedListOfMessages: listOfMessages,
         currentUser: currentUser,
       ));
     });
     emit(MessageLoadedState(
-      subscription: subscriptionOfMessageModels,
       listOfMessageModel: const [],
       currentUser: currentUser,
     ));
@@ -110,9 +109,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     _,
     Emitter<MessageState> emit,
   ) {
-    if (state is MessageLoadedState) {
-      (state as MessageLoadedState).subscription.cancel();
-    }
+    _messageStreamSubscription.cancel();
     emit(MessageInitState());
   }
 }

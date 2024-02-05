@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 
 import 'generic_dialog.dart';
@@ -7,11 +8,11 @@ Future<bool> showRemoveMemberDialog(
 ) {
   return showGenericDialog<bool>(
     context: context,
-    title: "Remove member",
-    content: "Are you sure you want to remove this member?",
+    title: LocaleKeys.remove_member_dialog_title.tr(),
+    content: LocaleKeys.remove_member_dialog_content.tr(),
     optionsBuilder: () => {
-      "Remove": true,
-      "Cancel": false,
+      LocaleKeys.remove_member_dialog_leave_option.tr(): true,
+      LocaleKeys.remove_member_dialog_cancel_option.tr(): false,
     },
   ).then((value) => value ?? false);
 }

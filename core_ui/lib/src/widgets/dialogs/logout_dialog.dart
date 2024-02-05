@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 
 import 'generic_dialog.dart';
@@ -7,11 +8,11 @@ Future<bool> showLogoutDialog(
 ) {
   return showGenericDialog<bool>(
     context: context,
-    title: "Logout",
-    content: "Are you sure you want to log out?",
+    title: LocaleKeys.log_out_dialog_title.tr(),
+    content: LocaleKeys.log_out_dialog_content.tr(),
     optionsBuilder: () => {
-      "Ok": true,
-      "Cancel": false,
+      LocaleKeys.log_out_dialog_leave_option.tr(): true,
+      LocaleKeys.log_out_dialog_cancel_option.tr(): false,
     },
   ).then((value) => value ?? false);
 }

@@ -332,6 +332,18 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "flex_color_picker",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/flex_color_picker-3.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "flex_seed_scheme",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/flex_seed_scheme-1.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///Users/alextr1/dev/tooling/flutter/packages/flutter",
       "packageUri": "lib/",
@@ -590,6 +602,24 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "path_provider",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/path_provider-2.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "path_provider_android",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/path_provider_android-2.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "path_provider_foundation",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/path_provider_foundation-2.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "path_provider_linux",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1",
       "packageUri": "lib/",
@@ -842,7 +872,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-01-12T12:19:41.909603Z",
+  "generated": "2024-02-05T08:26:53.123533Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

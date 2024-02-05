@@ -2,7 +2,6 @@ import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/home.dart';
 import 'package:navigation/navigation.dart';
@@ -20,6 +19,7 @@ class ChatSettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final SingleChatBloc singleChatBloc =
         BlocProvider.of<SingleChatBloc>(context);
+    final MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -37,7 +37,8 @@ class ChatSettingsView extends StatelessWidget {
               children: <Widget>[
                 TextButton(
                     onPressed: () {
-                      singleChatBloc.add(PopChatSettingsViewEvent());
+                      singleChatBloc.add(
+                          PopChatSettingsViewEvent(currentChat: chatModel));
                     },
                     child: const Icon(Icons.arrow_back_ios_sharp)),
               ],
@@ -49,55 +50,8 @@ class ChatSettingsView extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            Expanded(
-              flex: 1,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    LocaleKeys.chat_settings_view_inviting_link.tr(),
-                    style: const TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(2, 0, 10, 0),
-                    decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Clipboard.setData(ClipboardData(text: chatModel.id))
-                                .then((_) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text(LocaleKeys
-                                          .chat_settings_view_copied_to_clipboard
-                                          .tr())));
-                            });
-                          },
-                          child: const Icon(
-                            Icons.link,
-                            size: 40,
-                          ),
-                        ),
-                        Text(
-                          chatModel.id,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+            ChatSettingsLinkArea(
+              chatModel: chatModel,
             ),
             const Divider(
               height: 10,
@@ -150,17 +104,11 @@ class ChatSettingsView extends StatelessWidget {
                     onPressed: () async {
                       final shouldLogout = await showLeaveChatDialog(context);
                       if (shouldLogout) {
+                        messageBloc.add(DisposeMessagesBlocEvent());
                         singleChatBloc.add(RemoveUserFromChatEvent(
                           userID: "self",
                           chat: chatModel,
                         ));
-
-                        /*messageBloc.add(PostServiceMessageToDBEvent(
-                          serviceType: "leave",
-                          username: null,
-                          chatID: chatModel.id,
-                          timestamp: DateTime.now().millisecondsSinceEpoch,
-                        ));*/
                       } else {}
                     },
                     child: Text(LocaleKeys.chat_settings_view_leave_chat.tr()),

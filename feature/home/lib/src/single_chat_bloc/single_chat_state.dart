@@ -20,3 +20,9 @@ class ChatsSingleChatDataFetchedState extends SingleChatState {
     required this.currentUser,
   });
 }
+
+class ChatsSingleChatDataErrorState extends SingleChatState {
+  final String errorMessage;
+
+  ChatsSingleChatDataErrorState({required this.errorMessage});
+}

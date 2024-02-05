@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:core/core.dart';
 import 'package:data/entities/chat_members/chat_member_entity.dart';
 import 'package:data/entities/chats/message_entity.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -48,7 +49,10 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
   }
 
   @override
-  Future<ChatEntity?> joinChat(String chatID, String userID) async {
+  Future<ChatEntity?> joinChat(
+    String chatID,
+    String userID,
+  ) async {
     final DatabaseReference chatRef = _databaseReference.child("chats/$chatID");
     final DataSnapshot snapshot = await chatRef.get();
     if (snapshot.exists && snapshot.value != null) {
@@ -61,6 +65,18 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
             userID: userID,
             chatID: chatID,
           );
+          String username = await getUsernameByID(userID);
+          String secondPartOfMessage =
+              LocaleKeys.service_messages_second_part_join_message.tr();
+          String message = "$username $secondPartOfMessage";
+          MessageEntity onSuccessMessage = MessageEntity(
+            id: "0",
+            senderId: "service",
+            message: message,
+            timeStamp: DateTime.now().millisecondsSinceEpoch,
+            chatId: chatID,
+          );
+          postNewMessage(onSuccessMessage);
           return returnedChat;
         }
       }
@@ -113,10 +129,23 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     required String userID,
     required String chatID,
   }) async {
-    await removeMemberFromChatUsersAndUserChats(
-      userID: userID,
-      chatID: chatID,
-    );
+    try {
+      await removeMemberFromChatUsersAndUserChats(
+        userID: userID,
+        chatID: chatID,
+      );
+      String username = await getUsernameByID(userID);
+      String secondPartOfMessage =
+          LocaleKeys.service_messages_second_part_has_left_chat.tr();
+      String message = "$username $secondPartOfMessage";
+      MessageEntity onRemoveUserMessage = MessageEntity(
+          id: "0",
+          senderId: "service",
+          message: message,
+          timeStamp: DateTime.now().millisecondsSinceEpoch,
+          chatId: chatID);
+      postNewMessage(onRemoveUserMessage);
+    } catch (e) {}
   }
 
   Future<void> removeMemberFromChatUsersAndUserChats({
@@ -263,7 +292,9 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     var idsMap = idsMapJSON.snapshot.value;
     if (idsMap != null && idsMap is Map<Object?, Object?>) {
       idsMap.forEach((chatID, chatBool) {
-        listOfChatIDs.add(chatID.toString());
+        if (chatBool == true) {
+          listOfChatIDs.add(chatID.toString());
+        }
       });
     }
     return listOfChatIDs;

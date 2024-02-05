@@ -49,7 +49,11 @@ class NavigateToChatSettingsEvent extends SingleChatEvent {
   });
 }
 
-class PopChatSettingsViewEvent extends SingleChatEvent {}
+class PopChatSettingsViewEvent extends SingleChatEvent {
+  final ChatModel currentChat;
+
+  PopChatSettingsViewEvent({required this.currentChat});
+}
 
 class PopSingleChatRouteEvent extends SingleChatEvent {}
 

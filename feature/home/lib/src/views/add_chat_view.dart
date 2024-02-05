@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/home.dart';
 import 'package:navigation/navigation.dart';
-import '../widgets/connect_to_chat_reusable_view.dart';
 
 @RoutePage()
 class AddChatView extends StatelessWidget {
@@ -13,7 +12,6 @@ class AddChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SingleChatBloc singleChatBloc = BlocProvider.of<SingleChatBloc>(context);
-    MessageBloc messageBloc = BlocProvider.of<MessageBloc>(context);
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -55,6 +53,7 @@ class AddChatView extends StatelessWidget {
                 textFieldLabel: LocaleKeys.add_chat_view_name_label.tr(),
                 buttonText: LocaleKeys.add_chat_view_create_button.tr(),
                 showColorPicker: true,
+                isCreateChatView: true,
                 onPressed: (
                   String text,
                   int? color,
@@ -77,21 +76,12 @@ class AddChatView extends StatelessWidget {
                 textFieldLabel: LocaleKeys.add_chat_view_link_label.tr(),
                 buttonText: LocaleKeys.add_chat_view_connect_button.tr(),
                 showColorPicker: false,
+                isCreateChatView: false,
                 onPressed: (
                   String text,
                   int? color,
                 ) {
-                  if (text.length == 20) {
-                    singleChatBloc.add(JoinChatEvent(chatID: text));
-                    if (singleChatBloc.state is ChatsDataFetchingState) {
-                      messageBloc.add(PostServiceMessageToDBEvent(
-                        serviceType: "join",
-                        username: null,
-                        chatID: text,
-                        timestamp: DateTime.now().millisecondsSinceEpoch,
-                      ));
-                    }
-                  }
+                  singleChatBloc.add(JoinChatEvent(chatID: text));
                 },
                 icon: const Icon(Icons.link),
               ),

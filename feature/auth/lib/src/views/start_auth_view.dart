@@ -29,6 +29,12 @@ class _StartAuthViewState extends State<StartAuthView> {
             child: CircularProgressIndicator(),
           ),
         );
+        /*AnimatedSplashScreen(
+          splash: 'package:core_ui/assets/splash/splash_logo.png',
+          nextScreen: SharedNavbarView(),
+          splashTransition: SplashTransition.scaleTransition,
+          pageTransitionType: PageTransitionType.scale,
+        );*/
       },
     );
   }

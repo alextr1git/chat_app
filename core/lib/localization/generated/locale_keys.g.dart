@@ -79,6 +79,14 @@ abstract class LocaleKeys {
   static const add_chat_view_connect_button = 'add_chat_view.connect_button';
   static const add_chat_view_create_button = 'add_chat_view.create_button';
   static const add_chat_view = 'add_chat_view';
+  static const add_chat_view_name_error_message =
+      'add_chat_view.name_error_message';
+  static const add_chat_view_invalid_link_error_message =
+      'add_chat_view.invalid_link_error_message';
+  static const add_chat_view_second_part_join_message =
+      'add_chat_view.second_part_join_message';
+  static const add_chat_view_unable_join_chat_message =
+      'add_chat_view.unable_join_chat_message';
   static const chat_settings_view_leave_chat = 'chat_settings_view.leave_chat';
   static const chat_settings_view_title = 'chat_settings_view.title';
   static const chat_settings_view_inviting_link =
@@ -86,4 +94,27 @@ abstract class LocaleKeys {
   static const chat_settings_view_copied_to_clipboard =
       'chat_settings_view.copied_to_clipboard';
   static const chat_settings_view = 'chat_settings_view';
+  static const service_messages = 'service_messages';
+  static const service_messages_second_part_join_message =
+      'service_messages.second_part_join_message';
+  static const service_messages_second_part_has_left_chat =
+      'service_messages.second_part_has_left_chat';
+  static const leave_chat_dialog_title = 'leave_chat_dialog.title';
+  static const leave_chat_dialog_content = 'leave_chat_dialog.content';
+  static const leave_chat_dialog_leave_option =
+      'leave_chat_dialog.leave_option';
+  static const leave_chat_dialog_cancel_option =
+      'leave_chat_dialog.cancel_option';
+
+  static const log_out_dialog_title = 'log_out_dialog.title';
+  static const log_out_dialog_content = 'log_out_dialog.content';
+  static const log_out_dialog_leave_option = 'log_out_dialog.leave_option';
+  static const log_out_dialog_cancel_option = 'log_out_dialog.cancel_option';
+
+  static const remove_member_dialog_title = 'remove_member_dialog.title';
+  static const remove_member_dialog_content = 'remove_member_dialog.content';
+  static const remove_member_dialog_leave_option =
+      'remove_member_dialog.leave_option';
+  static const remove_member_dialog_cancel_option =
+      'remove_member_dialog.cancel_option';
 }

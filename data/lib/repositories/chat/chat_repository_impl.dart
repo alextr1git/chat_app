@@ -102,7 +102,7 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<ChatModel?> joinChat(String chatID) async {
-    UserEntity? userEntity = _authProvider.currentUser;
+    UserEntity userEntity = _authProvider.currentUser!;
     if (userEntity != null) {
       UserModel? userModel = UserMapper.toModel(userEntity);
       ChatEntity? chatEntity =

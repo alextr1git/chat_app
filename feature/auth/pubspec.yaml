@@ -24,6 +24,8 @@ dependencies:
     path: ../../navigation
   equatable: ^2.0.5
   flutter_bloc: ^8.1.3
+  #animated_splash_screen: ^1.3.0
+ # page_transition: ^2.1.0
 
 dev_dependencies:
   flutter_test:

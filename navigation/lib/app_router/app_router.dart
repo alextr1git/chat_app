@@ -23,11 +23,14 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: ChatsRoute.page),
         AutoRoute(page: EmailVerificationRoute.page),
         AutoRoute(page: SharedNavbarRoute.page),
-        AutoRoute(page: AddChatRoute.page),
-        AutoRoute(page: SingleChatWrapperRoute.page, children: [
-          AutoRoute(page: PersonalChatRoute.page),
-          AutoRoute(page: ChatSettingsRoute.page),
-        ]),
+        AutoRoute(
+          page: SingleChatWrapperRoute.page,
+          children: [
+            AutoRoute(page: PersonalChatRoute.page),
+            AutoRoute(page: ChatSettingsRoute.page),
+            AutoRoute(page: AddChatRoute.page),
+          ],
+        ),
         CustomRoute(
           page: FailurePopupRoute.page,
           path: '/failure_popup',

@@ -83,13 +83,38 @@
         "link_label" : "Сссылка",
         "link_hint" : "Введите ссылку чата",
         "connect_button" : "Присоединиться",
-        "create_button" : "Создать"
+        "create_button" : "Создать",
+        "name_error_message" : "Длина имени должна быть в диапазоне 5-20",
+        "invalid_link_error_message" : "Ссылка недействительна",
+        "unable_join_chat_message": "Невозможно присоединиться к данному чату"
     },
     "chat_settings_view": {
         "leave_chat" : "Покинуть чат",
         "title":      "Настройки чата",
         "inviting_link" : "Ссылка на этот чат",
         "copied_to_clipboard" : "Ссылка скопирована!"
+    },
+    "service_messages" : {
+        "second_part_join_message": "присоединился к чату по ссылке",
+        "second_part_has_left_chat" : "покинул чат"
+    },
+    "leave_chat_dialog" : {
+        "title" : "Покинуть чат",
+        "content" : "Вы уверены, что хотите покинуть чат?",
+        "leave_option" : "Покинуть" ,
+        "cancel_option" : "Отмена"
+    },
+    "log_out_dialog" : {
+        "title" : "Выход",
+        "content" : "Вы уверены, что хотите выйти из аккаунта?",
+        "leave_option" : "Выйти" ,
+        "cancel_option" : "Отмена"
+    },
+    "remove_member_dialog" : {
+        "title" : "Исключить участника",
+        "content" : "Вы уверены, что хотите исключить этого участника?",
+        "leave_option" : "Исключить" ,
+        "cancel_option" : "Отмена"
     }
 
 

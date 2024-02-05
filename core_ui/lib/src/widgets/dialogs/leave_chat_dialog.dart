@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 
 import 'generic_dialog.dart';
@@ -7,11 +8,11 @@ Future<bool> showLeaveChatDialog(
 ) {
   return showGenericDialog<bool>(
     context: context,
-    title: "Leave the chat",
-    content: "Are you sure you want to leave this chat?",
+    title: LocaleKeys.leave_chat_dialog_title.tr(),
+    content: LocaleKeys.leave_chat_dialog_content.tr(),
     optionsBuilder: () => {
-      "Leave": true,
-      "Cancel": false,
+      LocaleKeys.leave_chat_dialog_leave_option.tr(): true,
+      LocaleKeys.leave_chat_dialog_cancel_option.tr(): false,
     },
   ).then((value) => value ?? false);
 }

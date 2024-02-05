@@ -12,8 +12,8 @@ part 'chats_state.dart';
 class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
   final AppRouter _router;
   final GetChatsForUserUseCase _getChatsForUserUseCase;
-
   final GetLastsMessagesOfChatUseCase _getLastMessageOfChatUseCase;
+  late final StreamSubscription<List<ChatModel>> _subscriptionOfChatEntities;
 
   ChatsBloc({
     required AppRouter router,
@@ -36,18 +36,19 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
     InitChatsEvent event,
     Emitter<ChatsState> emit,
   ) async {
-    StreamSubscription<List<ChatModel>> subscriptionOfChatEntities =
-        _getChatsForUserUseCase
-            .execute(const NoParams())
-            .listen((listOfChatModels) {
-      print("changed");
-      add(ChatsHasBeenUpdatedEvent(
-        updatedListOfChatModels: listOfChatModels,
-      ));
+    _subscriptionOfChatEntities = _getChatsForUserUseCase
+        .execute(const NoParams())
+        .listen((listOfChatModels) {
+      try {
+        add(ChatsHasBeenUpdatedEvent(
+          updatedListOfChatModels: listOfChatModels,
+        ));
+      } catch (e) {
+        print(e.toString());
+      }
     });
 
-    emit(
-        ChatsDataFetchingState(streamSubscription: subscriptionOfChatEntities));
+    emit(ChatsDataFetchingState());
   }
 
   Future<void> _updateListOfChatModels(
@@ -57,39 +58,12 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
     var mapOfChatModelsToMessageModels = await _getLastMessageOfChatUseCase
         .execute(event.updatedListOfChatModels);
 
-    StreamSubscription<List<ChatModel>> subscriptionOfChatEntities =
-        (state as ChatsDataFetchingState).streamSubscription!;
     emit(ChatsAllDataFetchedState(
       listOfAllChatsOfUser: event.updatedListOfChatModels,
       listOfFilteredChatsOfUser: event.updatedListOfChatModels,
       lastMessagesForChats: mapOfChatModelsToMessageModels,
-      streamSubscription: subscriptionOfChatEntities,
     ));
   }
-/*
-
-  void _getChatsForUser(
-    GetChatsForUser event,
-    Emitter<ChatsState> emit,
-  ) async {
-    emit(ChatsDataFetchingState());
-    List<ChatModel> chatModels =
-        await _getChatsForUserUseCase.execute(const NoParams());
-
-    Map<String, MessageModel> mapOfChatModelsToMessageModels = {};
-    if (chatModels != null) {
-      mapOfChatModelsToMessageModels =
-          await _getLastMessageOfChatUseCase.execute(chatModels);
-      emit(ChatsAllDataFetchedState(
-        listOfAllChatsOfUser: chatModels,
-        listOfFilteredChatsOfUser: chatModels,
-        lastMessagesForChats: mapOfChatModelsToMessageModels,
-      ));
-    } else {
-      emit(ChatsErrorState(error: 'Cannot retrieve data from server'));
-    }
-  }
-*/
 
   void _searchChat(
     SearchInChatsEvent event,
@@ -119,13 +93,15 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
     NavigateToPersonalChatViewEvent event,
     Emitter<ChatsState> emit,
   ) async {
-    _router.replace(const SingleChatWrapperRoute());
+    _subscriptionOfChatEntities.cancel();
+    _router.replace(PersonalChatRoute(chatModel: event.selectedChat));
   }
 
   Future<void> _navigateToAddChatView(
     _,
     Emitter<ChatsState> emit,
   ) async {
+    _subscriptionOfChatEntities.cancel();
     _router.replace(const AddChatRoute());
   }
 

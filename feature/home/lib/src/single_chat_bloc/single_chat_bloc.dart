@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:domain/domain.dart';
@@ -37,7 +38,6 @@ class SingleChatBloc extends Bloc<SingleChatEvent, SingleChatState> {
     on<RemoveUserFromChatEvent>(_removeUserFromChat);
     on<GetMembersOfChatEvent>(_getMembersOfChat);
     on<PopAddChatRouteEvent>(_popAddChatRouteEvent);
-
     on<NavigateToChatsViewEvent>(_navigateToChatsView);
     on<NavigateToCreatedChatViewEvent>(_navigateToCreatedChatView);
     on<NavigateToChatSettingsEvent>(_navigateToSettingsView);
@@ -61,6 +61,10 @@ class SingleChatBloc extends Bloc<SingleChatEvent, SingleChatState> {
     final ChatModel? chatModel = await _joinChatUseCase.execute(event.chatID);
     if (chatModel != null) {
       add(NavigateToCreatedChatViewEvent(newChat: chatModel));
+    } else {
+      String joinErrorMessage =
+          LocaleKeys.add_chat_view_unable_join_chat_message.tr();
+      emit(ChatsSingleChatDataErrorState(errorMessage: joinErrorMessage));
     }
   }
 
@@ -137,11 +141,11 @@ class SingleChatBloc extends Bloc<SingleChatEvent, SingleChatState> {
     _router.push(ChatSettingsRoute(chatModel: event.currentChat));
   }
 
-  void _popChatSettingsView(
+  Future<void> _popChatSettingsView(
     PopChatSettingsViewEvent event,
     Emitter<SingleChatState> emit,
-  ) {
-    _router.pop();
+  ) async {
+    await _router.navigate(PersonalChatRoute(chatModel: event.currentChat));
   }
 
   Future<void> _popSingleChatRouteEvent(
