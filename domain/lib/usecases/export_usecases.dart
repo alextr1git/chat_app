@@ -20,3 +20,4 @@ export 'chats_usecases/create_new_chat_usecase.dart';
 export 'chats_usecases/get_messages_for_chat_usecase.dart';
 export 'chats_usecases/get_chats_for_user_usecase.dart';
 export 'chats_usecases/get_members_of_chat_usecase.dart';
+export 'chats_usecases/set_user_chat_listening_status.dart';

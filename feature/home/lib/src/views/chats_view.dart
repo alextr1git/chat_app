@@ -18,6 +18,8 @@ class ChatsView extends StatelessWidget {
         getChatsForUserUseCase: appLocator.get<GetChatsForUserUseCase>(),
         getLastMessageOfChatUseCase:
             appLocator.get<GetLastsMessagesOfChatUseCase>(),
+        inverseListeningStatusUseCase:
+            appLocator.get<SetListeningStatusUseCase>(),
       ),
       child: const ChatsContent(),
     );

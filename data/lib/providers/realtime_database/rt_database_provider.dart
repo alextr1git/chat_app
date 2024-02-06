@@ -32,6 +32,16 @@ abstract class RealTimeDatabaseProvider {
     String username,
   );
 
+  Future<void> setListeningStatus({
+    required String chatID,
+    required String userID,
+    required bool status,
+  });
+
+  Future<void> notifyMembersAboutChatChanges({
+    required String chatID,
+  });
+
   Future<void> postNewMessage(
     MessageEntity messageEntity,
   );

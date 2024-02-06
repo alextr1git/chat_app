@@ -1,4 +1,3 @@
-import 'package:core/bloc_providers/global_bloc_provider.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
@@ -34,8 +33,14 @@ class MyApp extends StatelessWidget {
       title: 'CHATSAPP',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        brightness: Brightness.light,
         useMaterial3: true,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.system,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

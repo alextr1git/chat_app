@@ -143,4 +143,17 @@ class ChatRepositoryImpl implements ChatRepository {
     }
     return mapOfChatModelsToMessageModels;
   }
+
+  @override
+  Future<void> setListeningStatus({
+    required String chatID,
+    required bool status,
+  }) async {
+    UserEntity userEntity = _authProvider.currentUser!;
+    await _databaseProvider.setListeningStatus(
+      chatID: chatID,
+      userID: userEntity.id,
+      status: status,
+    );
+  }
 }

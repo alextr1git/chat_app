@@ -14,3 +14,4 @@ export 'src/single_chat_bloc/single_chat_bloc.dart';
 export 'src/widgets/single_chat_wrapper_view.dart';
 export 'src/widgets/color_picker_widget.dart';
 export 'src/widgets/chat_settings_link_area.dart';
+export 'src/exceptions/exceptions.dart';

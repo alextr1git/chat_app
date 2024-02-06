@@ -1,0 +1,118 @@
+{
+    "login": {
+        "title" : "Login",
+        "second_title" : "Welcome here!",
+        "call_to_action":"Login to your account",
+        "form_email_hint" : "Enter your email",
+        "form_email_label" : "Email",
+        "form_password_hint" : "Enter your password",
+        "form_password_label" : "Password",
+        "login_button" : "Login",
+        "dont_have_account" : "Don't have an account?",
+        "redirect_to_register" : "Create one!"
+    },
+    "register" : {
+        "title" : "Sign up",
+        "second_title" : "We've never met before!",
+        "call_to_action":"Create your account!",
+        "form_name_hint" : "Enter your username",
+        "form_name_label" : "Username",
+        "form_email_hint" : "Enter your email",
+        "form_email_label" : "Email",
+        "form_password_hint" : "Enter your password",
+        "form_password_label" : "Password",
+        "register_button" : "Sign up'",
+        "already_have_account" : "Already have an account?",
+        "redirect_to_login" : "Login into existing one"
+
+    },
+
+    "verify_email" : {
+        "title" : "Verify your email",
+        "link_has_been_sent" : "An email with verification link has been sent to your email address",
+        "after_verification" : "After verification you will be able to log in to your account",
+        "resend_email_label" : "If you haven't received, please press on button below",
+        "resend_email_button" : "Resend email"
+    },
+    "account_settings" : {
+        "your_email_is" : "Your email is",
+        "name_form_hint" : "Enter your name",
+        "name_form_label" : "Name",
+        "save_changes" : "Save changes",
+        "title" : "Account settings",
+        "select_photo" : "Select photo",
+        "changes_applied" : "Changes saved!\nIt may take some time to apply them",
+        "changes_cant_be_applied" : "Invalid data!\nPlease make sure that image and name are valid data",
+        "logout" : "Log out"
+    },
+    "settings" : {
+        "view_title" : "Settings",
+        "choose_language_text" : "Change language"
+    },
+
+    "navbar" : {
+        "account" : "Account",
+        "chats" : "Chats",
+        "settings" : "Settings"
+    },
+
+    "chats" : {
+        "title" : "Chats",
+        "search" : "Search",
+        "no_messages" : "No messages yet"
+    },
+
+    "chat_members" : {
+        "no_name" : "No name"
+    },
+
+    "personal_chat_view" : {
+        "no_messages_yet" : "There are no messages yet",
+        "write_message" : "Write message..."
+    },
+
+    "add_chat_view": {
+        "add_chat_title" : "Add chat",
+        "create_title" : "Create",
+        "connect_title" : "Connect",
+        "select_color" : "Select color",
+        "name_label" : "Name",
+        "name_hint" : "Enter new chat name",
+        "link_label" : "Link",
+        "link_hint" : "Enter link to chat",
+        "connect_button" : "Connect",
+        "create_button" : "Create",
+        "name_error_message" : "Length of chat name should be in range of 5-20",
+        "invalid_link_error_message" : "Link is invalid",
+        "unable_join_chat_message": "Unable to join this chat"
+    },
+    "chat_settings_view": {
+        "leave_chat" : "Leave chat",
+        "title":      "Chat settings",
+        "inviting_link" : "Inviting link for this chat",
+        "copied_to_clipboard" : "Copied to your clipboard!"
+    },
+    "service_messages" : {
+        "second_part_join_message": "is joined the chat via link",
+        "second_part_has_left_chat" : "has left the chat"
+    },
+    "leave_chat_dialog" : {
+        "title" : "Leave the chat",
+        "content" : "Are you sure you want to leave this chat?",
+        "leave_option" : "Leave" ,
+        "cancel_option" : "Cancel"
+},
+    "log_out_dialog" : {
+    "title" : "Logout",
+    "content" : "Are you sure you want to log out?",
+    "leave_option" : "Ok" ,
+    "cancel_option" : "Cancel"
+},
+    "remove_member_dialog" : {
+        "title" : "Remove member",
+        "content" : "Are you sure you want to remove this member?",
+        "leave_option" : "Remove" ,
+        "cancel_option" : "Cancel"
+    }
+}
+

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:domain/usecases/usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:home/home.dart';
 import 'package:home/src/navigation/router.dart';
 import 'package:navigation/navigation.dart';
 import 'package:domain/domain.dart';
@@ -13,19 +14,21 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
   final AppRouter _router;
   final GetChatsForUserUseCase _getChatsForUserUseCase;
   final GetLastsMessagesOfChatUseCase _getLastMessageOfChatUseCase;
+  final SetListeningStatusUseCase _inverseListeningStatusUseCase;
   late final StreamSubscription<List<ChatModel>> _subscriptionOfChatEntities;
 
-  ChatsBloc({
-    required AppRouter router,
-    required GetChatsForUserUseCase getChatsForUserUseCase,
-    required GetLastsMessagesOfChatUseCase getLastMessageOfChatUseCase,
-  })  : _router = router,
+  ChatsBloc(
+      {required AppRouter router,
+      required GetChatsForUserUseCase getChatsForUserUseCase,
+      required GetLastsMessagesOfChatUseCase getLastMessageOfChatUseCase,
+      required SetListeningStatusUseCase inverseListeningStatusUseCase})
+      : _router = router,
         _getChatsForUserUseCase = getChatsForUserUseCase,
         _getLastMessageOfChatUseCase = getLastMessageOfChatUseCase,
+        _inverseListeningStatusUseCase = inverseListeningStatusUseCase,
         super(ChatsDataFetchingState()) {
     on<NavigateToPersonalChatViewEvent>(_navigateToPersonalChatView);
     on<NavigateToAddChatViewEvent>(_navigateToAddChatView);
-    // on<GetChatsForUser>(_getChatsForUser);
     on<DisposeChatBlocEvent>(_dispose);
     on<SearchInChatsEvent>(_searchChat);
     on<ChatsHasBeenUpdatedEvent>(_updateListOfChatModels);
@@ -40,11 +43,13 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
         .execute(const NoParams())
         .listen((listOfChatModels) {
       try {
+        _updateStatusForEveryChat(
+            listOfChatModels: listOfChatModels, status: true);
         add(ChatsHasBeenUpdatedEvent(
           updatedListOfChatModels: listOfChatModels,
         ));
       } catch (e) {
-        print(e.toString());
+        //throw StreamAddsEventButBlocIsDisposedException();
       }
     });
 
@@ -94,7 +99,22 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
     Emitter<ChatsState> emit,
   ) async {
     _subscriptionOfChatEntities.cancel();
+    _updateStatusForEveryChat(
+      listOfChatModels:
+          (state as ChatsAllDataFetchedState).listOfAllChatsOfUser,
+      status: false,
+    );
     _router.replace(PersonalChatRoute(chatModel: event.selectedChat));
+  }
+
+  void _updateStatusForEveryChat({
+    required List<ChatModel> listOfChatModels,
+    required bool status,
+  }) {
+    for (ChatModel chatModel in listOfChatModels) {
+      Map<String, bool> mapOfChatToStatus = {chatModel.id: status};
+      _inverseListeningStatusUseCase.execute(mapOfChatToStatus);
+    }
   }
 
   Future<void> _navigateToAddChatView(
@@ -102,6 +122,11 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
     Emitter<ChatsState> emit,
   ) async {
     _subscriptionOfChatEntities.cancel();
+    _updateStatusForEveryChat(
+      listOfChatModels:
+          (state as ChatsAllDataFetchedState).listOfAllChatsOfUser,
+      status: false,
+    );
     _router.replace(const AddChatRoute());
   }
 

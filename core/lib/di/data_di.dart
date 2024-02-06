@@ -106,6 +106,11 @@ class DataDI {
       () =>
           PostMessageUseCase(chatRepository: appLocator.get<ChatRepository>()),
     );
+
+    appLocator.registerLazySingleton<SetListeningStatusUseCase>(
+      () => SetListeningStatusUseCase(
+          chatRepository: appLocator.get<ChatRepository>()),
+    );
   }
 
   void _initSettingsResources() {
