@@ -53,32 +53,29 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     String chatID,
     String userID,
   ) async {
-    final DatabaseReference chatRef = _databaseReference.child("chats/$chatID");
-    final DataSnapshot snapshot = await chatRef.get();
-    if (snapshot.exists && snapshot.value != null) {
-      Object data = snapshot.value!;
-      if (data is Map<Object?, Object?>) {
-        if (await checkIfUserAlreadyInChat(userID: userID, chatID: chatID) ==
-            false) {
-          ChatEntity returnedChat = ChatEntity.fromJson(data, chatID);
-          await addChatToChatUsersAndUserChats(
-            userID: userID,
-            chatID: chatID,
-          );
-          String username = await getUsernameByID(userID);
-          String secondPartOfMessage =
-              LocaleKeys.service_messages_second_part_join_message.tr();
-          String message = "$username $secondPartOfMessage";
-          MessageEntity onSuccessMessage = MessageEntity(
-            id: "0",
-            senderId: "service",
-            message: message,
-            timeStamp: DateTime.now().millisecondsSinceEpoch,
-            chatId: chatID,
-          );
-          postNewMessage(onSuccessMessage);
-          return returnedChat;
-        }
+    Map<Object?, Object?>? data = await getDataFromRequest(
+        databaseReference: _databaseReference.child("chats/$chatID"));
+    if (data != null) {
+      if (await checkIfUserAlreadyInChat(userID: userID, chatID: chatID) ==
+          false) {
+        ChatEntity returnedChat = ChatEntity.fromJson(data, chatID);
+        await addChatToChatUsersAndUserChats(
+          userID: userID,
+          chatID: chatID,
+        );
+        String username = await getUsernameByID(userID);
+        String secondPartOfMessage =
+            LocaleKeys.service_messages_second_part_join_message.tr();
+        String message = "$username $secondPartOfMessage";
+        MessageEntity onSuccessMessage = MessageEntity(
+          id: "0",
+          senderId: "service",
+          message: message,
+          timeStamp: DateTime.now().millisecondsSinceEpoch,
+          chatId: chatID,
+        );
+        postNewMessage(onSuccessMessage);
+        return returnedChat;
       }
     }
     return null;
@@ -89,24 +86,21 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     required String chatID,
   }) async {
     bool isUserAlreadyInChat = false;
-    final DatabaseReference chatUsersRef =
-        _databaseReference.child(" user-chats/$userID");
-    final DataSnapshot snapshot = await chatUsersRef.get();
-    if (snapshot.exists && snapshot.value != null) {
-      Object data = snapshot.value!;
-      if (data is Map<Object?, Object?>) {
-        data.forEach((dbChatID, dbChatData) {
-          if (dbChatID == chatID) {
-            if (dbChatData is Map<Object?, Object?>) {
-              dbChatData.forEach((key, value) {
-                if (key == "is-member" && value == true) {
-                  isUserAlreadyInChat = true;
-                }
-              });
-            }
+
+    Map<Object?, Object?>? data = await getDataFromRequest(
+        databaseReference: _databaseReference.child(" user-chats/$userID"));
+    if (data != null) {
+      data.forEach((dbChatID, dbChatData) {
+        if (dbChatID == chatID) {
+          if (dbChatData is Map<Object?, Object?>) {
+            dbChatData.forEach((key, value) {
+              if (key == "is-member" && value == true) {
+                isUserAlreadyInChat = true;
+              }
+            });
           }
-        });
-      }
+        }
+      });
     }
     return isUserAlreadyInChat;
   }
@@ -164,21 +158,16 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     required String userID,
     required String chatID,
   }) async {
-    final DatabaseReference chatsRef =
-        _databaseReference.child("chats").child(chatID);
     final DatabaseReference userChatsRef =
         _databaseReference.child(" user-chats").child(userID);
     final DatabaseReference chatUsersRef =
         _databaseReference.child("chat-users").child(chatID);
     try {
-      final DataSnapshot snapshot = await chatsRef.get();
-      if (snapshot.exists && snapshot.value != null) {
-        Object chatData = snapshot.value!;
-        if (chatData is Map<Object?, Object?>) {
-          if (chatData["creator-id"] == userID) {
-            await deleteChat(chatID: chatID);
-          }
-        }
+      Map<Object?, Object?>? chatData = await getDataFromRequest(
+          databaseReference: _databaseReference.child("chats").child(chatID));
+
+      if (chatData != null && chatData["creator-id"] == userID) {
+        await deleteChat(chatID: chatID);
       }
 
       final Map<String, dynamic> userChatsData = {
@@ -200,31 +189,29 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
         _databaseReference.child("chats").child(chatID);
     final DatabaseReference chatUsersRef =
         _databaseReference.child("chat-users").child(chatID);
-    final DatabaseReference userChatsRef =
-        _databaseReference.child(" user-chats");
-    final DataSnapshot snapshot = await userChatsRef.get();
-    if (snapshot.exists && snapshot.value != null) {
-      Object usersChatsData = snapshot.value!;
-      if (usersChatsData is Map<Object?, Object?>) {
-        usersChatsData.forEach((userID, userData) {
-          if (userData != null && userData is Map<Object?, Object?>) {
-            userData.forEach((chatId, chatBool) async {
-              if (chatId == chatID) {
-                final Map<String, dynamic> userChatsData = {
-                  chatID: {
-                    "change-id": false,
-                    "is-listened": false,
-                    "is-member": false,
-                  }
-                };
-                await userChatsRef
-                    .child(userID.toString())
-                    .update(userChatsData);
-              }
-            });
-          }
-        });
-      }
+
+    Map<Object?, Object?>? usersChatsData = await getDataFromRequest(
+        databaseReference: _databaseReference.child(" user-chats"));
+    if (usersChatsData != null) {
+      usersChatsData.forEach((userID, userData) {
+        if (userData != null && userData is Map<Object?, Object?>) {
+          userData.forEach((chatId, chatBool) async {
+            if (chatId == chatID) {
+              final Map<String, dynamic> userChatsData = {
+                chatID: {
+                  "change-id": false,
+                  "is-listened": false,
+                  "is-member": false,
+                }
+              };
+              await _databaseReference
+                  .child(" user-chats")
+                  .child(userID.toString())
+                  .update(userChatsData);
+            }
+          });
+        }
+      });
     }
     await chatsRef.remove();
     await chatUsersRef.remove();
@@ -311,8 +298,8 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
       if (chat is Map<Object?, Object?>) {
         return ChatEntity.fromJson(chat, chatID);
       }
-      return null;
     }
+    return null;
   }
 
   List<String?> getListOfChatIDs(var idsMapJSON) {
@@ -337,16 +324,11 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
 
     for (var chatID in listOfChatIDs) {
       if (chatID != null) {
-        final DatabaseReference chatRef =
-            _databaseReference.child("chats/$chatID");
-
-        final DataSnapshot snapshot = await chatRef.get();
-        if (snapshot.exists && snapshot.value != null) {
-          Object chatMap = snapshot.value!;
-
-          if (chatMap is Map<Object?, Object?> && chatMap.length > 3) {
-            listOfChatEntities.add(ChatEntity.fromJson(chatMap, chatID));
-          }
+        Map<Object?, Object?>? chatMap = await getDataFromRequest(
+          databaseReference: _databaseReference.child("chats/$chatID"),
+        );
+        if (chatMap != null && chatMap.length > 3) {
+          listOfChatEntities.add(ChatEntity.fromJson(chatMap, chatID));
         }
       }
     }
@@ -358,7 +340,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     final DatabaseReference userChatsUserIDRef =
         _databaseReference.child(" user-chats/$userId");
     Stream<List<String?>> userChatIDsStream = (userChatsUserIDRef.onValue)
-        .map((listOfChatIDsJSON) => getListOfChatIDs(listOfChatIDsJSON ?? ""));
+        .map((listOfChatIDsJSON) => getListOfChatIDs(listOfChatIDsJSON));
 
     Stream<List<ChatEntity>> streamOfChats = userChatIDsStream
         .asyncMap((listOfChatIDs) => getListOfChatEntities(listOfChatIDs));
@@ -387,18 +369,15 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
   Future<Map<String, Map<String, String>>> getMapUserIsMember(
       String chatId) async {
     Map<String, Map<String, String>> mapOfData = {};
-
-    final DatabaseReference chatUsersRef =
-        _databaseReference.child("chat-users").child(chatId);
     try {
-      final DataSnapshot snapshot = await chatUsersRef.get();
-      if (snapshot.exists && snapshot.value != null) {
-        var users = snapshot.value!;
-        if (users is Map<Object?, Object?>) {
-          users.forEach((userID, userIDBool) {
-            mapOfData[userID.toString()] = {"isMember": userIDBool.toString()};
-          });
-        }
+      Map<Object?, Object?>? users = await getDataFromRequest(
+        databaseReference: _databaseReference.child("chat-users").child(chatId),
+      );
+
+      if (users != null) {
+        users.forEach((userID, userIDBool) {
+          mapOfData[userID.toString()] = {"isMember": userIDBool.toString()};
+        });
       }
     } catch (e) {
       throw CannotGetMembersOfChatStatusException();
@@ -408,20 +387,16 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
 
   Future<List<String>> getListOfActiveMembersOfChat(String chatId) async {
     List<String> listOfMembersIDs = [];
-
-    final DatabaseReference chatUsersRef =
-        _databaseReference.child("chat-users").child(chatId);
     try {
-      final DataSnapshot snapshot = await chatUsersRef.get();
-      if (snapshot.exists && snapshot.value != null) {
-        var users = snapshot.value!;
-        if (users is Map<Object?, Object?>) {
-          users.forEach((userID, userIDBool) {
-            if (userIDBool == true) {
-              listOfMembersIDs.add(userID.toString());
-            }
-          });
-        }
+      Map<Object?, Object?>? users = await getDataFromRequest(
+        databaseReference: _databaseReference.child("chat-users").child(chatId),
+      );
+      if (users != null) {
+        users.forEach((userID, userIDBool) {
+          if (userIDBool == true) {
+            listOfMembersIDs.add(userID.toString());
+          }
+        });
       }
     } catch (e) {
       throw CannotGetMembersOfChatStatusException();
@@ -431,15 +406,11 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
 
   Future<String> getUserDataFromDB(String userID) async {
     String username = "";
-    final DatabaseReference userReference =
-        _databaseReference.child("users").child(userID);
-    final DataSnapshot userSnapshot = await userReference.get();
-
-    if (userSnapshot.exists && userSnapshot.value != null) {
-      var user = userSnapshot.value!;
-      if (user is Map<Object?, Object?>) {
-        username = user["username"].toString();
-      }
+    Map<Object?, Object?>? user = await getDataFromRequest(
+      databaseReference: _databaseReference.child("users").child(userID),
+    );
+    if (user != null) {
+      username = user["username"].toString();
     }
     return username;
   }
@@ -449,18 +420,16 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
       List<ChatEntity> listOfChatEntities) async {
     Map<String, MessageEntity> mapOfMessageEntitiesToChatEntities = {};
     for (ChatEntity chatEntity in listOfChatEntities) {
-      final DatabaseReference messageRef = _databaseReference
-          .child("messages")
-          .child(chatEntity.id)
-          .child(chatEntity.lastMessageId);
-      final DataSnapshot snapshot = await messageRef.get();
-      if (snapshot.exists && snapshot.value != null) {
-        Object messageData = snapshot.value!;
-        if (messageData is Map<Object?, Object?>) {
-          mapOfMessageEntitiesToChatEntities[chatEntity.id] =
-              MessageEntity.fromJson(
-                  messageData, chatEntity.id, chatEntity.lastMessageId);
-        }
+      Map<Object?, Object?>? messageData = await getDataFromRequest(
+        databaseReference: _databaseReference
+            .child("messages")
+            .child(chatEntity.id)
+            .child(chatEntity.lastMessageId),
+      );
+      if (messageData != null) {
+        mapOfMessageEntitiesToChatEntities[chatEntity.id] =
+            MessageEntity.fromJson(
+                messageData, chatEntity.id, chatEntity.lastMessageId);
       }
     }
     return mapOfMessageEntitiesToChatEntities;
@@ -470,7 +439,6 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
   Future<void> updateUsernameData(String userId, String username) async {
     final DatabaseReference usersRef =
         _databaseReference.child("users/$userId");
-
     final Map<String, dynamic> usersData = {
       "username": username,
     };
@@ -484,14 +452,11 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
   @override
   Future<String> getUsernameByID(String userID) async {
     String username = "";
-    final DatabaseReference usersRef =
-        _databaseReference.child("users/$userID");
-    DataSnapshot usersSnapshot = await usersRef.get();
-    if (usersSnapshot.exists && usersSnapshot.value != null) {
-      var userData = usersSnapshot.value!;
-      if (userData is Map<Object?, Object?>) {
-        username = userData["username"].toString();
-      }
+    Map<Object?, Object?>? userData = await getDataFromRequest(
+      databaseReference: _databaseReference.child("users/$userID"),
+    );
+    if (userData != null) {
+      username = userData["username"].toString();
     }
     return username;
   }
@@ -503,23 +468,22 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     required String userID,
     required bool status,
   }) async {
-    final DatabaseReference userChatsRef =
+    final DatabaseReference databaseReference =
         _databaseReference.child(" user-chats/$userID/$chatID");
-    final DataSnapshot snapshot = await userChatsRef.get();
-    if (snapshot.exists && snapshot.value != null) {
-      Object usersChatsData = snapshot.value!;
-      if (usersChatsData is Map<Object?, Object?>) {
-        usersChatsData.forEach((chatID, chatData) async {
-          if (chatData is Map<Object?, Object?>) {
-            final Map<String, dynamic> newData = {
-              "change-id": chatData["change-id"],
-              "is-listened": status,
-              "is-member": chatData["is-member"],
-            };
-            await userChatsRef.update(newData);
-          }
-        });
-      }
+    Map<Object?, Object?>? usersChatsData = await getDataFromRequest(
+      databaseReference: databaseReference,
+    );
+    if (usersChatsData != null) {
+      usersChatsData.forEach((chatID, chatData) async {
+        if (chatData is Map<Object?, Object?>) {
+          final Map<String, dynamic> newData = {
+            "change-id": chatData["change-id"],
+            "is-listened": status,
+            "is-member": chatData["is-member"],
+          };
+          await databaseReference.update(newData);
+        }
+      });
     }
   }
 
@@ -531,24 +495,36 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
   }) async {
     List<String> listOfMembers = await getListOfActiveMembersOfChat(chatID);
     for (String userID in listOfMembers) {
-      final DatabaseReference userChatsRef =
+      DatabaseReference databaseReference =
           _databaseReference.child(" user-chats/$userID/$chatID");
-      final DataSnapshot snapshot = await userChatsRef.get();
-      if (snapshot.exists && snapshot.value != null) {
-        Object usersChatsData = snapshot.value!;
-        if (usersChatsData is Map<Object?, Object?>) {
-          if (usersChatsData["is-listened"] == true) {
-            final Map<String, dynamic> newData = {
-              chatID: {
-                "change-id": !(usersChatsData["change-id"] as bool),
-                "is-listened": usersChatsData["is-listened"],
-                "is-member": usersChatsData["is-member"],
-              }
-            };
-            await userChatsRef.update(newData);
-          }
+      Map<Object?, Object?>? usersChatsData = await getDataFromRequest(
+        databaseReference: _databaseReference,
+      );
+      if (usersChatsData != null) {
+        if (usersChatsData["is-listened"] == true) {
+          final Map<String, dynamic> newData = {
+            chatID: {
+              "change-id": !(usersChatsData["change-id"] as bool),
+              "is-listened": usersChatsData["is-listened"],
+              "is-member": usersChatsData["is-member"],
+            }
+          };
+          await databaseReference.update(newData);
         }
       }
     }
+  }
+
+  Future<Map<Object?, Object?>?> getDataFromRequest({
+    required DatabaseReference databaseReference,
+  }) async {
+    final DataSnapshot snapshot = await databaseReference.get();
+    if (snapshot.exists && snapshot.value != null) {
+      Object dbData = snapshot.value!;
+      if (dbData is Map<Object?, Object?>) {
+        return dbData;
+      }
+    }
+    return null;
   }
 }
