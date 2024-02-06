@@ -490,7 +490,6 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
   @override
   Future<void> notifyMembersAboutChatChanges({
     //TODO handle errors
-    //TODO optimize code by implementing DRY-principle
     required String chatID,
   }) async {
     List<String> listOfMembers = await getListOfActiveMembersOfChat(chatID);
@@ -498,16 +497,14 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
       DatabaseReference databaseReference =
           _databaseReference.child(" user-chats/$userID/$chatID");
       Map<Object?, Object?>? usersChatsData = await getDataFromRequest(
-        databaseReference: _databaseReference,
+        databaseReference: databaseReference,
       );
       if (usersChatsData != null) {
         if (usersChatsData["is-listened"] == true) {
           final Map<String, dynamic> newData = {
-            chatID: {
-              "change-id": !(usersChatsData["change-id"] as bool),
-              "is-listened": usersChatsData["is-listened"],
-              "is-member": usersChatsData["is-member"],
-            }
+            "change-id": !(usersChatsData["change-id"] as bool),
+            "is-listened": usersChatsData["is-listened"],
+            "is-member": usersChatsData["is-member"],
           };
           await databaseReference.update(newData);
         }
