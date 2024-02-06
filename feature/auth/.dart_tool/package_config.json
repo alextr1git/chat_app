@@ -801,19 +801,19 @@
     },
     {
       "name": "vector_graphics",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/vector_graphics-1.1.9+2",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/vector_graphics-1.1.10",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "vector_graphics_codec",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/vector_graphics_codec-1.1.9+2",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/vector_graphics_codec-1.1.10",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "vector_graphics_compiler",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/vector_graphics_compiler-1.1.9+2",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/vector_graphics_compiler-1.1.10",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -872,7 +872,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-02-05T11:28:48.991278Z",
+  "generated": "2024-02-06T08:21:45.812384Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

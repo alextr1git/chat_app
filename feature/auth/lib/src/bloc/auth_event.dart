@@ -26,8 +26,6 @@ class LoginInEvent extends AuthEvent {
   });
 }
 
-class LogoutUserEvent extends AuthEvent {}
-
 class NavigateToHomeEvent extends AuthEvent {}
 
 class NavigateToRegisterEvent extends AuthEvent {}

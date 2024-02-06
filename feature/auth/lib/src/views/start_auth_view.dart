@@ -22,20 +22,16 @@ class _StartAuthViewState extends State<StartAuthView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        return const Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
-        /*AnimatedSplashScreen(
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+    /*AnimatedSplashScreen(
           splash: 'package:core_ui/assets/splash/splash_logo.png',
           nextScreen: SharedNavbarView(),
           splashTransition: SplashTransition.scaleTransition,
           pageTransitionType: PageTransitionType.scale,
         );*/
-      },
-    );
   }
 }

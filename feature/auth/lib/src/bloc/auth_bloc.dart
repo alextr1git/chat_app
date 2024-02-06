@@ -18,7 +18,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final RegisterUsecase _registerUseCase;
   final LoginUseCase _loginUseCase;
   final SendVerificationEmailUseCase _sendVerificationEmailUseCase;
-  final LogoutUserUseCase _logoutUserUseCase;
   final SetUsernameUseCase _setUsernameUseCase;
   final SetUserPhotoURLUseCase _setUserPhotoURLUseCase;
   final AppRouter _router;
@@ -28,7 +27,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required loginUseCase,
     required checkUserAuthenticationUseCase,
     required sendVerificationEmailUseCase,
-    required logoutUserUseCase,
     required setUsernameUseCase,
     required setUserPhotoURLUseCase,
     required router,
@@ -36,7 +34,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _loginUseCase = loginUseCase,
         _checkUserAuthenticationUseCase = checkUserAuthenticationUseCase,
         _sendVerificationEmailUseCase = sendVerificationEmailUseCase,
-        _logoutUserUseCase = logoutUserUseCase,
         _setUsernameUseCase = setUsernameUseCase,
         _setUserPhotoURLUseCase = setUserPhotoURLUseCase,
         _router = router,
@@ -47,7 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<NavigateToRegisterEvent>(_navigateToRegisterView);
     on<NavigateToLoginInEvent>(_navigateToLoginView);
     on<SendVerificationEmailEvent>(_sendVerificationEmail);
-    on<LogoutUserEvent>(_logoutUser);
+
     on<SetUsernameEvent>(_setUsername);
     on<SetUserPhotoURLEvent>(_setPhotoURL);
   }
@@ -156,14 +153,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       _router.push(FailurePopupRoute(exceptionMessage: exceptionMessage));
     }
-  }
-
-  Future<void> _logoutUser(
-    _,
-    Emitter<AuthState> emit,
-  ) async {
-    _logoutUserUseCase.execute(const NoParams());
-    _router.replace(const LoginRoute());
   }
 
   Future<void> _navigateToRegisterView(

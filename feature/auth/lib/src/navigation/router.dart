@@ -1,3 +1,4 @@
+import 'package:auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
 import '../views/email_verification_view.dart';

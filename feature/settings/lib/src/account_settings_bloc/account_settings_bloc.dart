@@ -4,7 +4,9 @@ import 'package:domain/usecases/usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:domain/domain.dart';
-
+import 'package:auth/src/navigation/router.dart';
+import 'package:flutter/foundation.dart';
+import 'package:navigation/navigation.dart';
 part 'account_settings_event.dart';
 part 'account_settings_state.dart';
 
@@ -15,6 +17,8 @@ class AccountSettingsBloc
   final UploadImageUseCase _uploadImageUseCase;
   final DownloadImageUseCase _downloadImageUseCase;
   final GetUsernameByIDUseCase _getUsernameByIDUseCase;
+  final LogoutUserUseCase _logoutUserUseCase;
+  final AppRouter _router;
 
   AccountSettingsBloc({
     required getUserUseCase,
@@ -22,14 +26,19 @@ class AccountSettingsBloc
     required uploadImageUseCase,
     required downloadImageUseCase,
     required getUsernameByIDUseCase,
+    required logoutUserUseCase,
+    required router,
   })  : _getUserUseCase = getUserUseCase,
         _setUsernameUseCase = setUsernameUseCase,
         _uploadImageUseCase = uploadImageUseCase,
         _downloadImageUseCase = downloadImageUseCase,
         _getUsernameByIDUseCase = getUsernameByIDUseCase,
+        _logoutUserUseCase = logoutUserUseCase,
+        _router = router,
         super(AccountSettingsState.init) {
     on<InitSettingsEvent>(_initSettings);
     on<UpdateNameAndImageEvent>(_updateNameAndImage);
+    on<LogoutUserEvent>(_logoutUser);
   }
 
   _initSettings(
@@ -61,5 +70,13 @@ class AccountSettingsBloc
     await _setUsernameUseCase.execute(event.userName);
     await _uploadImageUseCase.execute(event.image);
     await _downloadImageUseCase.execute(const NoParams());
+  }
+
+  Future<void> _logoutUser(
+    _,
+    Emitter<AccountSettingsState> emit,
+  ) async {
+    _logoutUserUseCase.execute(const NoParams());
+    _router.replace(const LoginRoute());
   }
 }

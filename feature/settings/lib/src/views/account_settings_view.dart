@@ -2,6 +2,7 @@ import 'package:auth/auth.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:navigation/navigation.dart';
 import 'package:settings/settings.dart';
 import 'package:core/core.dart';
 
@@ -17,9 +18,10 @@ class AccountSettingsView extends StatelessWidget {
               uploadImageUseCase: appLocator.get<UploadImageUseCase>(),
               downloadImageUseCase: appLocator.get<DownloadImageUseCase>(),
               getUsernameByIDUseCase: appLocator.get<GetUsernameByIDUseCase>(),
+              router: navigationGetIt.get<AppRouter>(),
+              logoutUserUseCase: appLocator.get<LogoutUserUseCase>(),
             )..add(InitSettingsEvent()),
         child: AccountSettingsContent(
-          authBloc: BlocProvider.of<AuthBloc>(context),
           imageHelper: appLocator.get<ImageHelper>(),
         ));
   }

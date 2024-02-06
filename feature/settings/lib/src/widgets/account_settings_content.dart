@@ -9,11 +9,9 @@ import 'package:settings/settings.dart';
 import 'package:core/core.dart';
 
 class AccountSettingsContent extends StatefulWidget {
-  final AuthBloc authBloc;
   final ImageHelper imageHelper;
   const AccountSettingsContent({
     super.key,
-    required this.authBloc,
     required this.imageHelper,
   });
 
@@ -39,6 +37,8 @@ class _AccountSettingsContentState extends State<AccountSettingsContent> {
 
   @override
   Widget build(BuildContext context) {
+    AccountSettingsBloc accountSettingsBloc =
+        BlocProvider.of<AccountSettingsBloc>(context);
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -57,7 +57,7 @@ class _AccountSettingsContentState extends State<AccountSettingsContent> {
                 case MenuAction.logout:
                   final shouldLogout = await showLogoutDialog(context);
                   if (shouldLogout) {
-                    widget.authBloc.add(LogoutUserEvent());
+                    accountSettingsBloc.add(LogoutUserEvent());
                   } else {}
               }
             }, itemBuilder: (context) {
