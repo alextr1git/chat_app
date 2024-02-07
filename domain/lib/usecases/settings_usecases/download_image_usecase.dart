@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 
 class DownloadImageUseCase implements FutureUseCase<NoParams, String> {
   final UserRepository _userRepository;

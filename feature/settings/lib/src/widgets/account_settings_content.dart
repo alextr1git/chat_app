@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:auth/auth.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +25,7 @@ class _AccountSettingsContentState extends State<AccountSettingsContent> {
 
   @override
   void initState() {
+    super.initState();
     _nameController = TextEditingController();
   }
 

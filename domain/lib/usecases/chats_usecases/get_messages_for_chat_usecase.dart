@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 
 class GetMessagesForChatUseCase
     implements StreamUseCase<ChatModel, List<MessageModel>> {

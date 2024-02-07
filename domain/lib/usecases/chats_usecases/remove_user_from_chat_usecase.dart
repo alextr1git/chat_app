@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 
 class RemoveUserFromChatUseCase
     implements FutureUseCase<Map<String, String>, NoParams> {
@@ -16,6 +15,6 @@ class RemoveUserFromChatUseCase
     if (userID != null && chatID != null) {
       _chatRepository.removeUserFromChat(userID: userID, chatID: chatID);
     }
-    return NoParams();
+    return const NoParams();
   }
 }

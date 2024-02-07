@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:domain/domain.dart';
 
 abstract class UserRepository {

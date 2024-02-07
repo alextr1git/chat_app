@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'package:core/core.dart';
-import 'package:data/entities/chat_members/chat_member_entity.dart';
-import 'package:data/entities/chats/message_entity.dart';
+import 'package:data/data.dart';
 import 'package:firebase_database/firebase_database.dart';
-
-import '../../data.dart';
 
 class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
   final DatabaseReference _databaseReference;
@@ -56,9 +53,15 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     Map<Object?, Object?>? data = await getDataFromRequest(
         databaseReference: _databaseReference.child("chats/$chatID"));
     if (data != null) {
-      if (await checkIfUserAlreadyInChat(userID: userID, chatID: chatID) ==
+      if (await checkIfUserAlreadyInChat(
+            userID: userID,
+            chatID: chatID,
+          ) ==
           false) {
-        ChatEntity returnedChat = ChatEntity.fromJson(data, chatID);
+        ChatEntity returnedChat = ChatEntity.fromJson(
+          data,
+          chatID,
+        );
         await addChatToChatUsersAndUserChats(
           userID: userID,
           chatID: chatID,
@@ -110,7 +113,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     required String chatID,
   }) async {
     final DatabaseReference userChatsRef =
-        _databaseReference.child(" user-chats").child(userID);
+        _databaseReference.child(" user-chats/$userID");
     final Map<String, dynamic> userChatsData = {
       chatID: {
         "change-id": false,
@@ -120,7 +123,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     };
 
     final DatabaseReference chatUsersRef =
-        _databaseReference.child("chat-users").child(chatID);
+        _databaseReference.child("chat-users/$chatID");
     final Map<String, dynamic> chatUsersData = {userID: true};
     try {
       await userChatsRef.update(userChatsData);
@@ -159,12 +162,12 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     required String chatID,
   }) async {
     final DatabaseReference userChatsRef =
-        _databaseReference.child(" user-chats").child(userID);
+        _databaseReference.child(" user-chats/$userID");
     final DatabaseReference chatUsersRef =
-        _databaseReference.child("chat-users").child(chatID);
+        _databaseReference.child("chat-users/$chatID");
     try {
       Map<Object?, Object?>? chatData = await getDataFromRequest(
-          databaseReference: _databaseReference.child("chats").child(chatID));
+          databaseReference: _databaseReference.child("chats/$chatID"));
 
       if (chatData != null && chatData["creator-id"] == userID) {
         await deleteChat(chatID: chatID);
@@ -186,9 +189,9 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
 
   Future<void> deleteChat({required String chatID}) async {
     final DatabaseReference chatsRef =
-        _databaseReference.child("chats").child(chatID);
+        _databaseReference.child("chats/$chatID");
     final DatabaseReference chatUsersRef =
-        _databaseReference.child("chat-users").child(chatID);
+        _databaseReference.child("chat-users/$chatID");
 
     Map<Object?, Object?>? usersChatsData = await getDataFromRequest(
         databaseReference: _databaseReference.child(" user-chats"));
@@ -205,9 +208,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
                 }
               };
               await _databaseReference
-                  .child(" user-chats")
-                  .child(userID.toString())
-                  .update(userChatsData);
+                  .child(" user-chats/${userID.toString()}/${userChatsData}");
             }
           });
         }
@@ -222,7 +223,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     final String chatId = messageEntity.chatId;
 
     final DatabaseReference finalRef =
-        _databaseReference.child("messages").child(chatId);
+        _databaseReference.child("messages/$chatId");
 
     final DatabaseReference messageRef = finalRef.push();
     final messageDBID = messageRef.key;
@@ -251,7 +252,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
       String chatID, String messageID) async {
     if (messageID.isNotEmpty && chatID.isNotEmpty) {
       final DatabaseReference chatRef =
-          _databaseReference.child("chats").child(chatID);
+          _databaseReference.child("chats/$chatID");
       await chatRef.update({"last-message-id": messageID});
     }
   }
@@ -260,7 +261,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
   Stream<List<MessageEntity>> getMessagesForChat(ChatEntity chatEntity) {
     final String chatId = chatEntity.id;
     final DatabaseReference finalRef =
-        _databaseReference.child("messages").child(chatId);
+        _databaseReference.child("messages/$chatId");
 
     Stream dbStream = finalRef.orderByChild('timestamp').onValue;
 
@@ -371,7 +372,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     Map<String, Map<String, String>> mapOfData = {};
     try {
       Map<Object?, Object?>? users = await getDataFromRequest(
-        databaseReference: _databaseReference.child("chat-users").child(chatId),
+        databaseReference: _databaseReference.child("chat-users/$chatId"),
       );
 
       if (users != null) {
@@ -389,7 +390,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     List<String> listOfMembersIDs = [];
     try {
       Map<Object?, Object?>? users = await getDataFromRequest(
-        databaseReference: _databaseReference.child("chat-users").child(chatId),
+        databaseReference: _databaseReference.child("chat-users/$chatId"),
       );
       if (users != null) {
         users.forEach((userID, userIDBool) {
@@ -407,7 +408,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
   Future<String> getUserDataFromDB(String userID) async {
     String username = "";
     Map<Object?, Object?>? user = await getDataFromRequest(
-      databaseReference: _databaseReference.child("users").child(userID),
+      databaseReference: _databaseReference.child("users/$userID"),
     );
     if (user != null) {
       username = user["username"].toString();
@@ -421,11 +422,8 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
     Map<String, MessageEntity> mapOfMessageEntitiesToChatEntities = {};
     for (ChatEntity chatEntity in listOfChatEntities) {
       Map<Object?, Object?>? messageData = await getDataFromRequest(
-        databaseReference: _databaseReference
-            .child("messages")
-            .child(chatEntity.id)
-            .child(chatEntity.lastMessageId),
-      );
+          databaseReference: _databaseReference
+              .child("messages/${chatEntity.id}/${chatEntity.lastMessageId}"));
       if (messageData != null) {
         mapOfMessageEntitiesToChatEntities[chatEntity.id] =
             MessageEntity.fromJson(
@@ -436,9 +434,9 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
   }
 
   @override
-  Future<void> updateUsernameData(String userId, String username) async {
+  Future<void> updateUsernameData(String userID, String username) async {
     final DatabaseReference usersRef =
-        _databaseReference.child("users/$userId");
+        _databaseReference.child("users/$userID");
     final Map<String, dynamic> usersData = {
       "username": username,
     };
@@ -463,52 +461,58 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
 
   @override
   Future<void> setListeningStatus({
-    //TODO handle errors
     required String chatID,
     required String userID,
     required bool status,
   }) async {
-    final DatabaseReference databaseReference =
-        _databaseReference.child(" user-chats/$userID/$chatID");
-    Map<Object?, Object?>? usersChatsData = await getDataFromRequest(
-      databaseReference: databaseReference,
-    );
-    if (usersChatsData != null) {
-      usersChatsData.forEach((chatID, chatData) async {
-        if (chatData is Map<Object?, Object?>) {
-          final Map<String, dynamic> newData = {
-            "change-id": chatData["change-id"],
-            "is-listened": status,
-            "is-member": chatData["is-member"],
-          };
-          await databaseReference.update(newData);
-        }
-      });
-    }
-  }
-
-  @override
-  Future<void> notifyMembersAboutChatChanges({
-    //TODO handle errors
-    required String chatID,
-  }) async {
-    List<String> listOfMembers = await getListOfActiveMembersOfChat(chatID);
-    for (String userID in listOfMembers) {
-      DatabaseReference databaseReference =
+    try {
+      final DatabaseReference databaseReference =
           _databaseReference.child(" user-chats/$userID/$chatID");
       Map<Object?, Object?>? usersChatsData = await getDataFromRequest(
         databaseReference: databaseReference,
       );
       if (usersChatsData != null) {
-        if (usersChatsData["is-listened"] == true) {
-          final Map<String, dynamic> newData = {
-            "change-id": !(usersChatsData["change-id"] as bool),
-            "is-listened": usersChatsData["is-listened"],
-            "is-member": usersChatsData["is-member"],
-          };
-          await databaseReference.update(newData);
+        usersChatsData.forEach((chatID, chatData) async {
+          if (chatData is Map<Object?, Object?>) {
+            final Map<String, dynamic> newData = {
+              "change-id": chatData["change-id"],
+              "is-listened": status,
+              "is-member": chatData["is-member"],
+            };
+            await databaseReference.update(newData);
+          }
+        });
+      }
+    } catch (e) {
+      throw CannotSetListeningStatusException();
+    }
+  }
+
+  @override
+  Future<void> notifyMembersAboutChatChanges({
+    required String chatID,
+  }) async {
+    try {
+      List<String> listOfMembers = await getListOfActiveMembersOfChat(chatID);
+      for (String userID in listOfMembers) {
+        DatabaseReference databaseReference =
+            _databaseReference.child(" user-chats/$userID/$chatID");
+        Map<Object?, Object?>? usersChatsData = await getDataFromRequest(
+          databaseReference: databaseReference,
+        );
+        if (usersChatsData != null) {
+          if (usersChatsData["is-listened"] == true) {
+            final Map<String, dynamic> newData = {
+              "change-id": !(usersChatsData["change-id"] as bool),
+              "is-listened": usersChatsData["is-listened"],
+              "is-member": usersChatsData["is-member"],
+            };
+            await databaseReference.update(newData);
+          }
         }
       }
+    } catch (e) {
+      throw CannotNotifyMembersException();
     }
   }
 

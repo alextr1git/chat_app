@@ -40,7 +40,7 @@ class ChatMemberMessage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(username ?? "No name",
+                    Text(username.isNotEmpty ? username : "No name",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         )),

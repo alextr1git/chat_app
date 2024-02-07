@@ -9,7 +9,9 @@
         "form_password_label" : "Пароль",
         "login_button" : "Войти",
         "dont_have_account" : "Еще нет аккаунта?",
-        "redirect_to_register" : "Создайте!"
+        "redirect_to_register" : "Создайте!",
+        "invalid_credentials_exception" : "Неверные данные",
+        "generic_exception" : "Произошла непредвиденная ошибка."
     },
     "register" : {
         "title" : "Регистрация",
@@ -23,7 +25,17 @@
         "form_password_label" : "Пароль",
         "register_button" : "Создать",
         "already_have_account" : "Уже есть аккаунт?",
-        "redirect_to_login" : "Войдите"
+        "redirect_to_login" : "Войдите",
+        "weak_password_exception" : "Пароль слишком слабый",
+        "email_in_use_exception" : "Указанный email уже зарегестрирован",
+        "invalid_email_exception" : "Указанный email неверного формата",
+        "generic_exception" : "Произошла непредвиденная ошибка."
+
+    },
+
+    "failure_popup" : {
+        "title" : "Что-то пошло не так!",
+        "please_try_again" : "Пожалуйста, попробуйте еще раз."
 
     },
 

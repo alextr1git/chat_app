@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:domain/usecases/usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:domain/domain.dart';
@@ -37,19 +36,21 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     InitMessageEvent event,
     Emitter<MessageState> emit,
   ) async {
-    UserModel currentUser = await _getUserUseCase.execute(const NoParams());
-    _messageStreamSubscription = _getMessagesForChatUseCase
-        .execute(event.currentChat)
-        .listen((listOfMessages) {
-      add(MessagesHasBeenUpdatedEvent(
-        updatedListOfMessages: listOfMessages,
+    UserModel? currentUser = await _getUserUseCase.execute(const NoParams());
+    if (currentUser != null) {
+      _messageStreamSubscription = _getMessagesForChatUseCase
+          .execute(event.currentChat)
+          .listen((listOfMessages) {
+        add(MessagesHasBeenUpdatedEvent(
+          updatedListOfMessages: listOfMessages,
+          currentUser: currentUser,
+        ));
+      });
+      emit(MessageLoadedState(
+        listOfMessageModel: const [],
         currentUser: currentUser,
       ));
-    });
-    emit(MessageLoadedState(
-      listOfMessageModel: const [],
-      currentUser: currentUser,
-    ));
+    }
   }
 
   Future<void> _postMessage(
@@ -63,32 +64,35 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     PostServiceMessageToDBEvent event,
     Emitter<MessageState> emit,
   ) async {
-    final UserModel userModel = await _getUserUseCase.execute(const NoParams());
-    final String username = event.username == null
-        ? await _getUsernameByIDUseCase.execute(userModel.id)
-        : event.username!;
-    String message = "";
-    switch (event.serviceType) {
-      case "remove":
-        message = "$username has been kicked by the creator";
-        break;
-      case "leave":
-        message = "$username has left the chat";
-        break;
-      case "join":
-        message = "$username joined the chat via link";
-        break;
-      default:
-        break;
+    final UserModel? userModel =
+        await _getUserUseCase.execute(const NoParams());
+    if (userModel != null) {
+      final String username = event.username == null
+          ? await _getUsernameByIDUseCase.execute(userModel.id)
+          : event.username!;
+      String message = "";
+      switch (event.serviceType) {
+        case "remove":
+          message = "$username has been kicked by the creator";
+          break;
+        case "leave":
+          message = "$username has left the chat";
+          break;
+        case "join":
+          message = "$username joined the chat via link";
+          break;
+        default:
+          break;
+      }
+      MessageModel messageModel = MessageModel(
+        id: "0",
+        chatId: event.chatID,
+        senderId: "service",
+        message: message,
+        timeStamp: event.timestamp,
+      );
+      await _postMessageUseCase.execute(messageModel);
     }
-    MessageModel messageModel = MessageModel(
-      id: "0",
-      chatId: event.chatID,
-      senderId: "service",
-      message: message,
-      timeStamp: event.timestamp,
-    );
-    await _postMessageUseCase.execute(messageModel);
   }
 
   void _updateListOfMessages(

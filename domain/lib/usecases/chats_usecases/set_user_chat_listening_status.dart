@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 
 class SetListeningStatusUseCase
     implements FutureUseCase<Map<String, bool>, NoParams> {

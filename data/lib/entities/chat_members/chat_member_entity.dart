@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class ChatMemberEntity {
   final String uid;
   final String username;

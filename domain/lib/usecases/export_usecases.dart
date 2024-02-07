@@ -1,10 +1,7 @@
 export 'auth_usecases/login_usecase.dart';
 export 'auth_usecases/register_usecase.dart';
 export 'auth_usecases/check_user_auth_usecase.dart';
-export 'auth_usecases/check_user_auth_usecase.dart';
 export 'auth_usecases/get_username_by_user_id_usecase.dart';
-export 'auth_usecases/login_usecase.dart';
-export 'auth_usecases/register_usecase.dart';
 export 'auth_usecases/send_verification_email_usecase.dart';
 export 'auth_usecases/logout_user_usecase.dart';
 export 'auth_usecases/set_username_usecase.dart';

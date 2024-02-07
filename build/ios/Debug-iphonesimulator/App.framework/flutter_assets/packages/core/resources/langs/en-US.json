@@ -9,7 +9,10 @@
         "form_password_label" : "Password",
         "login_button" : "Login",
         "dont_have_account" : "Don't have an account?",
-        "redirect_to_register" : "Create one!"
+        "redirect_to_register" : "Create one!",
+        "invalid_credentials_exception" : "Credentials are invalid",
+        "generic_exception" : "Generic error occurred"
+
     },
     "register" : {
         "title" : "Sign up",
@@ -23,7 +26,17 @@
         "form_password_label" : "Password",
         "register_button" : "Sign up'",
         "already_have_account" : "Already have an account?",
-        "redirect_to_login" : "Login into existing one"
+        "redirect_to_login" : "Login into existing one",
+        "weak_password_exception" : "Provided password is too weak",
+        "email_in_use_exception" : "Provided email is already in use",
+        "invalid_email_exception" : "Provided email is invalid",
+        "generic_exception" : "Generic error occurred"
+
+    },
+
+    "failure_popup" : {
+        "title" : "Something went wrong!",
+        "please_try_again" : "Please try again."
 
     },
 

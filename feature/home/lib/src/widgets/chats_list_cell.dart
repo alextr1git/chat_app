@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../home.dart';
+import 'package:home/home.dart';
 
 class ChatsInListCell extends StatefulWidget {
   final ChatModel chat;

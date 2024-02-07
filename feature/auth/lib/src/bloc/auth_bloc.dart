@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'package:auth/src/navigation/router.dart';
+import 'package:auth/auth.dart';
 import 'package:home/home.dart';
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:navigation/navigation.dart';
@@ -95,13 +94,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       _router.push(const EmailVerificationRoute());
     } on Exception catch (e) {
       if (e is WeakPasswordAuthException) {
-        exceptionMessage = "Your password is weak";
+        exceptionMessage = LocaleKeys.register_weak_password_exception.tr();
       } else if (e is EmailAlreadyInUseAuthException) {
-        exceptionMessage = "Your email is already in use";
+        exceptionMessage = LocaleKeys.register_email_in_use_exception.tr();
       } else if (e is InvalidEmailAuthException) {
-        exceptionMessage = "Email is invalid";
+        exceptionMessage = LocaleKeys.register_invalid_email_exception.tr();
       } else if (e is GenericAuthException) {
-        exceptionMessage = "Generic error occurred";
+        exceptionMessage = LocaleKeys.register_generic_exception.tr();
       }
       emit(
         state.copyWith(
@@ -142,9 +141,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     } on Exception catch (e) {
       if (e is InvalidCredentialsAuthException) {
-        exceptionMessage = "Credentials are invalid";
+        exceptionMessage = LocaleKeys.login_invalid_credentials_exception.tr();
       } else if (e is GenericAuthException) {
-        exceptionMessage = "Generic error occurred";
+        exceptionMessage = LocaleKeys.login_generic_exception.tr();
       }
       emit(
         state.copyWith(

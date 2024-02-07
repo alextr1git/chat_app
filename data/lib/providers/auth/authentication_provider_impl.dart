@@ -1,7 +1,5 @@
 import 'package:core/core.dart';
-import 'package:data/entities/user/user_entity.dart';
-import '../../exceptions/auth_exceptions.dart';
-import 'authentication_provider.dart';
+import 'package:data/data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenticationProviderImpl implements AuthenticationProvider {

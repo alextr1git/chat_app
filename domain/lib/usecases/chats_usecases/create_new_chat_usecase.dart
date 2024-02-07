@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 
 class CreateNewChatUseCase implements FutureUseCase<ChatModel, ChatModel?> {
   final ChatRepository _chatRepository;

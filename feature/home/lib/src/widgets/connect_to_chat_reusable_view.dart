@@ -1,7 +1,7 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../home.dart';
+import 'package:home/home.dart';
 
 class ConnectToChat extends StatefulWidget {
   final String _textFieldHint;
@@ -41,9 +41,9 @@ class _ConnectToChatState extends State<ConnectToChat> {
 
   @override
   void initState() {
+    super.initState();
     _textEditingController = TextEditingController();
     selectedColor = Colors.blue;
-    super.initState();
   }
 
   @override

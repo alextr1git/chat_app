@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:domain/usecases/usecase.dart';
+import 'package:auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:domain/domain.dart';
-import 'package:auth/src/navigation/router.dart';
 import 'package:flutter/foundation.dart';
 import 'package:navigation/navigation.dart';
 part 'account_settings_event.dart';
@@ -47,20 +46,22 @@ class AccountSettingsBloc
   ) async {
     String photoPath = '';
 
-    final UserModel userModel = await _getUserUseCase.execute(const NoParams());
-
-    if (userModel.photoURL != null && userModel.photoURL != '') {
-      photoPath = await _downloadImageUseCase.execute(const NoParams());
+    final UserModel? userModel =
+        await _getUserUseCase.execute(const NoParams());
+    if (userModel != null) {
+      if (userModel.photoURL.isNotEmpty) {
+        photoPath = await _downloadImageUseCase.execute(const NoParams());
+      }
+      final String username =
+          await _getUsernameByIDUseCase.execute(userModel.id);
+      emit(
+        state.copyWith(
+          userModel: userModel,
+          photoPath: photoPath,
+          username: username,
+        ),
+      );
     }
-    final String username = await _getUsernameByIDUseCase.execute(userModel.id);
-
-    emit(
-      state.copyWith(
-        userModel: userModel,
-        photoPath: photoPath,
-        username: username,
-      ),
-    );
   }
 
   Future<void> _updateNameAndImage(

@@ -1,9 +1,5 @@
 import 'dart:async';
-
-import 'package:data/entities/chats/chat_entity.dart';
-import 'package:data/entities/chats/message_entity.dart';
-
-import '../../entities/chat_members/chat_member_entity.dart';
+import 'package:data/data.dart';
 
 abstract class RealTimeDatabaseProvider {
   Future<ChatEntity?> createNewChat(

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class ChatMemberModel {
   final String uid;
   final bool isMember;

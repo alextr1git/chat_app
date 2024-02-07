@@ -3,8 +3,7 @@ import 'package:core_ui/core_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../home.dart';
+import 'package:home/home.dart';
 
 class UserInListCell extends StatelessWidget {
   final ChatModel chatModel;
@@ -50,9 +49,9 @@ class UserInListCell extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          chatMemberModel.username == ""
-                              ? "NoName"
-                              : chatMemberModel.username!,
+                          chatMemberModel.username.isNotEmpty
+                              ? chatMemberModel.username
+                              : "NoName",
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),

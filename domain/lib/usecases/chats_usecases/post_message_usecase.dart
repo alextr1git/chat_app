@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 
 class PostMessageUseCase implements FutureUseCase<MessageModel, NoParams> {
   final ChatRepository _chatRepository;
@@ -11,6 +10,6 @@ class PostMessageUseCase implements FutureUseCase<MessageModel, NoParams> {
   @override
   Future<NoParams> execute(MessageModel messageModel) async {
     _chatRepository.postMessage(messageModel);
-    return NoParams();
+    return const NoParams();
   }
 }

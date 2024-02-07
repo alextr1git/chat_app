@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 @immutable
 class UsersInChatModel {
   final int chatId;
-  Map<String, bool> users;
+  final Map<String, bool> users;
 
   UsersInChatModel({
     required this.chatId,

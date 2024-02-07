@@ -12,6 +12,16 @@ abstract class LocaleKeys {
   static const login_dont_have_account = 'login.dont_have_account';
   static const login_redirect_to_register = 'login.redirect_to_register';
   static const login = 'login';
+  static const login_invalid_credentials_exception =
+      'login.invalid_credentials_exception';
+  static const login_generic_exception = 'login.generic_exception';
+  static const register_weak_password_exception =
+      'register.weak_password_exception';
+  static const register_email_in_use_exception =
+      'register.email_in_use_exception';
+  static const register_invalid_email_exception =
+      'register.invalid_email_exception';
+  static const register_generic_exception = 'register.generic_exception';
   static const register_title = 'register.title';
   static const register_second_title = 'register.second_title';
   static const register_call_to_action = 'register.call_to_action';
@@ -25,6 +35,9 @@ abstract class LocaleKeys {
   static const register_already_have_account = 'register.already_have_account';
   static const register_redirect_to_login = 'register.redirect_to_login';
   static const register = 'register';
+  static const failure_popup_title = 'failure_popup.title';
+  static const failure_popup_please_try_again =
+      'failure_popup.please_try_again';
   static const verify_email_title = 'verify_email.title';
   static const verify_email_link_has_been_sent =
       'verify_email.link_has_been_sent';

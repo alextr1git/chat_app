@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class ChatEntity {
   final String id;
   final String title;
@@ -40,7 +38,7 @@ class ChatEntity {
 
   factory ChatEntity.fromJson(Map<Object?, Object?> json, String chatId) =>
       ChatEntity(
-        id: chatId ?? "",
+        id: chatId,
         title: json['title'] as String ?? "",
         lastMessageId: json['last-message-id'] as String ?? "",
         timestamp: json['timestamp'] as int ?? 0,

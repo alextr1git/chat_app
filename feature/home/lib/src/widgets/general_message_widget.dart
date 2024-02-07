@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart'; // this is necessary for firstWhereOrNull
+import 'package:collection/collection.dart'; //! necessary for firstWhereOrNull
 import 'package:home/home.dart';
 
 class GeneralMessage extends StatelessWidget {

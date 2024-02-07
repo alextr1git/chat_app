@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:domain/usecases/usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/home.dart';
@@ -76,12 +75,9 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
   ) {
     String query = event.query;
     if (state is ChatsAllDataFetchedState) {
-      if ((state as ChatsAllDataFetchedState).listOfAllChatsOfUser != null &&
-          (state as ChatsAllDataFetchedState)
-              .listOfAllChatsOfUser!
-              .isNotEmpty) {
+      if ((state as ChatsAllDataFetchedState).listOfAllChatsOfUser.isNotEmpty) {
         final listOfFoundedElements = (state as ChatsAllDataFetchedState)
-            .listOfAllChatsOfUser!
+            .listOfAllChatsOfUser
             .where((chat) {
           final chatTitle = chat.title.toLowerCase();
           final searchQuery = query.toLowerCase();

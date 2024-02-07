@@ -4,7 +4,6 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/home.dart';
-import 'package:home/src/widgets/personal_chat_content.dart';
 import 'package:navigation/navigation.dart';
 
 @RoutePage()

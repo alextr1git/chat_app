@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 
 class UploadImageUseCase implements FutureUseCase<File?, NoParams> {
   final UserRepository _userRepository;

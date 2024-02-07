@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 
 class GetUsernameByIDUseCase implements FutureUseCase<String, String> {
   final UserRepository _userRepository;

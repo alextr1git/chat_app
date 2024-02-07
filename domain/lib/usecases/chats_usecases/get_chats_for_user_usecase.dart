@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 
 class GetChatsForUserUseCase
     implements StreamUseCase<NoParams, List<ChatModel>> {
@@ -10,7 +9,7 @@ class GetChatsForUserUseCase
   }) : _chatRepository = chatRepository;
 
   @override
-  Stream<List<ChatModel>> execute(NoParams) {
+  Stream<List<ChatModel>> execute(NoParams noParams) {
     return _chatRepository.getChatsForUser();
   }
 }

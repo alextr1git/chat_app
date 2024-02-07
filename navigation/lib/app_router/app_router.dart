@@ -1,10 +1,7 @@
 import 'package:home/home.dart';
 import 'package:navigation/navigation.dart';
-import 'package:auth/src/navigation/router.dart';
-import 'package:home/src/navigation/router.dart';
+import 'package:auth/auth.dart';
 import 'package:core/core.dart';
-
-import 'app_router_guard.dart';
 
 part 'app_router.gr.dart';
 

@@ -20,10 +20,10 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
 
   @override
   void initState() {
+    super.initState();
     screenPickerColor = Colors.blue; // Material blue.
     dialogPickerColor = Colors.red; // Material red.
     dialogSelectColor = const Color(0xFFA239CA); // A purple color
-    super.initState();
   }
 
   @override
