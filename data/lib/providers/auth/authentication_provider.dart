@@ -1,7 +1,9 @@
 import 'package:data/entities/user/user_entity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthenticationProvider {
-  UserEntity? get currentUser;
+  UserEntity? getCurrentUserEntity();
+  User? getCurrentUser();
 
   Future<UserEntity> createUser({
     required String email,

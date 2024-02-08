@@ -5,7 +5,7 @@ class UsersInChatModel {
   final int chatId;
   final Map<String, bool> users;
 
-  UsersInChatModel({
+  const UsersInChatModel({
     required this.chatId,
     required this.users,
   });

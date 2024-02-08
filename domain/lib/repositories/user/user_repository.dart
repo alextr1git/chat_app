@@ -24,5 +24,5 @@ abstract class UserRepository {
   Future<void> uploadImage(File image);
   Future<String> downloadImage();
 
-  UserModel? get currentUser;
+  UserModel? getCurrentUser();
 }

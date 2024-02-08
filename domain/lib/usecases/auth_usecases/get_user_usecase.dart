@@ -8,7 +8,7 @@ class GetUserUseCase extends FutureUseCase<NoParams, UserModel?> {
 
   @override
   Future<UserModel?> execute(NoParams input) async {
-    UserModel? userModel = _userRepository.currentUser;
+    UserModel? userModel = _userRepository.getCurrentUser();
     return userModel;
   }
 }

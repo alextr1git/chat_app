@@ -9,29 +9,13 @@ import 'package:settings/settings.dart';
 import 'app_di.dart';
 
 final DataDI dataDI = DataDI();
+const String databaseUrl =
+    "https://chatapp-a0b76-default-rtdb.europe-west1.firebasedatabase.app/";
+const String bucketUrl = "gs://chatapp-a0b76.appspot.com/";
 
 class DataDI {
-  late final FirebaseApp _firebaseApp;
-  late final FirebaseAuth _firebaseAuth;
-  late final FirebaseDatabase _firebaseDatabase;
-  late final FirebaseStorage _firebaseStorage;
-
-  FirebaseAuth get firebaseAuth => _firebaseAuth;
-  DatabaseReference get firebaseDatabaseRef => _firebaseDatabase.ref();
-  Reference get firebaseStorageRef => _firebaseStorage.ref();
-
   Future<void> initDependencies() async {
     await _initFirebase();
-    _firebaseAuth = FirebaseAuth.instance;
-    _firebaseDatabase = FirebaseDatabase.instanceFor(
-      app: _firebaseApp,
-      databaseURL:
-          "https://chatapp-a0b76-default-rtdb.europe-west1.firebasedatabase.app/",
-    );
-    _firebaseStorage = FirebaseStorage.instanceFor(
-      app: _firebaseApp,
-      bucket: "gs://chatapp-a0b76.appspot.com/",
-    );
     _initAuthResources();
     _initFirebaseStorageAndDatabaseResources();
     _initChatResources();
@@ -39,17 +23,41 @@ class DataDI {
   }
 
   Future<void> _initFirebase() async {
-    _firebaseApp = await Firebase.initializeApp(
+    FirebaseApp firebaseApp = await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
+    );
+    appLocator.registerLazySingleton<FirebaseApp>(
+      () => firebaseApp,
+    );
+
+    appLocator.registerLazySingleton<FirebaseAuth>(
+      () => FirebaseAuth.instance,
+    );
+
+    appLocator.registerLazySingleton<FirebaseDatabase>(
+      () => FirebaseDatabase.instanceFor(
+        app: appLocator.get<FirebaseApp>(),
+        databaseURL: databaseUrl,
+      ),
+    );
+    appLocator.registerLazySingleton<FirebaseStorage>(
+      () => FirebaseStorage.instanceFor(
+        app: appLocator.get<FirebaseApp>(),
+        bucket: bucketUrl,
+      ),
     );
   }
 
   void _initFirebaseStorageAndDatabaseResources() {
-    appLocator
-        .registerLazySingleton<StorageProvider>(() => StorageProviderImpl());
+    appLocator.registerLazySingleton<StorageProvider>(
+      () => StorageProviderImpl(
+          firebaseStorage: appLocator.get<FirebaseStorage>()),
+    );
 
-    appLocator.registerLazySingleton<RealTimeDatabaseProvider>(() =>
-        RealTimeDatabaseProviderImpl(databaseReference: firebaseDatabaseRef));
+    appLocator.registerLazySingleton<RealTimeDatabaseProvider>(
+      () => RealTimeDatabaseProviderImpl(
+          databaseReference: appLocator.get<FirebaseDatabase>().ref()),
+    );
   }
 
   void _initChatResources() {
@@ -147,8 +155,9 @@ class DataDI {
   }
 
   void _initAuthResources() {
-    appLocator.registerLazySingleton<AuthenticationProvider>(
-        () => AuthenticationProviderImpl());
+    appLocator.registerLazySingleton<AuthenticationProvider>(() =>
+        AuthenticationProviderImpl(
+            firebaseAuth: appLocator.get<FirebaseAuth>()));
 
     appLocator
         .registerLazySingleton<UserRepository>(() => UserAuthRepositoryImpl(

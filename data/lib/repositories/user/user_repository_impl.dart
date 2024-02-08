@@ -30,9 +30,13 @@ class UserAuthRepositoryImpl implements UserRepository {
   }
 
   @override
-  UserModel? get currentUser => (_authProvider.currentUser != null)
-      ? UserMapper.toModel(_authProvider.currentUser!)
-      : null;
+  UserModel? getCurrentUser() {
+    UserEntity? userEntity = _authProvider.getCurrentUserEntity();
+    if (userEntity != null) {
+      return UserMapper.toModel(userEntity);
+    }
+    return null;
+  }
 
   @override
   Future<UserModel> logInUser({
@@ -43,7 +47,7 @@ class UserAuthRepositoryImpl implements UserRepository {
       email: email,
       password: password,
     );
-    UserModel userModel = currentUser!;
+    UserModel userModel = getCurrentUser()!;
     return userModel;
   }
 
@@ -66,28 +70,38 @@ class UserAuthRepositoryImpl implements UserRepository {
 
   @override
   Future<void> updateUsername(String username) async {
-    await _databaseProvider.updateUsernameData(
-      currentUser!.id,
-      username,
-    );
+    UserModel? userModel = getCurrentUser();
+    if (userModel != null) {
+      await _databaseProvider.updateUsernameData(
+        userModel.id,
+        username,
+      );
+    }
   }
 
   @override
   Future<void> uploadImage(File image) async {
-    final String? photoURL = await _storageProvider.uploadImage(
-      image: image,
-      userId: currentUser!.id.toString(),
-    );
-    if (photoURL != null) {
-      setUserPhoto(photoURL);
+    UserModel? userModel = getCurrentUser();
+    if (userModel != null) {
+      final String? photoURL = await _storageProvider.uploadImage(
+        image: image,
+        userId: userModel.id.toString(),
+      );
+      if (photoURL != null) {
+        setUserPhoto(photoURL);
+      }
     }
   }
 
   @override
   Future<String> downloadImage() async {
-    return await _storageProvider.downloadImage(
-      userId: currentUser!.id.toString(),
-    );
+    UserModel? userModel = getCurrentUser();
+    if (userModel != null) {
+      return await _storageProvider.downloadImage(
+        userId: userModel.id.toString(),
+      );
+    }
+    return "";
   }
 
   @override

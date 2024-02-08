@@ -1,5 +1,4 @@
 import 'package:core/core.dart';
-import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home/home.dart';
@@ -60,7 +59,7 @@ class _ChatsContentState extends State<ChatsContent> {
                         height: 45,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: lightTheme.colorScheme.background,
+                          color: Colors.blue[300],
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -69,9 +68,9 @@ class _ChatsContentState extends State<ChatsContent> {
                               onPressed: () async {
                                 chatBloc.add(NavigateToAddChatViewEvent());
                               },
-                              child: Icon(
+                              child: const Icon(
                                 Icons.add,
-                                color: lightTheme.colorScheme.onBackground,
+                                color: Colors.white,
                                 size: 32,
                               ),
                             ),

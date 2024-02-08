@@ -22,12 +22,15 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<ChatModel?> createNewChat(ChatModel chatModel) async {
-    UserEntity userEntity = _authProvider.currentUser!;
-    final ChatEntity? chatEntity = await _databaseProvider.createNewChat(
-        ChatMapper.toEntity(chatModel), userEntity.id);
-    if (chatEntity != null) {
-      return ChatMapper.toModel(chatEntity);
+    UserEntity? userEntity = _authProvider.getCurrentUserEntity();
+    if (userEntity != null) {
+      final ChatEntity? chatEntity = await _databaseProvider.createNewChat(
+          ChatMapper.toEntity(chatModel), userEntity.id);
+      if (chatEntity != null) {
+        return ChatMapper.toModel(chatEntity);
+      }
     }
+    return null;
   }
 
   @override
@@ -39,9 +42,9 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   List<MessageModel> listOfEntitiesToListOfModels(
-      List<MessageEntity> listOfEntites) {
+      List<MessageEntity> listOfEntities) {
     List<MessageModel> listOfModels = [];
-    for (var entity in listOfEntites) {
+    for (var entity in listOfEntities) {
       listOfModels.add(MessageMapper.toModel(entity));
     }
     return listOfModels;
@@ -49,13 +52,16 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Stream<List<ChatModel>> getChatsForUser() {
-    String userId = _authProvider.currentUser!.id;
-    Stream<List<ChatEntity>> streamOfListOfChatEntities =
-        _databaseProvider.getChatsForUser(userId);
-    streamOfListOfChatEntities.map((listOfChatEntities) =>
-        print(listOfChatEntities) /*getListOfChatModel(listOfChatEntities)*/);
-    return streamOfListOfChatEntities
-        .map((listOfChatEntities) => getListOfChatModel(listOfChatEntities));
+    UserEntity? userEntity = _authProvider.getCurrentUserEntity();
+    if (userEntity != null) {
+      String userId = userEntity.id;
+      Stream<List<ChatEntity>> streamOfListOfChatEntities =
+          _databaseProvider.getChatsForUser(userId);
+      return streamOfListOfChatEntities
+          .map((listOfChatEntities) => getListOfChatModel(listOfChatEntities));
+    } else {
+      throw UserNotLoggedInAuthException();
+    }
   }
 
   List<ChatModel> getListOfChatModel(List<ChatEntity> listOfChatEntites) {
@@ -76,7 +82,7 @@ class ChatRepositoryImpl implements ChatRepository {
         userId: chatMemberEntity.uid,
       );
 
-      if (image != null) {
+      if (image != "") {
         final ChatMemberEntity newChatMemberEntity = chatMemberEntity.copyWith(
           image: image,
         );
@@ -90,7 +96,7 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<ChatModel?> joinChat(String chatID) async {
-    UserEntity userEntity = _authProvider.currentUser!;
+    UserEntity? userEntity = _authProvider.getCurrentUserEntity();
     if (userEntity != null) {
       UserModel? userModel = UserMapper.toModel(userEntity);
       ChatEntity? chatEntity =
@@ -99,6 +105,7 @@ class ChatRepositoryImpl implements ChatRepository {
         return ChatMapper.toModel(chatEntity);
       }
     }
+    return null;
   }
 
   @override
@@ -137,11 +144,15 @@ class ChatRepositoryImpl implements ChatRepository {
     required String chatID,
     required bool status,
   }) async {
-    UserEntity userEntity = _authProvider.currentUser!;
-    await _databaseProvider.setListeningStatus(
-      chatID: chatID,
-      userID: userEntity.id,
-      status: status,
-    );
+    UserEntity? userEntity = _authProvider.getCurrentUserEntity();
+    if (userEntity != null) {
+      await _databaseProvider.setListeningStatus(
+        chatID: chatID,
+        userID: userEntity.id,
+        status: status,
+      );
+    } else {
+      throw UserNotLoggedInAuthException();
+    }
   }
 }

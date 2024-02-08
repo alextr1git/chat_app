@@ -154,7 +154,9 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
           timeStamp: DateTime.now().millisecondsSinceEpoch,
           chatId: chatID);
       postNewMessage(onRemoveUserMessage);
-    } catch (e) {}
+    } catch (e) {
+      throw CannotRemoveUserFromChatException();
+    }
   }
 
   Future<void> removeMemberFromChatUsersAndUserChats({

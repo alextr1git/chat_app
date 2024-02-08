@@ -104,16 +104,16 @@
         <entry key="build_runner">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/build_runner-2.4.7/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/build_runner-2.4.8/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/build_runner-2.4.7/lib" />
             </list>
           </value>
         </entry>
         <entry key="build_runner_core">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/build_runner_core-7.2.11/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/build_runner_core-7.3.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/build_runner_core-7.2.11/lib" />
             </list>
           </value>
         </entry>
@@ -127,8 +127,8 @@
         <entry key="built_value">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/built_value-8.8.1/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/built_value-8.9.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/built_value-8.8.1/lib" />
             </list>
           </value>
         </entry>
@@ -315,6 +315,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-2.24.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-2.25.4/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-2.25.3/lib" />
             </list>
           </value>
@@ -330,6 +331,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-2.10.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-2.11.4/lib" />
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-2.11.3/lib" />
             </list>
           </value>
@@ -1088,9 +1090,11 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth_web-5.9.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-2.24.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-2.25.3/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-2.25.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_platform_interface-5.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-2.10.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-2.11.3/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-2.11.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_database-10.4.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_database-10.4.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_database_platform_interface-0.2.5+16/lib" />

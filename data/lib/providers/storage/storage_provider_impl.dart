@@ -1,19 +1,23 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:core/core.dart';
 import 'package:data/data.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
 class StorageProviderImpl implements StorageProvider {
+  final FirebaseStorage _firebaseStorage;
+
+  StorageProviderImpl({required FirebaseStorage firebaseStorage})
+      : _firebaseStorage = firebaseStorage;
   @override
   Future<String?> uploadImage({
     required File image,
     required String userId,
   }) async {
+    final Reference databaseReference = _firebaseStorage.ref();
     try {
-      Reference ref = dataDI.firebaseStorageRef.child("photos/$userId.jpg");
+      Reference ref = databaseReference.child("photos/$userId.jpg");
       ref.putFile(image);
       return ("photos/$userId.jpg");
     } catch (e) {
@@ -25,8 +29,9 @@ class StorageProviderImpl implements StorageProvider {
   Future<String> downloadImage({
     required String userId,
   }) async {
+    final Reference databaseReference = _firebaseStorage.ref();
     String photoUrl = ("photos/$userId.jpg");
-    Reference ref = dataDI.firebaseStorageRef.child(photoUrl);
+    Reference ref = databaseReference.child(photoUrl);
 
     final appDocDir = await getApplicationDocumentsDirectory();
 

@@ -19,3 +19,5 @@ class CannotPostMessageException implements Exception {}
 class CannotNotifyMembersException implements Exception {}
 
 class CannotSetListeningStatusException implements Exception {}
+
+class CannotRemoveUserFromChatException implements Exception {}

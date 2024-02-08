@@ -39,11 +39,11 @@ class ChatEntity {
   factory ChatEntity.fromJson(Map<Object?, Object?> json, String chatId) =>
       ChatEntity(
         id: chatId,
-        title: json['title'] as String ?? "",
-        lastMessageId: json['last-message-id'] as String ?? "",
-        timestamp: json['timestamp'] as int ?? 0,
-        messageCount: json['message-count'] as int ?? 0,
-        creatorId: json['creator-id'] as String ?? "",
-        color: json['color'] as int ?? 0,
+        title: (json['title'] ?? "") as String,
+        lastMessageId: (json['last-message-id'] ?? "") as String,
+        timestamp: (json['timestamp'] ?? 0) as int,
+        messageCount: (json['message-count'] ?? 0) as int,
+        creatorId: (json['creator-id'] ?? "") as String,
+        color: (json['color'] ?? 0) as int,
       );
 }

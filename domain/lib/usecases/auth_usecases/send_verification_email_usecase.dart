@@ -9,8 +9,8 @@ class SendVerificationEmailUseCase
   }) : _userRepository = userRepository;
 
   @override
-  Future<NoParams> execute(NoParams) async {
+  Future<NoParams> execute(NoParams noParams) async {
     await _userRepository.sendVerification();
-    return NoParams;
+    return noParams;
   }
 }

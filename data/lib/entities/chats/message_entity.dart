@@ -25,10 +25,10 @@ class MessageEntity {
   factory MessageEntity.fromJson(
           Map<Object?, Object?> json, String chatId, String messageId) =>
       MessageEntity(
-        id: messageId ?? "",
-        chatId: chatId ?? "",
-        senderId: json['sender-id'].toString() ?? "",
-        message: json['message'].toString() ?? "",
-        timeStamp: json['timestamp'] as int ?? 0,
+        id: messageId,
+        chatId: chatId,
+        senderId: (json['sender-id'] ?? "") as String,
+        message: (json['message'] ?? "") as String,
+        timeStamp: (json['timestamp'] ?? 0) as int,
       );
 }
