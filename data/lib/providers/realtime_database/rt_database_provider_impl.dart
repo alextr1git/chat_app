@@ -208,7 +208,8 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
                 }
               };
               await _databaseReference
-                  .child(" user-chats/${userID.toString()}/${userChatsData}");
+                  .child(" user-chats/${userID.toString()}")
+                  .update(userChatsData);
             }
           });
         }
@@ -477,7 +478,7 @@ class RealTimeDatabaseProviderImpl implements RealTimeDatabaseProvider {
             final Map<String, dynamic> newData = {
               "change-id": chatData["change-id"],
               "is-listened": status,
-              "is-member": chatData["is-member"],
+              "is-member": true,
             };
             await databaseReference.update(newData);
           }

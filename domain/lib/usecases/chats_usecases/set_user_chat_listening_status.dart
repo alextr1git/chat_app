@@ -17,6 +17,6 @@ class SetListeningStatusUseCase
       await _chatRepository.setListeningStatus(chatID: chatID, status: status);
     }
 
-    return NoParams();
+    return const NoParams();
   }
 }
