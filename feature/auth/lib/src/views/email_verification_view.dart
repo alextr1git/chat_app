@@ -48,8 +48,9 @@ class EmailVerificationView extends StatelessWidget {
               height: 20,
             ),
             ElevatedButton(
-                onPressed: () => authBloc.add(SendVerificationEmailEvent()),
-                child: Text(LocaleKeys.verify_email_resend_email_button.tr())),
+              onPressed: () => authBloc.add(SendVerificationEmailEvent()),
+              child: Text(LocaleKeys.verify_email_resend_email_button.tr()),
+            ),
           ],
         ),
       ),

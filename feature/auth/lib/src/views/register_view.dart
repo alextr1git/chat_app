@@ -13,19 +13,10 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  late final TextEditingController _nameController;
-  late final TextEditingController _emailController;
-  late final TextEditingController _passwordController;
-
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
-
-  @override
-  void initState() {
-    _nameController = TextEditingController();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -68,15 +59,16 @@ class _RegisterViewState extends State<RegisterView> {
                 TextField(
                   controller: _nameController,
                   decoration: InputDecoration(
-                      hintText: LocaleKeys.register_form_name_hint.tr(),
-                      labelText: LocaleKeys.register_form_name_label.tr(),
-                      prefixIcon: const Icon(Icons.person_outline),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
+                    hintText: LocaleKeys.register_form_name_hint.tr(),
+                    labelText: LocaleKeys.register_form_name_label.tr(),
+                    prefixIcon: const Icon(Icons.person_outline),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 TextField(
@@ -134,15 +126,11 @@ class _RegisterViewState extends State<RegisterView> {
                             borderRadius: BorderRadius.circular(10),
                           )),
                       onPressed: () async {
-                        final username = _nameController.text;
-                        final email = _emailController.text;
-                        final password = _passwordController.text;
-
                         authBloc.add(
                           RegistrationEvent(
-                            username: username,
-                            email: email,
-                            password: password,
+                            username: _nameController.text,
+                            email: _emailController.text,
+                            password: _passwordController.text,
                           ),
                         );
                       },

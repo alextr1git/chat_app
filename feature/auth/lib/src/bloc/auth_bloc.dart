@@ -74,9 +74,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     String exceptionMessage = '';
     try {
-      emit(state.copyWith(
-        loadingState: LoadingState.loading,
-      ));
+      emit(state.copyWith(loadingState: LoadingState.loading));
       final UserModel userModel = await _registerUseCase.execute(
         {
           'username': event.username,

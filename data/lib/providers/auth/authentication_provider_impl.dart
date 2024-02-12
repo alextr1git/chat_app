@@ -38,16 +38,17 @@ class AuthenticationProviderImpl implements AuthenticationProvider {
         throw UserNotLoggedInAuthException();
       }
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        throw WeakPasswordAuthException();
-      } else if (e.code == 'email-already-in-use') {
-        throw EmailAlreadyInUseAuthException();
-      } else if (e.code == 'invalid-email') {
-        throw InvalidEmailAuthException();
-      } else if (e.code == 'network-request-failed') {
-        throw NetworkRequestFailedAuthException();
-      } else {
-        throw GenericAuthException();
+      switch (e.code) {
+        case ('weak-password'):
+          throw WeakPasswordAuthException();
+        case ('email-already-in-use'):
+          throw EmailAlreadyInUseAuthException();
+        case ('invalid-email'):
+          throw InvalidEmailAuthException();
+        case ('network-request-failed'):
+          throw NetworkRequestFailedAuthException();
+        default:
+          throw GenericAuthException();
       }
     } catch (_) {
       throw GenericAuthException();

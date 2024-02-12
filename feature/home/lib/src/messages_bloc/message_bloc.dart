@@ -12,7 +12,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   final GetUserUseCase _getUserUseCase;
   final GetUsernameByIDUseCase _getUsernameByIDUseCase;
 
-  late final StreamSubscription<List<MessageModel>> _messageStreamSubscription;
+  StreamSubscription<List<MessageModel>>? _messageStreamSubscription;
 
   MessageBloc({
     required GetMessagesForChatUseCase getMessagesForChatUseCase,
@@ -27,7 +27,6 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     on<InitMessageEvent>(_init);
     on<PostMessageToDBEvent>(_postMessage);
     on<PostServiceMessageToDBEvent>(_postServiceMessage);
-
     on<MessagesHasBeenUpdatedEvent>(_updateListOfMessages);
     on<DisposeMessagesBlocEvent>(_dispose);
   }
@@ -113,7 +112,10 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     _,
     Emitter<MessageState> emit,
   ) {
-    _messageStreamSubscription.cancel();
+    if (_messageStreamSubscription != null) {
+      _messageStreamSubscription!.cancel();
+    }
+
     emit(MessageInitState());
   }
 }

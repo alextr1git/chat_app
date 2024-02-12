@@ -30,16 +30,16 @@ class StorageProviderImpl implements StorageProvider {
     required String userId,
   }) async {
     final Reference databaseReference = _firebaseStorage.ref();
-    String photoUrl = ("photos/$userId.jpg");
+    final String photoUrl = ("photos/$userId.jpg");
     Reference ref = databaseReference.child(photoUrl);
 
-    final appDocDir = await getApplicationDocumentsDirectory();
+    final Directory appDocDir = await getApplicationDocumentsDirectory();
 
-    final filePath =
+    final String filePath =
         path.join(appDocDir.absolute.path, 'photos', '$userId.jpg');
-    final file = File(filePath);
+    final File file = File(filePath);
 
-    final downloadTask = ref.writeToFile(file);
+    final DownloadTask downloadTask = ref.writeToFile(file);
     downloadTask.snapshotEvents.listen((taskSnapshot) {
       if (taskSnapshot.state == TaskState.success) {
         return;

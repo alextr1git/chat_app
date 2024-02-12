@@ -12,13 +12,12 @@ class ChatsContent extends StatefulWidget {
 
 class _ChatsContentState extends State<ChatsContent> {
   late final ChatsBloc chatBloc;
-  late final TextEditingController _searchTextController;
+  final TextEditingController _searchTextController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     chatBloc = BlocProvider.of<ChatsBloc>(context);
-    _searchTextController = TextEditingController();
     chatBloc.add(InitChatsEvent());
   }
 

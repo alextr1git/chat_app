@@ -18,8 +18,8 @@ class PersonalChatView extends StatefulWidget {
 }
 
 class _PersonalChatViewState extends State<PersonalChatView> {
-  late final TextEditingController _messageTextController;
-  late final ScrollController _listViewScrollController;
+  final TextEditingController _messageTextController = TextEditingController();
+  late final ScrollController _listViewScrollController = ScrollController();
   bool _shouldAutoscroll = false;
   late final SingleChatBloc singleChatBloc;
   late final MessageBloc messageBloc;
@@ -50,8 +50,6 @@ class _PersonalChatViewState extends State<PersonalChatView> {
   @override
   void initState() {
     super.initState();
-    _messageTextController = TextEditingController();
-    _listViewScrollController = ScrollController();
     _listViewScrollController.addListener(_scrollListener);
     singleChatBloc = BlocProvider.of<SingleChatBloc>(context);
     messageBloc = BlocProvider.of<MessageBloc>(context);

@@ -19,15 +19,9 @@ class AccountSettingsContent extends StatefulWidget {
 }
 
 class _AccountSettingsContentState extends State<AccountSettingsContent> {
-  late final TextEditingController _nameController;
-  late final UserModel userModel;
+  final TextEditingController _nameController = TextEditingController();
+  UserModel? userModel;
   File? _image;
-
-  @override
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController();
-  }
 
   @override
   void dispose() {
@@ -126,7 +120,7 @@ class _AccountSettingsContentState extends State<AccountSettingsContent> {
                   ),
                   Text(LocaleKeys.account_settings_your_email_is.tr()),
                   Text(
-                    state.userModel.email,
+                    userModel != null ? state.userModel.email : "",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(

@@ -14,7 +14,7 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
   final GetChatsForUserUseCase _getChatsForUserUseCase;
   final GetLastsMessagesOfChatUseCase _getLastMessageOfChatUseCase;
   final SetListeningStatusUseCase _setListeningStatusUseCase;
-  late final StreamSubscription<List<ChatModel>> _subscriptionOfChatEntities;
+  StreamSubscription<List<ChatModel>>? _subscriptionOfChatEntities;
 
   ChatsBloc({
     required AppRouter router,
@@ -103,7 +103,9 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
     NavigateToPersonalChatViewEvent event,
     Emitter<ChatsState> emit,
   ) async {
-    _subscriptionOfChatEntities.cancel();
+    if (_subscriptionOfChatEntities != null) {
+      _subscriptionOfChatEntities!.cancel();
+    }
     _updateStatusForEveryChat(
       listOfChatModels:
           (state as ChatsAllDataFetchedState).listOfAllChatsOfUser,
@@ -116,7 +118,9 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
     _,
     Emitter<ChatsState> emit,
   ) async {
-    _subscriptionOfChatEntities.cancel();
+    if (_subscriptionOfChatEntities != null) {
+      _subscriptionOfChatEntities!.cancel();
+    }
     _updateStatusForEveryChat(
       listOfChatModels:
           (state as ChatsAllDataFetchedState).listOfAllChatsOfUser,
