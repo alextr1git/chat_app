@@ -1,24 +1,27 @@
+import 'dart:async';
 import 'dart:io';
-import 'package:core/core.dart';
-import 'package:data/exceptions/storage_exceptions.dart';
-import 'package:data/providers/storage/storage_provider.dart';
+import 'package:data/data.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
 class StorageProviderImpl implements StorageProvider {
+  final FirebaseStorage _firebaseStorage;
+
+  StorageProviderImpl({required FirebaseStorage firebaseStorage})
+      : _firebaseStorage = firebaseStorage;
   @override
   Future<String?> uploadImage({
     required File image,
     required String userId,
   }) async {
+    final Reference databaseReference = _firebaseStorage.ref();
     try {
-      String photoUrl = ("photos/$userId.jpg");
-      Reference ref = dataDI.firebaseStorageRef.child(photoUrl);
+      Reference ref = databaseReference.child("photos/$userId.jpg");
       ref.putFile(image);
-      return (photoUrl);
-    } on FirebaseException catch (_) {
-      throw GenericStorageException();
+      return ("photos/$userId.jpg");
+    } catch (e) {
+      throw CannotUploadPhotoException();
     }
   }
 
@@ -26,16 +29,17 @@ class StorageProviderImpl implements StorageProvider {
   Future<String> downloadImage({
     required String userId,
   }) async {
-    String photoUrl = ("photos/$userId.jpg");
-    Reference ref = dataDI.firebaseStorageRef.child(photoUrl);
+    final Reference databaseReference = _firebaseStorage.ref();
+    final String photoUrl = ("photos/$userId.jpg");
+    Reference ref = databaseReference.child(photoUrl);
 
-    final appDocDir = await getApplicationDocumentsDirectory();
+    final Directory appDocDir = await getApplicationDocumentsDirectory();
 
-    final filePath =
+    final String filePath =
         path.join(appDocDir.absolute.path, 'photos', '$userId.jpg');
-    final file = File(filePath);
+    final File file = File(filePath);
 
-    final downloadTask = ref.writeToFile(file);
+    final DownloadTask downloadTask = ref.writeToFile(file);
     downloadTask.snapshotEvents.listen((taskSnapshot) {
       if (taskSnapshot.state == TaskState.success) {
         return;

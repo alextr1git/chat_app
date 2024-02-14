@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'package:auth/src/navigation/router.dart';
-import 'package:home/src/navigation/router.dart';
+import 'package:auth/auth.dart';
+import 'package:home/home.dart';
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:navigation/navigation.dart';
@@ -18,7 +17,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final RegisterUsecase _registerUseCase;
   final LoginUseCase _loginUseCase;
   final SendVerificationEmailUseCase _sendVerificationEmailUseCase;
-  final LogoutUserUseCase _logoutUserUseCase;
   final SetUsernameUseCase _setUsernameUseCase;
   final SetUserPhotoURLUseCase _setUserPhotoURLUseCase;
   final AppRouter _router;
@@ -28,7 +26,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required loginUseCase,
     required checkUserAuthenticationUseCase,
     required sendVerificationEmailUseCase,
-    required logoutUserUseCase,
     required setUsernameUseCase,
     required setUserPhotoURLUseCase,
     required router,
@@ -36,7 +33,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _loginUseCase = loginUseCase,
         _checkUserAuthenticationUseCase = checkUserAuthenticationUseCase,
         _sendVerificationEmailUseCase = sendVerificationEmailUseCase,
-        _logoutUserUseCase = logoutUserUseCase,
         _setUsernameUseCase = setUsernameUseCase,
         _setUserPhotoURLUseCase = setUserPhotoURLUseCase,
         _router = router,
@@ -47,7 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<NavigateToRegisterEvent>(_navigateToRegisterView);
     on<NavigateToLoginInEvent>(_navigateToLoginView);
     on<SendVerificationEmailEvent>(_sendVerificationEmail);
-    on<LogoutUserEvent>(_logoutUser);
+
     on<SetUsernameEvent>(_setUsername);
     on<SetUserPhotoURLEvent>(_setPhotoURL);
   }
@@ -78,11 +74,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     String exceptionMessage = '';
     try {
-      emit(state.copyWith(
-        loadingState: LoadingState.loading,
-      ));
+      emit(state.copyWith(loadingState: LoadingState.loading));
       final UserModel userModel = await _registerUseCase.execute(
         {
+          'username': event.username,
           'email': event.email,
           'password': event.password,
         },
@@ -97,13 +92,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       _router.push(const EmailVerificationRoute());
     } on Exception catch (e) {
       if (e is WeakPasswordAuthException) {
-        exceptionMessage = "Your password is weak";
+        exceptionMessage = LocaleKeys.register_weak_password_exception.tr();
       } else if (e is EmailAlreadyInUseAuthException) {
-        exceptionMessage = "Your email is already in use";
+        exceptionMessage = LocaleKeys.register_email_in_use_exception.tr();
       } else if (e is InvalidEmailAuthException) {
-        exceptionMessage = "Email is invalid";
+        exceptionMessage = LocaleKeys.register_invalid_email_exception.tr();
       } else if (e is GenericAuthException) {
-        exceptionMessage = "Generic error occurred";
+        exceptionMessage = LocaleKeys.register_generic_exception.tr();
       }
       emit(
         state.copyWith(
@@ -144,9 +139,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     } on Exception catch (e) {
       if (e is InvalidCredentialsAuthException) {
-        exceptionMessage = "Credentials are invalid";
+        exceptionMessage = LocaleKeys.login_invalid_credentials_exception.tr();
       } else if (e is GenericAuthException) {
-        exceptionMessage = "Generic error occurred";
+        exceptionMessage = LocaleKeys.login_generic_exception.tr();
       }
       emit(
         state.copyWith(
@@ -155,14 +150,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       _router.push(FailurePopupRoute(exceptionMessage: exceptionMessage));
     }
-  }
-
-  Future<void> _logoutUser(
-    _,
-    Emitter<AuthState> emit,
-  ) async {
-    _logoutUserUseCase.execute(NoParams());
-    _router.replace(const LoginRoute());
   }
 
   Future<void> _navigateToRegisterView(
@@ -183,7 +170,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _,
     Emitter<AuthState> emit,
   ) async {
-    await _sendVerificationEmailUseCase.execute(NoParams());
+    await _sendVerificationEmailUseCase.execute(const NoParams());
   }
 
   Future<void> _setUsername(
@@ -200,10 +187,3 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await _setUserPhotoURLUseCase.execute(event.userPhotoURL);
   }
 }
-
-// //generic exceptions
-//     class NetworkRequestFailedAuthException implements Exception {}
-//
-//     class GenericAuthException implements Exception {}
-//
-//     class UserNotLoggedInAuthException implements Exception {}

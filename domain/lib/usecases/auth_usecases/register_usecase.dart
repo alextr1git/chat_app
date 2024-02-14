@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 
 class RegisterUsecase implements FutureUseCase<Map<String, String>, UserModel> {
   final UserRepository _userRepository;
@@ -11,6 +10,7 @@ class RegisterUsecase implements FutureUseCase<Map<String, String>, UserModel> {
   @override
   Future<UserModel> execute(Map<String, String> input) async {
     return _userRepository.createUser(
+      username: input['username']!,
       email: input['email']!,
       password: input['password']!,
     );

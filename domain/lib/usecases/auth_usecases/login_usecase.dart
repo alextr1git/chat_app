@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 
 class LoginUseCase implements FutureUseCase<Map<String, String>, UserModel> {
   final UserRepository _userRepository;

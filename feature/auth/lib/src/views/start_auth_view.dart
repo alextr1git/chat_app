@@ -1,11 +1,4 @@
 import 'package:auth/auth.dart';
-import 'package:auth/src/views/email_verification_view.dart';
-import 'package:auth/src/views/login_view.dart';
-import 'package:auth/src/views/register_view.dart';
-import 'package:core/core.dart';
-import 'package:domain/domain.dart';
-import 'package:domain/usecases/export_usecases.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:navigation/navigation.dart';
@@ -28,14 +21,16 @@ class _StartAuthViewState extends State<StartAuthView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        return const Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
-      },
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
+    /*AnimatedSplashScreen(
+          splash: 'package:core_ui/assets/splash/splash_logo.png',
+          nextScreen: SharedNavbarView(),
+          splashTransition: SplashTransition.scaleTransition,
+          pageTransitionType: PageTransitionType.scale,
+        );*/
   }
 }

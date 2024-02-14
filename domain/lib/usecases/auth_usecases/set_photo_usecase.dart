@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 
 class SetUserPhotoURLUseCase implements FutureUseCase<String, NoParams> {
   final UserRepository _userRepository;

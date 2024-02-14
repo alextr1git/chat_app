@@ -7,7 +7,6 @@ abstract class UserMapper {
       id: model.id,
       email: model.email,
       isEmailVerified: model.isEmailVerified,
-      userName: model.userName,
       photoURL: model.photoURL,
     );
   }
@@ -17,7 +16,6 @@ abstract class UserMapper {
       id: entity.id,
       email: entity.email,
       isEmailVerified: entity.isEmailVerified,
-      userName: entity.userName,
       photoURL: entity.photoURL,
     );
   }

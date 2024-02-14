@@ -1,5 +1,4 @@
 import 'package:core/core.dart';
-import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 
 class SettingsView extends StatelessWidget {
@@ -11,11 +10,11 @@ class SettingsView extends StatelessWidget {
     const Locale russianLocale = Locale("ru", 'RU');
     const Locale englishLocale = Locale("en", 'US');
 
-    void _setRussianLocale() async {
+    void setRussianLocale() async {
       await EasyLocalization.of(context)!.setLocale(russianLocale);
     }
 
-    void _setEnglishLocale() async {
+    void setEnglishLocale() async {
       await EasyLocalization.of(context)!.setLocale(englishLocale);
     }
 
@@ -29,7 +28,7 @@ class SettingsView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton(
-                  onPressed: _setEnglishLocale,
+                  onPressed: setEnglishLocale,
                   child: Image.asset(
                     'core_ui/assets/images/eng_flag.png',
                     height: languageFlagsSize,
@@ -37,7 +36,7 @@ class SettingsView extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                    onPressed: _setRussianLocale,
+                    onPressed: setRussianLocale,
                     child: Image.asset(
                       'core_ui/assets/images/rus_flag.png',
                       height: languageFlagsSize,

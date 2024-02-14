@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/usecases/usecase.dart';
 
 class SendVerificationEmailUseCase
     implements FutureUseCase<NoParams, NoParams> {
@@ -10,8 +9,8 @@ class SendVerificationEmailUseCase
   }) : _userRepository = userRepository;
 
   @override
-  Future<NoParams> execute(NoParams) async {
+  Future<NoParams> execute(NoParams noParams) async {
     await _userRepository.sendVerification();
-    return NoParams;
+    return noParams;
   }
 }

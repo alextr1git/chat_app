@@ -46,6 +46,12 @@ abstract class _$AuthModuleRouter extends AutoRouterModule {
         child: const StartAuthView(),
       );
     },
+    AuthWrapperRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AuthWrapperView(),
+      );
+    },
   };
 }
 
@@ -139,6 +145,20 @@ class StartAuthRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'StartAuthRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AuthWrapperView]
+class AuthWrapperRoute extends PageRouteInfo<void> {
+  const AuthWrapperRoute({List<PageRouteInfo>? children})
+      : super(
+          AuthWrapperRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AuthWrapperRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

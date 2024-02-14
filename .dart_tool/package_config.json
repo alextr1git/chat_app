@@ -20,6 +20,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "archive",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/archive-3.4.10",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "args",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/args-2.4.2",
       "packageUri": "lib/",
@@ -44,6 +50,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "auto_route_generator",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/auto_route_generator-7.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "bloc",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/bloc-8.1.2",
       "packageUri": "lib/",
@@ -56,16 +68,82 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "build",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/build-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "build_config",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/build_config-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "build_daemon",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/build_daemon-4.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "build_resolvers",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/build_resolvers-2.4.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "build_runner",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/build_runner-2.4.8",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "build_runner_core",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/build_runner_core-7.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "built_collection",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/built_collection-5.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "built_value",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/built_value-8.9.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "characters",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/characters-1.3.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
+      "name": "checked_yaml",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/checked_yaml-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "cli_util",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/cli_util-0.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "clock",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/clock-1.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "code_builder",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/code_builder-4.10.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "collection",
@@ -110,6 +188,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "dart_style",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/dart_style-2.3.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "data",
       "rootUri": "../data",
       "packageUri": "lib/",
@@ -125,7 +209,7 @@
       "name": "domain",
       "rootUri": "../domain",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.0"
     },
     {
       "name": "easy_localization",
@@ -260,6 +344,24 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "fixnum",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/fixnum-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "flex_color_picker",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/flex_color_picker-3.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "flex_seed_scheme",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/flex_seed_scheme-1.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///Users/alextr1/dev/tooling/flutter/packages/flutter",
       "packageUri": "lib/",
@@ -272,10 +374,10 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "flutter_lints",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3",
+      "name": "flutter_launcher_icons",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/flutter_launcher_icons-0.13.1",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "2.18"
     },
     {
       "name": "flutter_localizations",
@@ -308,6 +410,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "frontend_server_client",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/frontend_server_client-3.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "get_it",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/get_it-7.6.6",
       "packageUri": "lib/",
@@ -320,6 +428,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "graphs",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/graphs-2.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "home",
       "rootUri": "../feature/home",
       "packageUri": "lib/",
@@ -327,15 +441,27 @@
     },
     {
       "name": "http",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/http-1.1.2",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/http-1.2.0",
       "packageUri": "lib/",
       "languageVersion": "3.2"
+    },
+    {
+      "name": "http_multi_server",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/http_multi_server-3.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "http_parser",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/http_parser-4.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "image",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/image-4.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
     },
     {
       "name": "image_cropper",
@@ -410,22 +536,34 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "io",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/io-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "js",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/js-0.6.7",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
-      "name": "lints",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/lints-2.1.1",
+      "name": "json_annotation",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/json_annotation-4.8.1",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.19"
     },
     {
       "name": "logger",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/logger-1.4.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "logging",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/logging-1.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "matcher",
@@ -536,6 +674,18 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "pointycastle",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/pointycastle-3.7.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "pool",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/pool-1.5.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "provider",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/provider-6.1.1",
       "packageUri": "lib/",
@@ -546,6 +696,12 @@
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/pub_semver-2.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "pubspec_parse",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/pubspec_parse-1.2.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "settings",
@@ -567,9 +723,9 @@
     },
     {
       "name": "shared_preferences_foundation",
-      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.4",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.3.5",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.0"
     },
     {
       "name": "shared_preferences_linux",
@@ -596,10 +752,28 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "shelf",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/shelf-1.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "shelf_web_socket",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/shelf_web_socket-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///Users/alextr1/dev/tooling/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "3.2"
+    },
+    {
+      "name": "source_gen",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/source_gen-1.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "source_span",
@@ -620,6 +794,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "stream_transform",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/stream_transform-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "string_scanner",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/string_scanner-1.2.0",
       "packageUri": "lib/",
@@ -636,6 +816,12 @@
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/test_api-0.6.1",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "timing",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/timing-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
     },
     {
       "name": "typed_data",
@@ -680,6 +866,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "web_socket_channel",
+      "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/web_socket_channel-2.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
       "name": "win32",
       "rootUri": "file:///Users/alextr1/.pub-cache/hosted/pub.dev/win32-5.2.0",
       "packageUri": "lib/",
@@ -710,7 +902,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-01-16T08:42:29.430313Z",
+  "generated": "2024-02-07T09:54:11.962408Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

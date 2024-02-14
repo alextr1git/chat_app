@@ -1,0 +1,126 @@
+{
+    "login": {
+        "title" : "Вход",
+        "second_title" : "Добро пожаловать!",
+        "call_to_action":"Войдите в свой аккаунт",
+        "form_email_hint" : "Введите email",
+        "form_email_label" : "Email",
+        "form_password_hint" : "Введите пароль",
+        "form_password_label" : "Пароль",
+        "login_button" : "Войти",
+        "dont_have_account" : "Еще нет аккаунта?",
+        "redirect_to_register" : "Создайте!"
+    },
+    "register" : {
+        "title" : "Регистрация",
+        "second_title" : "Давайте знакомиться!",
+        "call_to_action":"Создайте аккаунт",
+        "form_email_hint" : "Введите email",
+        "form_email_label" : "Email",
+        "form_name_hint" : "Введите ваше имя",
+        "form_name_label" : "Имя",
+        "form_password_hint" : "Введите пароль",
+        "form_password_label" : "Пароль",
+        "register_button" : "Создать",
+        "already_have_account" : "Уже есть аккаунт?",
+        "redirect_to_login" : "Войдите"
+
+    },
+
+    "verify_email" : {
+        "title" : "Подтверждение email",
+        "link_has_been_sent" : "Письмо с ссылкой подтверждения было отправлено на вашу почту",
+        "after_verification" : "После подтверждения вы сможете войти в свой аккаунт",
+        "resend_email_label" : "Письмо не пришло?",
+        "resend_email_button" : "Прислать еще раз"
+    },
+    "account_settings" : {
+        "your_email_is" : "Ваш email",
+        "name_form_hint" : "Введите свое имя",
+        "name_form_label" : "Имя",
+        "save_changes" : "Сохранить",
+        "title" : "Настройки аккаунта",
+        "select_photo" : "Выбрать фото",
+        "changes_applied" : "Изменения сохранены!\nВ течение нескольких минут они будут применены",
+        "changes_can't be applied" : "Неверные данные!\nПроверьте изображение или имя, которое вы пытаетесь сохранить",
+
+        "logout" : "Выйти"
+    },
+
+    "settings" : {
+        "view_title" : "Настройки",
+        "choose_language_text" : "Выберите язык"
+    },
+
+    "navbar" : {
+        "account" : "Аккаунт",
+        "chats" : "Чаты",
+        "settings" : "Настройки"
+    },
+
+    "chats" : {
+        "title" : "Чаты",
+        "search" : "Поиск",
+        "no_messages" : "Нет сообщений"
+    },
+
+    "chat_members" : {
+        "no_name" : "Нет имени"
+    },
+
+    "personal_chat_view" : {
+        "no_messages_yet" : "Список сообщений пуст",
+        "write_message" : "Напишите сообщение..."
+    },
+
+    "add_chat_view": {
+        "add_chat_title" : "Добавить чат",
+        "create_title" : "Создать",
+        "connect_title" : "Присоединиться",
+        "select_color" : "Выберить цвет",
+        "name_label" : "Название",
+        "name_hint" : "Введите название вашего чата",
+        "link_label" : "Сссылка",
+        "link_hint" : "Введите ссылку чата",
+        "connect_button" : "Присоединиться",
+        "create_button" : "Создать",
+        "name_error_message" : "Длина имени должна быть в диапазоне 5-20",
+        "invalid_link_error_message" : "Ссылка недействительна",
+        "unable_join_chat_message": "Невозможно присоединиться к данному чату"
+    },
+    "chat_settings_view": {
+        "leave_chat" : "Покинуть чат",
+        "title":      "Настройки чата",
+        "inviting_link" : "Ссылка на этот чат",
+        "copied_to_clipboard" : "Ссылка скопирована!"
+    },
+    "service_messages" : {
+        "second_part_join_message": "присоединился к чату по ссылке",
+        "second_part_has_left_chat" : "покинул чат"
+    },
+    "leave_chat_dialog" : {
+        "title" : "Покинуть чат",
+        "content" : "Вы уверены, что хотите покинуть чат?",
+        "leave_option" : "Покинуть" ,
+        "cancel_option" : "Отмена"
+    },
+    "log_out_dialog" : {
+        "title" : "Выход",
+        "content" : "Вы уверены, что хотите выйти из аккаунта?",
+        "leave_option" : "Выйти" ,
+        "cancel_option" : "Отмена"
+    },
+    "remove_member_dialog" : {
+        "title" : "Исключить участника",
+        "content" : "Вы уверены, что хотите исключить этого участника?",
+        "leave_option" : "Исключить" ,
+        "cancel_option" : "Отмена"
+    }
+
+
+
+
+}
+
+
+

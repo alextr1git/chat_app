@@ -14,3 +14,5 @@ class UpdateNameAndImageEvent extends AccountSettingsEvent {
     required this.image,
   });
 }
+
+class LogoutUserEvent extends AccountSettingsEvent {}

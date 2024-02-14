@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
 
@@ -31,13 +32,11 @@ class FailurePopupView extends StatelessWidget {
                     size: 42,
                   ),
                   const SizedBox(height: 20),
-                  const Text(
-                    'Something went wrong!',
-                  ),
+                  Text(LocaleKeys.failure_popup_title.tr()),
                   const SizedBox(height: 20),
                   Text(exceptionMessage),
                   const SizedBox(height: 10),
-                  const Text('Please try again.'),
+                  Text(LocaleKeys.failure_popup_please_try_again.tr()),
                   const SizedBox(height: 20),
                   Align(
                     alignment: Alignment.bottomRight,

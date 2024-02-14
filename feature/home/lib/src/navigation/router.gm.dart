@@ -12,10 +12,36 @@ part of 'router.dart';
 abstract class _$HomeModuleRouter extends AutoRouterModule {
   @override
   final Map<String, PageFactory> pagesMap = {
-    ChatHomeRoute.name: (routeData) {
+    AddChatRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ChatHomeView(),
+        child: const AddChatView(),
+      );
+    },
+    ChatSettingsRoute.name: (routeData) {
+      final args = routeData.argsAs<ChatSettingsRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChatSettingsView(
+          key: args.key,
+          chatModel: args.chatModel,
+        ),
+      );
+    },
+    ChatsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ChatsView(),
+      );
+    },
+    PersonalChatRoute.name: (routeData) {
+      final args = routeData.argsAs<PersonalChatRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PersonalChatView(
+          key: args.key,
+          chatModel: args.chatModel,
+        ),
       );
     },
     SharedNavbarRoute.name: (routeData) {
@@ -24,21 +50,117 @@ abstract class _$HomeModuleRouter extends AutoRouterModule {
         child: const SharedNavbarView(),
       );
     },
+    SingleChatWrapperRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SingleChatWrapperView(),
+      );
+    },
   };
 }
 
 /// generated route for
-/// [ChatHomeView]
-class ChatHomeRoute extends PageRouteInfo<void> {
-  const ChatHomeRoute({List<PageRouteInfo>? children})
+/// [AddChatView]
+class AddChatRoute extends PageRouteInfo<void> {
+  const AddChatRoute({List<PageRouteInfo>? children})
       : super(
-          ChatHomeRoute.name,
+          AddChatRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'ChatHomeRoute';
+  static const String name = 'AddChatRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ChatSettingsView]
+class ChatSettingsRoute extends PageRouteInfo<ChatSettingsRouteArgs> {
+  ChatSettingsRoute({
+    Key? key,
+    required ChatModel chatModel,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ChatSettingsRoute.name,
+          args: ChatSettingsRouteArgs(
+            key: key,
+            chatModel: chatModel,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatSettingsRoute';
+
+  static const PageInfo<ChatSettingsRouteArgs> page =
+      PageInfo<ChatSettingsRouteArgs>(name);
+}
+
+class ChatSettingsRouteArgs {
+  const ChatSettingsRouteArgs({
+    this.key,
+    required this.chatModel,
+  });
+
+  final Key? key;
+
+  final ChatModel chatModel;
+
+  @override
+  String toString() {
+    return 'ChatSettingsRouteArgs{key: $key, chatModel: $chatModel}';
+  }
+}
+
+/// generated route for
+/// [ChatsView]
+class ChatsRoute extends PageRouteInfo<void> {
+  const ChatsRoute({List<PageRouteInfo>? children})
+      : super(
+          ChatsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PersonalChatView]
+class PersonalChatRoute extends PageRouteInfo<PersonalChatRouteArgs> {
+  PersonalChatRoute({
+    Key? key,
+    required ChatModel chatModel,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PersonalChatRoute.name,
+          args: PersonalChatRouteArgs(
+            key: key,
+            chatModel: chatModel,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PersonalChatRoute';
+
+  static const PageInfo<PersonalChatRouteArgs> page =
+      PageInfo<PersonalChatRouteArgs>(name);
+}
+
+class PersonalChatRouteArgs {
+  const PersonalChatRouteArgs({
+    this.key,
+    required this.chatModel,
+  });
+
+  final Key? key;
+
+  final ChatModel chatModel;
+
+  @override
+  String toString() {
+    return 'PersonalChatRouteArgs{key: $key, chatModel: $chatModel}';
+  }
 }
 
 /// generated route for
@@ -51,6 +173,20 @@ class SharedNavbarRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SharedNavbarRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SingleChatWrapperView]
+class SingleChatWrapperRoute extends PageRouteInfo<void> {
+  const SingleChatWrapperRoute({List<PageRouteInfo>? children})
+      : super(
+          SingleChatWrapperRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SingleChatWrapperRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
